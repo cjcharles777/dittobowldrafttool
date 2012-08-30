@@ -52,8 +52,8 @@ public class App
 
     // Trade the Request Token and Verfier for the Access Token
     System.out.println("Trading the Request Token for an Access Token...");
-    //Token accessToken = service.getAccessToken(requestToken, verifier);
-    Token accessToken = new Token("A=gWqDWjLroC3iEwO7w4f6Lj2p05Rlpr4N7pIO5sHJbhOHN0Q1EOwEN1AXzftVFb.wn9huvp.LrRz0V3fRViJD1ryIbx_Hpo52PfawZgpTZfzMl31hV7R6kuwbjggIMh6KZVuq.WE2YgPUh.FtBkssIh48VeY_MEvkTFhOmL7quzZ71Hb2oygAH62lgL6ftI6rgTWeMtGqB8rZPfrsdexhx1nD8aPLnketINxeJRcuz_RdOTwwZkzqm0L0YHS7WEzXJzKv86PW0T8VF705QejYJjxGSn4AIp_CgR.a1bQW4zY3iyUMggQCjzp8nGUJwD0iTPJqGpvdKNbLgLikQUbvIOZnf_rcHi3A6bmRwXGYCvbqUFBD5wEp_sl87y5JjuJS8_ckEuU5BOb2EeSVsJo_Bo4HJ2YTH1WBD3.fRSccUp0a0Rxssouz_Tvjs6QASH8f.7Pr6VKsmfaUiRx6KJQ4UvEkdJ2jNY.qeE5VJWBerHGNl5cMZqyIqS7JiDdy2vVhn.4ECVDxhWOSKuxYXUdtj4ajb8uOq5c35Tc.kYfCXirNoiuj48EHxlgiWJJRLg.EM27pBAGRNp.lbDQjiHBgbELt3BybInRa3Q3nxuXTiKQjkEf7cG3RHkJgJAApP3.ra4OYMZyeEokPDZQCG0fo10BC5.9mFMY_a3loPtIzwX5Q5NNXQgsPXEIZz7xbvpyRwGKMxCWzt8toYXdkBTgINHy1Y0cCFndYDdqjrWGyPGwlpwktikRsnmlfJzeCCPIMyB4DeZjVhb00Kki9vWHlf0GTG4OUCBtOe1CiAzZPPXWhp9wrbxT8sw1.53K9_0GIXg--" , "575ca086722406ba5a75ecd5c93a3b73ca029d6c");
+    Token accessToken = service.getAccessToken(requestToken, verifier);
+    ///Token accessToken = new Token("A=gWqDWjLroC3iEwO7w4f6Lj2p05Rlpr4N7pIO5sHJbhOHN0Q1EOwEN1AXzftVFb.wn9huvp.LrRz0V3fRViJD1ryIbx_Hpo52PfawZgpTZfzMl31hV7R6kuwbjggIMh6KZVuq.WE2YgPUh.FtBkssIh48VeY_MEvkTFhOmL7quzZ71Hb2oygAH62lgL6ftI6rgTWeMtGqB8rZPfrsdexhx1nD8aPLnketINxeJRcuz_RdOTwwZkzqm0L0YHS7WEzXJzKv86PW0T8VF705QejYJjxGSn4AIp_CgR.a1bQW4zY3iyUMggQCjzp8nGUJwD0iTPJqGpvdKNbLgLikQUbvIOZnf_rcHi3A6bmRwXGYCvbqUFBD5wEp_sl87y5JjuJS8_ckEuU5BOb2EeSVsJo_Bo4HJ2YTH1WBD3.fRSccUp0a0Rxssouz_Tvjs6QASH8f.7Pr6VKsmfaUiRx6KJQ4UvEkdJ2jNY.qeE5VJWBerHGNl5cMZqyIqS7JiDdy2vVhn.4ECVDxhWOSKuxYXUdtj4ajb8uOq5c35Tc.kYfCXirNoiuj48EHxlgiWJJRLg.EM27pBAGRNp.lbDQjiHBgbELt3BybInRa3Q3nxuXTiKQjkEf7cG3RHkJgJAApP3.ra4OYMZyeEokPDZQCG0fo10BC5.9mFMY_a3loPtIzwX5Q5NNXQgsPXEIZz7xbvpyRwGKMxCWzt8toYXdkBTgINHy1Y0cCFndYDdqjrWGyPGwlpwktikRsnmlfJzeCCPIMyB4DeZjVhb00Kki9vWHlf0GTG4OUCBtOe1CiAzZPPXWhp9wrbxT8sw1.53K9_0GIXg--" , "575ca086722406ba5a75ecd5c93a3b73ca029d6c");
    // (if your curious it looks like this: Token[A=gWqDWjLroC3iEwO7w4f6Lj2p05Rlpr4N7pIO5sHJbhOHN0Q1EOwEN1AXzftVFb.wn9huvp.LrRz0V3fRViJD1ryIbx_Hpo52PfawZgpTZfzMl31hV7R6kuwbjggIMh6KZVuq.WE2YgPUh.FtBkssIh48VeY_MEvkTFhOmL7quzZ71Hb2oygAH62lgL6ftI6rgTWeMtGqB8rZPfrsdexhx1nD8aPLnketINxeJRcuz_RdOTwwZkzqm0L0YHS7WEzXJzKv86PW0T8VF705QejYJjxGSn4AIp_CgR.a1bQW4zY3iyUMggQCjzp8nGUJwD0iTPJqGpvdKNbLgLikQUbvIOZnf_rcHi3A6bmRwXGYCvbqUFBD5wEp_sl87y5JjuJS8_ckEuU5BOb2EeSVsJo_Bo4HJ2YTH1WBD3.fRSccUp0a0Rxssouz_Tvjs6QASH8f.7Pr6VKsmfaUiRx6KJQ4UvEkdJ2jNY.qeE5VJWBerHGNl5cMZqyIqS7JiDdy2vVhn.4ECVDxhWOSKuxYXUdtj4ajb8uOq5c35Tc.kYfCXirNoiuj48EHxlgiWJJRLg.EM27pBAGRNp.lbDQjiHBgbELt3BybInRa3Q3nxuXTiKQjkEf7cG3RHkJgJAApP3.ra4OYMZyeEokPDZQCG0fo10BC5.9mFMY_a3loPtIzwX5Q5NNXQgsPXEIZz7xbvpyRwGKMxCWzt8toYXdkBTgINHy1Y0cCFndYDdqjrWGyPGwlpwktikRsnmlfJzeCCPIMyB4DeZjVhb00Kki9vWHlf0GTG4OUCBtOe1CiAzZPPXWhp9wrbxT8sw1.53K9_0GIXg-- , 575ca086722406ba5a75ecd5c93a3b73ca029d6c] )
     System.out.println("Got the Access Token!");
     System.out.println("(if your curious it looks like this: " + accessToken + " )");
@@ -71,9 +71,10 @@ public class App
     Response response2 = (Response) request2.send();
     ObjectMapper mapper = new ObjectMapper();
     Map<String,Object> userData;
+     Map<String,Object> params;
         try {
             userData = mapper.readValue(response2.getBody(), Map.class);
-             Map<String,Object> params = (Map<String, Object>)userData.get("fantasy_content");
+            params = (Map<String, Object>)userData.get("fantasy_content");
         } 
         catch (IOException ex) 
         {
