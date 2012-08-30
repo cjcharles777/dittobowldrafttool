@@ -72,9 +72,11 @@ public class App
     ObjectMapper mapper = new ObjectMapper();
     Map<String,Object> userData;
      Map<String,Object> params;
+     Map<String,Object> leauge;
         try {
             userData = mapper.readValue(response2.getBody(), Map.class);
             params = (Map<String, Object>)userData.get("fantasy_content");
+             leauge = (Map<String, Object>)params.get("leauge");
         } 
         catch (IOException ex) 
         {
