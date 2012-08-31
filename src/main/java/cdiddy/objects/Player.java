@@ -27,10 +27,7 @@ public class Player implements Serializable
     private char displayPosition;
     private String headshotHtml;
 
-    public Player (ArrayList<LinkedHashMap> lhm)
-    {
-        this.id = (Integer) lhm.get(0).get("player_id");
-    }
+  
     
      @Column(name = "FIRSTNAME", nullable=false)
     public String getFirstName() {

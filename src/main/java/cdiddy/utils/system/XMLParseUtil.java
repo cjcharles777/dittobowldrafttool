@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cdiddy.utils;
+package cdiddy.utils.system;
 
 import java.io.StringReader;
 import org.xml.sax.ContentHandler;
