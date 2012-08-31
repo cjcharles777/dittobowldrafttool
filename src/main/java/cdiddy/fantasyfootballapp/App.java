@@ -2,6 +2,7 @@ package cdiddy.fantasyfootballapp;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -66,17 +67,21 @@ public class App
     service.signRequest(accessToken, request); // the access token from step 4
     Response response = (Response) request.send();
     
-    OAuthRequest request2 = new OAuthRequest(Verb.GET, "http://fantasysports.yahooapis.com/fantasy/v2/league/273.l.8899/players?format=json");
+    OAuthRequest request2 = new OAuthRequest(Verb.GET, "http://fantasysports.yahooapis.com/fantasy/v2/league/273.l.8899/players;status=A;count=100?format=json");
     service.signRequest(accessToken, request2); // the access token from step 4
     Response response2 = (Response) request2.send();
     ObjectMapper mapper = new ObjectMapper();
     Map<String,Object> userData;
      Map<String,Object> params;
-     Map<String,Object> leauge;
+     ArrayList league;
         try {
             userData = mapper.readValue(response2.getBody(), Map.class);
             params = (Map<String, Object>)userData.get("fantasy_content");
-             leauge = (Map<String, Object>)params.get("leauge");
+             league = (ArrayList)params.get("league");
+             if(league != null)
+             {
+                league.get(1);
+             }
         } 
         catch (IOException ex) 
         {
