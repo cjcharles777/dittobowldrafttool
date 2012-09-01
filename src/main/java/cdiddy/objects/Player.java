@@ -67,6 +67,7 @@ public class Player implements Serializable
 
     @Id
     @GeneratedValue(generator = "assigned")
+    @GenericGenerator(name = "assigned", strategy = "assigned")
     @Column(name = "ID", nullable=false)
     public int getId() {
         return id;

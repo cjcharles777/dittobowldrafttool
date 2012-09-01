@@ -1,0 +1,3 @@
+/*C4*/SET SCHEMA PUBLIC
+drop table Players if exists
+create table Players (ID integer not null, SECRET varchar(255) not null, TOKEN varchar(255) not null, VERIFIER varchar(255) not null, DISPLAYPOSITION char(255) not null, FIRSTNAME varchar(255) not null, HEADSHOTHTML varchar(255) not null, LASTNAME varchar(255) not null, TEAM varchar(255) not null, UNIFORMNUMBER integer not null, primary key (ID))

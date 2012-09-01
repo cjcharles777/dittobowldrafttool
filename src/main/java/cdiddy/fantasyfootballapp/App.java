@@ -1,6 +1,7 @@
 package cdiddy.fantasyfootballapp;
 
 
+import cdiddy.utils.system.OAuthConnection;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -10,6 +11,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Verb;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Hello world!
@@ -17,10 +20,15 @@ import org.scribe.model.Verb;
  */
 public class App 
 {
+      private static final ApplicationContext applicationContext = 
+        new ClassPathXmlApplicationContext("app-config.xml");
     public static void main( String[] args )
     {
-        
-    OAuthRequest request = new OAuthRequest(Verb.GET, "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json");
+ 
+     OAuthConnection conn = applicationContext.getBean(OAuthConnection.class);
+     conn.connect();
+     String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json", Verb.GET);
+ /**   OAuthRequest request = new OAuthRequest(Verb.GET, "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json");
     service.signRequest(accessToken, request); // the access token from step 4
     Response response = (Response) request.send();
     
@@ -48,8 +56,8 @@ public class App
   
     
     
-    System.out.println(response.getBody());
-    System.out.println(response2.getBody());
+    System.out.println(response.getBody()); **/
+    System.out.println(response);
         
     System.out.println();
     System.out.println("Thats it man! Go and build something awesome with Scribe! :)");

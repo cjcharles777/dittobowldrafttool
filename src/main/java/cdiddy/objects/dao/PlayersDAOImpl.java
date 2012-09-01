@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author cedric
  */
 
-@Repository("EmployeeDAO")
+@Repository("PlayersDAO")
 @Transactional
 public class PlayersDAOImpl implements PlayersDAO
 {
