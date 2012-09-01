@@ -18,11 +18,13 @@ import org.scribe.model.Verb;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author cedric
  */
+@Repository("oauthConnection")
 public class OAuthConnection 
 {
     private OAuthService service;
@@ -31,7 +33,7 @@ public class OAuthConnection
     Token accessToken;
     
     @Autowired
-    private OAuthDAOImpl oauthDAO;
+    private OAuthDAO oauthDAOImpl;
     
     
     public OAuthConnection()
@@ -45,7 +47,7 @@ public class OAuthConnection
     public void connect()
     {
            
-        List<OAuthToken> prevList = oauthDAO.getAllOAuth();
+        List<OAuthToken> prevList = oauthDAOImpl.getAllOAuth();
         if(prevList == null || prevList.size() == 0)
         {
             System.out.println("=== Yahoo's OAuth Workflow ===");
@@ -80,7 +82,7 @@ public class OAuthConnection
          temp.setVerifier(verifier.getValue());
          temp.setToken(accessToken.getToken());
          temp.setSecret(accessToken.getSecret());
-         oauthDAO.savePlayer(temp);
+         oauthDAOImpl.savePlayer(temp);
     }
     
     public String requestData(String url, Verb v)
@@ -103,7 +105,7 @@ public class OAuthConnection
          temp.setVerifier(verifier.getValue());
          temp.setToken(accessToken.getToken());
          temp.setSecret(accessToken.getSecret());
-         oauthDAO.savePlayer(temp);
+         oauthDAOImpl.savePlayer(temp);
     }
       
 }

@@ -29,7 +29,7 @@ public class Player implements Serializable
 
   
     
-     @Column(name = "FIRSTNAME", nullable=false)
+     @Column(name = "FIRSTNAME", length=50, nullable=false)
     public String getFirstName() {
         return firstName;
     }
@@ -38,7 +38,7 @@ public class Player implements Serializable
         this.firstName = firstName;
     }
 
-    @Column(name = "LASTNAME", nullable=false)
+    @Column(name = "LASTNAME", length=50, nullable=false)
     public String getLastName() {
         return lastName;
     }
@@ -47,7 +47,7 @@ public class Player implements Serializable
         this.lastName = lastName;
     }
  
-    @Column(name = "DISPLAYPOSITION", nullable=false)
+    @Column(name = "DISPLAYPOSITION", length=3, nullable=false)
     public char getDisplayPosition() {
         return displayPosition;
     }
@@ -56,7 +56,7 @@ public class Player implements Serializable
         this.displayPosition = displayPosition;
     }
     
-    @Column(name = "HEADSHOTHTML", nullable=false)
+    @Column(name = "HEADSHOTHTML", length=150, nullable=false)
     public String getHeadshotHtml() {
         return headshotHtml;
     }
@@ -77,7 +77,7 @@ public class Player implements Serializable
         this.id = id;
     }
     
-    @Column(name = "TEAM", nullable=false)
+    @Column(name = "TEAM", length=50, nullable=false)
     public String getTeam() {
         return team;
     }

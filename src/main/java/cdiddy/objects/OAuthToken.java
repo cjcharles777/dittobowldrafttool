@@ -13,7 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @author DMDD
  */
 @Entity
-@Table(name = "Players")
+@Table(name = "OAuthToken")
 public class OAuthToken implements Serializable
 {
     private int id;
@@ -33,7 +33,7 @@ public class OAuthToken implements Serializable
         this.id = id;
     }
 
-    @Column(name = "TOKEN", nullable=false)
+    @Column(name = "TOKEN", length=1000, nullable=false)
     public String getToken() {
         return token;
     }
@@ -42,7 +42,7 @@ public class OAuthToken implements Serializable
         this.token = token;
     }
 
-    @Column(name = "VERIFIER", nullable=false)
+    @Column(name = "VERIFIER", length=10, nullable=false)
     public String getVerifier() {
         return verifier;
     }
@@ -51,7 +51,7 @@ public class OAuthToken implements Serializable
         this.verifier = verifier;
     }
 
-    @Column(name = "SECRET", nullable=false)
+    @Column(name = "SECRET", length=50, nullable=false)
     public String getSecret() {
         return secret;
     }
