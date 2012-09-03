@@ -24,11 +24,24 @@ public class Player implements Serializable
     private String lastName;
     private String team;
     private int uniformNumber;
-    private char displayPosition;
+    private String displayPosition;
     private String headshotHtml;
+    private int yahooId;
 
   
     
+    @Id
+    @GeneratedValue(generator = "generator")
+    @GenericGenerator(name = "generator", strategy = "increment")
+    @Column(name = "ID", nullable=false)
+    public int getId() 
+    {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
      @Column(name = "FIRSTNAME", length=50, nullable=false)
     public String getFirstName() {
         return firstName;
@@ -48,15 +61,15 @@ public class Player implements Serializable
     }
  
     @Column(name = "DISPLAYPOSITION", length=3, nullable=false)
-    public char getDisplayPosition() {
+    public String getDisplayPosition() {
         return displayPosition;
     }
 
-    public void setDisplayPosition(char displayPosition) {
+    public void setDisplayPosition(String displayPosition) {
         this.displayPosition = displayPosition;
     }
     
-    @Column(name = "HEADSHOTHTML", length=150, nullable=false)
+    @Column(name = "HEADSHOTHTML", length=1000, nullable=false)
     public String getHeadshotHtml() {
         return headshotHtml;
     }
@@ -65,16 +78,14 @@ public class Player implements Serializable
         this.headshotHtml = headshotHtml;
     }
 
-    @Id
-    @GeneratedValue(generator = "assigned")
-    @GenericGenerator(name = "assigned", strategy = "assigned")
-    @Column(name = "ID", nullable=false)
-    public int getId() {
-        return id;
+
+    @Column(name = "YAHOOID", nullable=false)
+    public int getYahooId() {
+        return yahooId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setYahooId(int yahooId) {
+        this.yahooId = yahooId;
     }
     
     @Column(name = "TEAM", length=50, nullable=false)

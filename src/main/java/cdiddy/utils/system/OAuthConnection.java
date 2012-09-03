@@ -9,6 +9,8 @@ import cdiddy.objects.dao.OAuthDAO;
 import cdiddy.objects.dao.OAuthDAOImpl;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.YahooApi;
 import org.scribe.model.OAuthRequest;
@@ -31,6 +33,7 @@ public class OAuthConnection
     Token requestToken ;
     Verifier verifier;
     Token accessToken;
+    String oauthSessionHandle;
     
     @Autowired
     private OAuthDAO oauthDAOImpl;
@@ -67,7 +70,7 @@ public class OAuthConnection
         {
             accessToken = new Token (prevList.get(0).getToken(),prevList.get(0).getSecret());
             verifier = new Verifier(prevList.get(0).getVerifier());
-            
+            oauthSessionHandle = prevList.get(0).getSessionHandle();
             
         }
     }
@@ -78,10 +81,22 @@ public class OAuthConnection
             // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
          accessToken = service.getAccessToken(requestToken, verifier);
-         OAuthToken temp = new OAuthToken();
-         temp.setVerifier(verifier.getValue());
-         temp.setToken(accessToken.getToken());
-         temp.setSecret(accessToken.getSecret());
+         String fullResponse = accessToken.getRawResponse();
+         System.out.println("[Raw Response] : " + fullResponse);
+
+
+        // Gather the indices of the session handle
+        int startIndex = fullResponse.indexOf("&oauth_session_handle=");
+        int endIndex = fullResponse.indexOf("&oauth_authorization_expires_in", startIndex);
+
+        oauthSessionHandle = fullResponse.substring(startIndex + 22, endIndex);
+        System.out.println("[Session handle] :" + oauthSessionHandle);
+        
+        OAuthToken temp = new OAuthToken();
+        temp.setVerifier(verifier.getValue());
+        temp.setToken(accessToken.getToken());
+        temp.setSecret(accessToken.getSecret());
+        temp.setSessionHandle(oauthSessionHandle);
          oauthDAOImpl.savePlayer(temp);
     }
     
@@ -93,19 +108,40 @@ public class OAuthConnection
         if(!response.isSuccessful())
         {
             refreshToken();
-            response = (Response) request.send();
+            request = new OAuthRequest(v, url);
+            service.signRequest(accessToken, request); // the access token from step 4
+            response = (Response) request.send();  
         }
         return response.getBody();
     }
     
     public void refreshToken()
     {
-        accessToken = service.getAccessToken(accessToken, verifier);
+         List<OAuthToken> prevList = oauthDAOImpl.getAllOAuth();
+         String tempSessionHandle = prevList.get(0).getSessionHandle();
+         
+  //       connect();
+         OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.login.yahoo.com/oauth/v2/get_token");
+         request.addOAuthParameter("oauth_session_handle",tempSessionHandle );
+         service.signRequest(accessToken, request);
+         Response response = request.send();
+        try 
+        {
+            accessToken = YahooApi.class.newInstance().getAccessTokenExtractor().extract(response.getBody());
+        } catch (InstantiationException ex) {
+            Logger.getLogger(OAuthConnection.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(OAuthConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         //accessToken = service.getAccessToken(accessToken, verifier);
+         oauthDAOImpl.deleteOAuthToken(prevList.get(0));
          OAuthToken temp = new OAuthToken();
          temp.setVerifier(verifier.getValue());
          temp.setToken(accessToken.getToken());
          temp.setSecret(accessToken.getSecret());
-         oauthDAOImpl.savePlayer(temp);
+         temp.setSessionHandle(tempSessionHandle);
+         oauthDAOImpl.savePlayer(temp); 
+         
     }
       
 }

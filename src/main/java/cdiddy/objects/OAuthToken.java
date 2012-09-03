@@ -20,6 +20,7 @@ public class OAuthToken implements Serializable
     private String token;
     private String verifier;
     private String secret;
+    private String sessionHandle;
     
     @Id
     @GeneratedValue(generator = "generator")
@@ -42,7 +43,7 @@ public class OAuthToken implements Serializable
         this.token = token;
     }
 
-    @Column(name = "VERIFIER", length=10, nullable=false)
+    @Column(name = "VERIFIER", length=300, nullable=false)
     public String getVerifier() {
         return verifier;
     }
@@ -51,7 +52,7 @@ public class OAuthToken implements Serializable
         this.verifier = verifier;
     }
 
-    @Column(name = "SECRET", length=50, nullable=false)
+    @Column(name = "SECRET", length=300, nullable=false)
     public String getSecret() {
         return secret;
     }
@@ -59,6 +60,17 @@ public class OAuthToken implements Serializable
     public void setSecret(String secret) {
         this.secret = secret;
     }
+    
+    @Column(name = "SESSIONHANDLE", length=500, nullable=false)
+    public String getSessionHandle() {
+        return sessionHandle;
+    }
+    
+    
+    public void setSessionHandle(String sessionHandle) {
+        this.sessionHandle = sessionHandle;
+    }
+    
     
     
 }

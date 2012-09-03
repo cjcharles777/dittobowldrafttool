@@ -34,9 +34,15 @@ public class PlayersDAOImpl implements PlayersDAO
     public void savePlayer(Player player) {
         hibernateTemplate.saveOrUpdate(player);
     }
+        
+    @Transactional(readOnly = false)
+    public void savePlayers(List<Player> players) 
+    {
+        hibernateTemplate.saveOrUpdateAll(players);
+    }
 
     
-    public List<Player> getAllPlayers(Player player) {
+    public List<Player> getAllPlayers() {
          return (List<Player>) hibernateTemplate.find("from "
                 + Player.class.getName());
     }

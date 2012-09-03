@@ -1,12 +1,15 @@
 package cdiddy.fantasyfootballapp;
 
 
+import cdiddy.objects.Player;
+import cdiddy.utils.application.PlayerUtil;
 import cdiddy.utils.system.OAuthConnection;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
@@ -26,9 +29,30 @@ public class App
     {
  
      OAuthConnection conn = applicationContext.getBean(OAuthConnection.class);
+      PlayerUtil playerUtil = applicationContext.getBean(PlayerUtil.class);
      conn.connect();
+         ObjectMapper mapper = new ObjectMapper();
+     Map<String,Object> userData;
+     Map<String,Object> params;
+     ArrayList league;
+     List<Player> playerObjList;
      String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json", Verb.GET);
- /**   OAuthRequest request = new OAuthRequest(Verb.GET, "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json");
+     String response2 = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/league/273.l.8899/players?format=json", Verb.GET);
+        try 
+        {
+            userData = mapper.readValue(response2, Map.class);
+            params = (Map<String, Object>)userData.get("fantasy_content");
+            league = (ArrayList)params.get("league");
+            ArrayList<LinkedHashMap<String, List<Collection>>> playersList = new  ArrayList<LinkedHashMap<String, List<Collection>>>(((Map <String, LinkedHashMap>)league.get(1)).get("players").values());
+            playersList.remove(playersList.size()-1);
+            playerObjList = playerUtil.createPlayersFromList(playersList);
+            playerUtil.storePlayersToDatabase(playerObjList);
+        } catch (IOException ex) 
+        {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+
+     /**   OAuthRequest request = new OAuthRequest(Verb.GET, "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json");
     service.signRequest(accessToken, request); // the access token from step 4
     Response response = (Response) request.send();
     
@@ -58,7 +82,7 @@ public class App
     
     System.out.println(response.getBody()); **/
     System.out.println(response);
-        
+     System.out.println(response2);       
     System.out.println();
     System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
          
