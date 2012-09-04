@@ -57,4 +57,10 @@ public class PlayersDAOImpl implements PlayersDAO
        hibernateTemplate.delete(player);
     }
     
+    @Transactional(readOnly = false)
+    public void clearPlayers() 
+    {
+       hibernateTemplate.deleteAll(hibernateTemplate.loadAll(Player.class));
+    }
+
 }

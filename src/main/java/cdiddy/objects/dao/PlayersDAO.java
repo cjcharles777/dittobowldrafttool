@@ -18,4 +18,5 @@ public interface PlayersDAO
     public List<Player> getAllPlayers();
     public Player getPlayerById(String playerId);
     public void deletePlayer(Player player);
+    public void clearPlayers();
 }

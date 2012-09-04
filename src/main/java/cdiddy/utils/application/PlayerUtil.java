@@ -4,10 +4,17 @@
  */
 package cdiddy.utils.application;
 
+import cdiddy.fantasyfootballapp.App;
 import cdiddy.objects.Player;
 import cdiddy.objects.dao.OAuthDAO;
 import cdiddy.objects.dao.PlayersDAO;
+import cdiddy.utils.system.OAuthConnection;
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.scribe.model.Verb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +26,9 @@ import org.springframework.stereotype.Repository;
 public class PlayerUtil 
 {
 
- 
+    @Autowired
+    OAuthConnection conn;
+    
     @Autowired
     private PlayersDAO playersDAOImpl;
     
@@ -50,7 +59,16 @@ public class PlayerUtil
                 }
                 else if(temp.get("uniform_number")!= null)
                 {
-                result.setUniformNumber(Integer.parseInt((String)temp.get("uniform_number")));
+                    if(!((temp.get("uniform_number")) instanceof String )
+                            ||(((String)temp.get("uniform_number")).trim()).equals(""))
+                    {
+                        result.setUniformNumber(-1);
+                    }
+                    else
+                    {
+                        result.setUniformNumber(Integer.parseInt((String)temp.get("uniform_number")));
+                    }
+                
                 }
                 else if(temp.get("display_position")!= null)
                 {
@@ -80,4 +98,44 @@ public class PlayerUtil
     {
          return playersDAOImpl.getAllPlayers();
     }
+    
+    public void primePlayersDatabase() 
+    {
+         playersDAOImpl.clearPlayers();
+    }
+     public void loadPlayers()
+    {
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String,Object> userData;
+        Map<String,Object> params;
+        ArrayList league;
+        List<Player> playerObjList;
+        boolean morePlayers = true;
+        int start = 0; 
+        while (morePlayers)  
+        {    
+            String response2 = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/league/273.l.8899/players;count=25;start="+start+";?format=json", Verb.GET);
+            try 
+            {
+                userData = mapper.readValue(response2, Map.class);
+                params = (Map<String, Object>)userData.get("fantasy_content");
+                league = (ArrayList)params.get("league");
+                ArrayList<LinkedHashMap<String, List<Collection>>> playersList = new  ArrayList<LinkedHashMap<String, List<Collection>>>(((Map <String, LinkedHashMap>)league.get(1)).get("players").values());
+                playersList.remove(playersList.size()-1);
+                playerObjList = createPlayersFromList(playersList);
+                
+                start+=playerObjList.size();
+                
+                if(playerObjList.size() < 25)
+                {
+                    morePlayers = false;
+                }
+                storePlayersToDatabase(playerObjList);
+            } catch (IOException ex) 
+            {
+                Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
 }
