@@ -4,19 +4,30 @@
  */
 package cdiddy.gui;
 
+import cdiddy.objects.Player;
+import cdiddy.utils.application.PlayerUtil;
+
 /**
  *
  * @author cedric
  */
 public class PlayerInfoPanel extends javax.swing.JPanel {
-
+private PlayerUtil playerUtil;
     /**
      * Creates new form PlayerInfoPanel
      */
     public PlayerInfoPanel() {
         initComponents();
     }
-
+    public PlayerInfoPanel(PlayerUtil playerUtil) 
+    {
+        this.playerUtil = playerUtil;     
+        initComponents();
+    }
+    public void populatePanel(Player tempPlayer)
+    {
+      jTextArea1.setText( playerUtil.getStatsCategories() + "\n" + playerUtil.getPlayerStats(tempPlayer));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,17 +48,11 @@ public class PlayerInfoPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

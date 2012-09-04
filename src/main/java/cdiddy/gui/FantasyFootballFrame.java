@@ -23,6 +23,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         new ClassPathXmlApplicationContext("app-config.xml");
         OAuthConnection conn = applicationContext.getBean(OAuthConnection.class);
         PlayerUtil playerUtil = applicationContext.getBean(PlayerUtil.class);
+        Player playerInContext = null;
     /**
      * Creates new form FantasyFootballFrame
      */

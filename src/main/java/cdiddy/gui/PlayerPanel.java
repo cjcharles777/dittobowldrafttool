@@ -7,7 +7,9 @@ package cdiddy.gui;
 import cdiddy.gui.table.model.PlayersTableModel;
 import cdiddy.objects.Player;
 import cdiddy.utils.application.PlayerUtil;
+import java.awt.CardLayout;
 import java.util.List;
+import javax.swing.JTable;
 
 /**
  *
@@ -15,15 +17,18 @@ import java.util.List;
  */
 public class PlayerPanel extends javax.swing.JPanel {
   private PlayerUtil playerUtil;
+  private List<Player> playersList;
     /**
      * Creates new form PlayerPanel
      */
     public PlayerPanel() {
+        
         initComponents();
     }
 
     public PlayerPanel(PlayerUtil playerUtil) {
         this.playerUtil = playerUtil;
+         playersList = playerUtil.retrivePlayers();
         initComponents();
     }
     /**
@@ -53,6 +58,11 @@ public class PlayerPanel extends javax.swing.JPanel {
         jTable1.setModel(new PlayersTableModel(playerUtil.retrivePlayers()));
         jTable1.setColumnSelectionAllowed(true);
         jTable1.setFillsViewportHeight(true);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
         jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -91,10 +101,22 @@ public class PlayerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-       List<Player> playersList = playerUtil.retrivePlayers();
+      
         jTable1.setModel(new PlayersTableModel(playersList));
         jScrollPane1.setViewportView(jTable1);
     }//GEN-LAST:event_button1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        if (evt.getClickCount() == 2) 
+      {
+        JTable target = (JTable)evt.getSource();
+        int row = target.getSelectedRow();
+        Player tempPlayer = playersList.get(row);
+        ((FantasyFootballFrame) this.getParent().getParent()).playerInContext = tempPlayer;
+        ((CardLayout) this.getParent().getLayout()).show(jPanel1, "card3");
+               
+      }
+    }//GEN-LAST:event_jTable1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button button1;

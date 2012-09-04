@@ -103,7 +103,8 @@ public class PlayerUtil
     {
          playersDAOImpl.clearPlayers();
     }
-     public void loadPlayers()
+    
+    public void loadPlayers()
     {
         ObjectMapper mapper = new ObjectMapper();
         Map<String,Object> userData;
@@ -136,6 +137,24 @@ public class PlayerUtil
                 Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    public String getPlayerStats(Player p)
+    {
+        
+        String player_key = "nfl.p." + p.getYahooId();
+        String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/player/"+player_key+"/stats?format=json", Verb.GET);
+    
+        return response;
+    }
+    
+        public String getStatsCategories()
+    {
+        
+       // String player_key = "nfl.p." + p.getYahooId();
+        String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/game/nfl/stat_categories?format=json", Verb.GET);
+    
+        return response;
     }
 
 }
