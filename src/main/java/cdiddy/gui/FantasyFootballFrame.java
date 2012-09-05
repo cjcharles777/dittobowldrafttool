@@ -41,7 +41,6 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jPanel1 = new javax.swing.JPanel();
         welcomePanel = new cdiddy.gui.WelcomePanel();
@@ -59,13 +58,6 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         jPanel1.setLayout(new java.awt.CardLayout());
         jPanel1.add(welcomePanel, "card3");
         jPanel1.add(playerPanel, "card2");
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jPanel1, org.jdesktop.beansbinding.ELProperty.create("${maximumSize}"), playerInfoPanel, org.jdesktop.beansbinding.BeanProperty.create("maximumSize"));
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jPanel1, org.jdesktop.beansbinding.ELProperty.create("${minimumSize}"), playerInfoPanel, org.jdesktop.beansbinding.BeanProperty.create("minimumSize"));
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jPanel1, org.jdesktop.beansbinding.ELProperty.create("${preferredSize}"), playerInfoPanel, org.jdesktop.beansbinding.BeanProperty.create("preferredSize"));
-        bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout playerInfoPanelLayout = new javax.swing.GroupLayout(playerInfoPanel);
         playerInfoPanel.setLayout(playerInfoPanelLayout);
@@ -120,8 +112,6 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 69, Short.MAX_VALUE))
         );
-
-        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -197,6 +187,5 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private static javax.swing.JPanel playerInfoPanel;
     private javax.swing.JPanel playerPanel;
     private javax.swing.JPanel welcomePanel;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

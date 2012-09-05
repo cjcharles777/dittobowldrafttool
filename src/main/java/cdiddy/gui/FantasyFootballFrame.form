@@ -107,11 +107,6 @@
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
         </Container>
         <Container class="javax.swing.JPanel" name="playerInfoPanel">
-          <BindingProperties>
-            <BindingProperty name="maximumSize" source="jPanel1" sourcePath="${maximumSize}" target="playerInfoPanel" targetPath="maximumSize" updateStrategy="0" immediately="false"/>
-            <BindingProperty name="minimumSize" source="jPanel1" sourcePath="${minimumSize}" target="playerInfoPanel" targetPath="minimumSize" updateStrategy="0" immediately="false"/>
-            <BindingProperty name="preferredSize" source="jPanel1" sourcePath="${preferredSize}" target="playerInfoPanel" targetPath="preferredSize" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new PlayerInfoPanel(playerUtil)"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
