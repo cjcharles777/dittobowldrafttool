@@ -112,8 +112,8 @@ public class PlayerPanel extends javax.swing.JPanel {
         JTable target = (JTable)evt.getSource();
         int row = target.getSelectedRow();
         Player tempPlayer = playersList.get(row);
-        ((FantasyFootballFrame) this.getParent().getParent()).playerInContext = tempPlayer;
-        ((CardLayout) this.getParent().getLayout()).show(jPanel1, "card3");
+        FantasyFootballFrame.preparePlayerInfo(tempPlayer);
+        
                
       }
     }//GEN-LAST:event_jTable1MouseClicked
