@@ -29,7 +29,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
      */
     public FantasyFootballFrame() {
         initComponents();
-;
+
     }
 
 
@@ -58,18 +58,6 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         jPanel1.setLayout(new java.awt.CardLayout());
         jPanel1.add(welcomePanel, "card3");
         jPanel1.add(playerPanel, "card2");
-
-        javax.swing.GroupLayout playerInfoPanelLayout = new javax.swing.GroupLayout(playerInfoPanel);
-        playerInfoPanel.setLayout(playerInfoPanelLayout);
-        playerInfoPanelLayout.setHorizontalGroup(
-            playerInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 794, Short.MAX_VALUE)
-        );
-        playerInfoPanelLayout.setVerticalGroup(
-            playerInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 337, Short.MAX_VALUE)
-        );
-
         jPanel1.add(playerInfoPanel, "playerInfo");
 
         jMenu1.setText("File");
@@ -117,7 +105,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     public static void preparePlayerInfo(Player tempPlayer)
     {
-       // ((PlayerInfoPanel) playerInfoPanel).populatePanel(tempPlayer);
+        ((PlayerInfoPanel) playerInfoPanel).populatePanel(tempPlayer);
         CardLayout cl = (CardLayout)(jPanel1.getLayout());
         cl.show(jPanel1, "playerInfo");
     }
@@ -142,8 +130,8 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         OAuthConnection conn = applicationContext.getBean(OAuthConnection.class);
         PlayerUtil playerUtil = applicationContext.getBean(PlayerUtil.class);
         conn.connect();
-        playerUtil.primePlayersDatabase();
-        playerUtil.loadPlayers();
+        //playerUtil.primePlayersDatabase();
+        //playerUtil.loadPlayers();
         
         
         /* Set the Nimbus look and feel */
@@ -184,7 +172,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private static javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel playerInfoPanel;
+    private static javax.swing.JPanel playerInfoPanel;
     private javax.swing.JPanel playerPanel;
     private javax.swing.JPanel welcomePanel;
     // End of variables declaration//GEN-END:variables
