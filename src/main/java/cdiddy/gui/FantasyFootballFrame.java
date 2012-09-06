@@ -117,7 +117,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     public static void preparePlayerInfo(Player tempPlayer)
     {
-        ((PlayerInfoPanel) playerInfoPanel).populatePanel(tempPlayer);
+       // ((PlayerInfoPanel) playerInfoPanel).populatePanel(tempPlayer);
         CardLayout cl = (CardLayout)(jPanel1.getLayout());
         cl.show(jPanel1, "playerInfo");
     }
@@ -184,7 +184,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private static javax.swing.JPanel jPanel1;
-    private static javax.swing.JPanel playerInfoPanel;
+    private javax.swing.JPanel playerInfoPanel;
     private javax.swing.JPanel playerPanel;
     private javax.swing.JPanel welcomePanel;
     // End of variables declaration//GEN-END:variables
