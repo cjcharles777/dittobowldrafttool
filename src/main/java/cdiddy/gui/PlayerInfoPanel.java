@@ -6,6 +6,7 @@ package cdiddy.gui;
 
 import cdiddy.objects.Player;
 import cdiddy.utils.application.PlayerUtil;
+import cdiddy.utils.application.StatsService;
 
 /**
  *
@@ -13,6 +14,7 @@ import cdiddy.utils.application.PlayerUtil;
  */
 public class PlayerInfoPanel extends javax.swing.JPanel {
 private PlayerUtil playerUtil;
+private StatsService statsService;
     /**
      * Creates new form PlayerInfoPanel
      */
@@ -20,16 +22,18 @@ private PlayerUtil playerUtil;
         initComponents();
         jTextArea1.setVisible(true);
     }
-    public PlayerInfoPanel(PlayerUtil playerUtil) 
+    public PlayerInfoPanel(PlayerUtil playerUtil, StatsService statsService) 
     {
-        this.playerUtil = playerUtil;     
+        this.playerUtil = playerUtil;
+        this.statsService = statsService; 
         initComponents();
         jTextArea1.setVisible(true);
     }
     public void populatePanel(Player tempPlayer)
     {
       jTextArea1.setText( playerUtil.getStatsCategories() + "\n" + playerUtil.getPlayerStats(tempPlayer));
-      System.out.println(playerUtil.getStatsCategories());
+      //System.out.println(playerUtil.getStatsCategories());
+      statsService.retrieveStatCategories();
       jTextArea1.setVisible(true);
     }
     /**

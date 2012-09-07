@@ -3,6 +3,7 @@ package cdiddy.fantasyfootballapp;
 
 import cdiddy.objects.Player;
 import cdiddy.utils.application.PlayerUtil;
+import cdiddy.utils.application.StatsService;
 import cdiddy.utils.system.OAuthConnection;
 import java.io.IOException;
 import java.util.*;
@@ -38,20 +39,11 @@ public class App
      List<Player> playerObjList;
      String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json", Verb.GET);
      String response2 = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/league/273.l.8899/players?format=json", Verb.GET);
-        try 
-        {
-            userData = mapper.readValue(response2, Map.class);
-            params = (Map<String, Object>)userData.get("fantasy_content");
-            league = (ArrayList)params.get("league");
-            ArrayList<LinkedHashMap<String, List<Collection>>> playersList = new  ArrayList<LinkedHashMap<String, List<Collection>>>(((Map <String, LinkedHashMap>)league.get(1)).get("players").values());
-            playersList.remove(playersList.size()-1);
-            playerObjList = playerUtil.createPlayersFromList(playersList);
-            playerUtil.storePlayersToDatabase(playerObjList);
-        } catch (IOException ex) 
-        {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-        } 
 
+     
+     StatsService statsService = applicationContext.getBean(StatsService.class);
+     statsService.retrieveStatCategories();
+     
      /**   OAuthRequest request = new OAuthRequest(Verb.GET, "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json");
     service.signRequest(accessToken, request); // the access token from step 4
     Response response = (Response) request.send();

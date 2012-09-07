@@ -4,13 +4,11 @@
  */
 package cdiddy.gui;
 
-import cdiddy.gui.table.model.PlayersTableModel;
 import cdiddy.objects.Player;
 import cdiddy.utils.application.PlayerUtil;
+import cdiddy.utils.application.StatsService;
 import cdiddy.utils.system.OAuthConnection;
 import java.awt.CardLayout;
-import java.util.List;
-import javax.swing.JPanel;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -23,6 +21,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         new ClassPathXmlApplicationContext("app-config.xml");
         OAuthConnection conn = applicationContext.getBean(OAuthConnection.class);
         PlayerUtil playerUtil = applicationContext.getBean(PlayerUtil.class);
+        StatsService statsService = applicationContext.getBean(StatsService.class);
         Player playerInContext = null;
     /**
      * Creates new form FantasyFootballFrame
@@ -45,7 +44,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         welcomePanel = new cdiddy.gui.WelcomePanel();
         playerPanel = new cdiddy.gui.PlayerPanel(playerUtil);
-        playerInfoPanel = new PlayerInfoPanel(playerUtil);
+        playerInfoPanel = new PlayerInfoPanel(playerUtil, statsService);
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -92,7 +91,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,6 +128,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         
         OAuthConnection conn = applicationContext.getBean(OAuthConnection.class);
         PlayerUtil playerUtil = applicationContext.getBean(PlayerUtil.class);
+        StatsService statsService = applicationContext.getBean(StatsService.class); 
         conn.connect();
         //playerUtil.primePlayersDatabase();
         //playerUtil.loadPlayers();
