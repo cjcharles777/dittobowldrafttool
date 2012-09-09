@@ -4,21 +4,27 @@
  */
 package cdiddy.objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.*;
 
 /**
  *
  * @author cedric
  */
-public class StatCategories 
+@Entity
+@Table(name = "StatCategories")
+public class StatCategory implements Serializable
 {
     private int stat_id;
     private String name;
     private String display_name;
     private String sort_order;
-    private ArrayList<PositionTypes> position_types;
+    private ArrayList<PositionType> position_types;
 
+    @Id
+    @Column(name = "statid", length=5, nullable=false)
     public int getStat_id() {
         return stat_id;
     }
@@ -26,7 +32,8 @@ public class StatCategories
     public void setStat_id(int stat_id) {
         this.stat_id = stat_id;
     }
-
+    
+    @Column(name = "name", length=100, nullable=false)
     public String getName() {
         return name;
     }
@@ -34,7 +41,8 @@ public class StatCategories
     public void setName(String name) {
         this.name = name;
     }
-
+    
+    @Column(name = "displayname", length=100, nullable=false)
     public String getDisplay_name() {
         return display_name;
     }
@@ -43,6 +51,7 @@ public class StatCategories
         this.display_name = display_name;
     }
 
+    @Column(name = "sortorder", length=100, nullable=false)
     public String getSort_order() {
         return sort_order;
     }
@@ -50,12 +59,18 @@ public class StatCategories
     public void setSort_order(String sort_order) {
         this.sort_order = sort_order;
     }
-
-    public ArrayList<PositionTypes> getPosition_types() {
+    
+    @OneToMany
+    @JoinTable(
+            name="StatCategoriesPosition",
+            joinColumns = @JoinColumn( name="stat_id"),
+            inverseJoinColumns = @JoinColumn( name="positiontype")
+    )
+    public ArrayList<PositionType> getPosition_types() {
         return position_types;
     }
 
-    public void setPosition_types(ArrayList<PositionTypes> position_types) {
+    public void setPosition_types(ArrayList<PositionType> position_types) {
         this.position_types = position_types;
     }
 

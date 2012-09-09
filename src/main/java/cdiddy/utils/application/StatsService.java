@@ -4,7 +4,7 @@
  */
 package cdiddy.utils.application;
 
-import cdiddy.objects.StatCategories;
+import cdiddy.objects.StatCategory;
 import cdiddy.utils.system.JacksonPojoMapper;
 import cdiddy.utils.system.OAuthConnection;
 import java.io.IOException;
@@ -32,12 +32,12 @@ public class StatsService
     OAuthConnection conn;
         
         
-    public List<StatCategories> retrieveStatCategories()
+    public List<StatCategory> retrieveStatCategories()
     {
             Map<String,Object> userData;
             Map<String,Object> params;
             ArrayList<Map> statsCats;
-            List<StatCategories> result = new ArrayList<StatCategories>();
+            List<StatCategory> result = new ArrayList<StatCategory>();
             ObjectMapper mapper = new ObjectMapper();
             String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/game/nfl/stat_categories?format=json", Verb.GET);
         try 
@@ -50,7 +50,7 @@ public class StatsService
             for(Map<String,Map> statsCat : statsCats)
             {
                 
-                StatCategories tempSc = mapper.readValue(JacksonPojoMapper.toJson(statsCat.get("stat"), false) , StatCategories.class);
+                StatCategory tempSc = mapper.readValue(JacksonPojoMapper.toJson(statsCat.get("stat"), false) , StatCategory.class);
                 result.add(tempSc);
             }
             System.out.println(statsCats.size());
