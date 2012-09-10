@@ -42,7 +42,7 @@ public class App
 
      
      StatsService statsService = applicationContext.getBean(StatsService.class);
-     statsService.retrieveStatCategories();
+     statsService.loadStatCategories();
      
      /**   OAuthRequest request = new OAuthRequest(Verb.GET, "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json");
     service.signRequest(accessToken, request); // the access token from step 4

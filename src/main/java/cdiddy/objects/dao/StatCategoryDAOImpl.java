@@ -5,6 +5,7 @@
 package cdiddy.objects.dao;
 
 import cdiddy.objects.PositionType;
+import cdiddy.objects.StatCategory;
 import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author DMDD
  */
-@Repository("PositionTypeDAO")
+@Repository("StatCategoryDAO")
 @Transactional
-public class PositionTypeDAOImpl implements PositionTypeDAO
+public class StatCategoryDAOImpl implements StatCategoryDAO
 {
-    
     private HibernateTemplate hibernateTemplate;
-    
+
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) 
     {
@@ -30,37 +30,38 @@ public class PositionTypeDAOImpl implements PositionTypeDAO
     }
     
     @Transactional(readOnly = false)
-    public void savePositionType(PositionType pt) 
+    public void saveStatCategory(StatCategory sc) 
     {
-         hibernateTemplate.saveOrUpdate(pt);
+        hibernateTemplate.saveOrUpdate(sc);
     }
     
     @Transactional(readOnly = false)
-    public void savePositionTypes(List<PositionType> listPT) 
+    public void saveStatCategories(List<StatCategory> listSC) 
     {
-          hibernateTemplate.saveOrUpdateAll(listPT);
+         hibernateTemplate.saveOrUpdateAll(listSC);
     }
 
-    public List<PositionType> getAllPositionTypes() {
-               return (List<PositionType>) hibernateTemplate.find("from "
-                + PositionType.class.getName());
+    public List<StatCategory> getAllStatCategories() 
+    {
+                   return (List<StatCategory>) hibernateTemplate.find("from "
+                + StatCategory.class.getName());
     }
     
     @SuppressWarnings("unchecked")
-    public PositionType getPositionTypeById(String positionTypeId) 
+    public StatCategory getStatCategoryById(int statCategoriesId) 
     {
-        return hibernateTemplate.get(PositionType.class, positionTypeId);
+        return hibernateTemplate.get(StatCategory.class, statCategoriesId);
     }
     
     @Transactional(readOnly = false)
-    public void deletePositionTypes(PositionType pt) 
-    {
-       hibernateTemplate.delete(pt);
+    public void deleteStatCategory(StatCategory sc) {
+        hibernateTemplate.delete(sc);
     }
-
+    
     @Transactional(readOnly = false)
-    public void clearPositionTypes() {
-        hibernateTemplate.deleteAll(hibernateTemplate.loadAll(PositionType.class));
+    public void clearStatCategory() 
+    {
+         hibernateTemplate.deleteAll(hibernateTemplate.loadAll(StatCategory.class));
     }
     
 }

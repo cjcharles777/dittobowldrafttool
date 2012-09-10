@@ -21,7 +21,7 @@ public class StatCategory implements Serializable
     private String name;
     private String display_name;
     private String sort_order;
-    private ArrayList<PositionType> position_types;
+    private List<PositionType> position_types;
 
     @Id
     @Column(name = "statid", length=5, nullable=false)
@@ -60,17 +60,17 @@ public class StatCategory implements Serializable
         this.sort_order = sort_order;
     }
     
-    @OneToMany
+    @ManyToMany( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
     @JoinTable(
             name="StatCategoriesPosition",
             joinColumns = @JoinColumn( name="stat_id"),
             inverseJoinColumns = @JoinColumn( name="positiontype")
     )
-    public ArrayList<PositionType> getPosition_types() {
+    public List<PositionType> getPosition_types() {
         return position_types;
     }
 
-    public void setPosition_types(ArrayList<PositionType> position_types) {
+    public void setPosition_types(List<PositionType> position_types) {
         this.position_types = position_types;
     }
 

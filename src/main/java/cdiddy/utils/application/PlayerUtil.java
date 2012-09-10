@@ -6,7 +6,6 @@ package cdiddy.utils.application;
 
 import cdiddy.fantasyfootballapp.App;
 import cdiddy.objects.Player;
-import cdiddy.objects.dao.OAuthDAO;
 import cdiddy.objects.dao.PlayersDAO;
 import cdiddy.utils.system.OAuthConnection;
 import java.io.IOException;
@@ -111,10 +110,12 @@ public class PlayerUtil
         Map<String,Object> params;
         ArrayList league;
         List<Player> playerObjList;
+        List<Player> playerSaveList = new ArrayList<Player>();
         boolean morePlayers = true;
         int start = 0; 
         while (morePlayers)  
-        {    
+        {   
+            
             String response2 = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/league/273.l.8899/players;count=25;start="+start+";?format=json", Verb.GET);
             try 
             {
@@ -124,14 +125,17 @@ public class PlayerUtil
                 ArrayList<LinkedHashMap<String, List<Collection>>> playersList = new  ArrayList<LinkedHashMap<String, List<Collection>>>(((Map <String, LinkedHashMap>)league.get(1)).get("players").values());
                 playersList.remove(playersList.size()-1);
                 playerObjList = createPlayersFromList(playersList);
-                
+                playerSaveList.addAll(playerObjList);
                 start+=playerObjList.size();
                 
                 if(playerObjList.size() < 25)
                 {
                     morePlayers = false;
                 }
-                storePlayersToDatabase(playerObjList);
+                if(!morePlayers)
+                {
+                    storePlayersToDatabase(playerSaveList);
+                }
             } catch (IOException ex) 
             {
                 Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);

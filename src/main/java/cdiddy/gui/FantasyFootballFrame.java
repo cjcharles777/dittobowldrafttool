@@ -95,9 +95,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 69, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
         );
 
         pack();
@@ -130,8 +128,10 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         PlayerUtil playerUtil = applicationContext.getBean(PlayerUtil.class);
         StatsService statsService = applicationContext.getBean(StatsService.class); 
         conn.connect();
-        //playerUtil.primePlayersDatabase();
-        //playerUtil.loadPlayers();
+        statsService.primeStatCategories();
+        playerUtil.primePlayersDatabase();
+        playerUtil.loadPlayers();
+        statsService.loadStatCategories();
         
         
         /* Set the Nimbus look and feel */
