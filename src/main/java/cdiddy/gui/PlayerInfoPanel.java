@@ -5,7 +5,7 @@
 package cdiddy.gui;
 
 import cdiddy.objects.Player;
-import cdiddy.utils.application.PlayerUtil;
+import cdiddy.utils.application.PlayerService;
 import cdiddy.utils.application.StatsService;
 
 /**
@@ -13,7 +13,7 @@ import cdiddy.utils.application.StatsService;
  * @author cedric
  */
 public class PlayerInfoPanel extends javax.swing.JPanel {
-private PlayerUtil playerUtil;
+private PlayerService playerUtil;
 private StatsService statsService;
     /**
      * Creates new form PlayerInfoPanel
@@ -22,7 +22,7 @@ private StatsService statsService;
         initComponents();
         jTextArea1.setVisible(true);
     }
-    public PlayerInfoPanel(PlayerUtil playerUtil, StatsService statsService) 
+    public PlayerInfoPanel(PlayerService playerUtil, StatsService statsService) 
     {
         this.playerUtil = playerUtil;
         this.statsService = statsService; 

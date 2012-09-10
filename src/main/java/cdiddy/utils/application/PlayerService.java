@@ -6,7 +6,11 @@ package cdiddy.utils.application;
 
 import cdiddy.fantasyfootballapp.App;
 import cdiddy.objects.Player;
+import cdiddy.objects.SeasonStat;
+import cdiddy.objects.Stat;
 import cdiddy.objects.dao.PlayersDAO;
+import cdiddy.objects.dao.SeasonStatsDAO;
+import cdiddy.objects.dao.StatDAO;
 import cdiddy.utils.system.OAuthConnection;
 import java.io.IOException;
 import java.util.*;
@@ -22,12 +26,17 @@ import org.springframework.stereotype.Repository;
  * @author DMDD
  */
 @Repository("playerUtil")
-public class PlayerUtil 
+public class PlayerService 
 {
 
     @Autowired
     OAuthConnection conn;
-    
+    @Autowired
+    private StatsService statsService;
+    @Autowired
+    private StatDAO statDAOImpl;
+    @Autowired
+    private SeasonStatsDAO seasonStatsDAOImpl;
     @Autowired
     private PlayersDAO playersDAOImpl;
     
@@ -76,6 +85,9 @@ public class PlayerUtil
             }
             
         }
+        List<SeasonStat> seasonStats = new ArrayList<SeasonStat>();
+        seasonStats.add(statsService.retrieveSeasonStats(result));
+        result.setSeasonStats(seasonStats);
         return result;
     }
     public List<Player> createPlayersFromList(List<LinkedHashMap<String, List<Collection>>> lhmList)
@@ -90,6 +102,19 @@ public class PlayerUtil
     
     public void storePlayersToDatabase(List<Player> playerList)
     {
+        LinkedList<SeasonStat> listSS = new LinkedList<SeasonStat>();
+        LinkedList<Stat> listStat = new LinkedList<Stat>();
+        for(Player p : playerList)
+        {
+            List<SeasonStat> tempSSList = p.getSeasonStats();
+            listSS.addAll(tempSSList);
+            for(SeasonStat ss : tempSSList)
+            {
+               listStat.addAll(ss.getStats());
+            }
+        }
+        statDAOImpl.saveStats(listStat);
+        seasonStatsDAOImpl.saveSeasonStats(listSS);
         playersDAOImpl.savePlayers(playerList);
     }
         

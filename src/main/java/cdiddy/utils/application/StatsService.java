@@ -4,10 +4,15 @@
  */
 package cdiddy.utils.application;
 
+import cdiddy.objects.Player;
 import cdiddy.objects.PositionType;
+import cdiddy.objects.SeasonStat;
+import cdiddy.objects.Stat;
 import cdiddy.objects.StatCategory;
 import cdiddy.objects.dao.PositionTypeDAO;
+import cdiddy.objects.dao.SeasonStatsDAO;
 import cdiddy.objects.dao.StatCategoryDAO;
+import cdiddy.objects.dao.StatDAO;
 import cdiddy.utils.system.JacksonPojoMapper;
 import cdiddy.utils.system.OAuthConnection;
 import java.io.IOException;
@@ -33,9 +38,12 @@ public class StatsService
     OAuthConnection conn;
     @Autowired
     StatCategoryDAO statCategoryDAOImpl;
-     @Autowired
+    @Autowired
     PositionTypeDAO positionTypeDAOImpl;
-        
+    @Autowired
+    private StatDAO statDAOImpl;
+    @Autowired
+    private SeasonStatsDAO seasonStatsDAOImpl;   
         
     public List<StatCategory> retrieveStatCategories()
     {
@@ -79,6 +87,49 @@ public class StatsService
         return result;
     }
     
+        public SeasonStat retrieveSeasonStats(Player p)
+    {
+        
+            
+            Map<String,Object> userData;
+            Map<String,Object> params;
+            ArrayList<Map> seasonStats;
+            Map<String, String> seasonInfo;
+            SeasonStat result = new SeasonStat();
+            ObjectMapper mapper = new ObjectMapper();
+            HashMap<String,PositionType> posTypeMap = new HashMap<String, PositionType>();
+            String player_key = "nfl.p." + p.getYahooId();
+            String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/player/"+player_key+"/stats?format=json", Verb.GET);
+        try 
+        {
+            userData = mapper.readValue(response, Map.class);
+            params = (Map<String, Object>)userData.get("fantasy_content");
+            Map testies = mapper.readValue(JacksonPojoMapper.toJson((((ArrayList<Map>)params.get("player")).get(1)), false) , Map.class);
+            seasonInfo = ((Map<String, Map<String, Map<String, String>>>)testies).get("player_stats").get("0");
+            seasonStats = ((Map<String, Map<String, ArrayList<Map>>>)testies).get("player_stats").get("stats");
+            result.setSeason(seasonInfo.get("season"));
+            ArrayList<Stat> statList = new ArrayList<Stat>();
+            for(Map<String,Map> stat : seasonStats)
+            {
+                
+                Stat tempStat = mapper.readValue(JacksonPojoMapper.toJson(stat.get("stat"), false) , Stat.class);
+  
+                
+                statList.add(tempStat);
+            }
+            result.setStats(statList);
+            System.out.println(seasonStats.size());
+            //positionTypeDAOImpl.savePositionTypes(new ArrayList<PositionType>(posTypeMap.values()));
+        } catch (Exception e) {
+            Logger.getLogger(StatsService.class.getName()).log(Level.SEVERE, null, e);
+        }
+      
+
+            
+           // mapper.readValue(JacksonPojoMapper.toJson(trxObj, false), Positions.class);
+        return result;
+    }
+    
     public void loadStatCategories()
     {
         
@@ -88,5 +139,10 @@ public class StatsService
     public void primeStatCategories() 
     {
          statCategoryDAOImpl.clearStatCategory();
+    }
+
+    public void primeStats() {
+       statDAOImpl.clearStats();
+       seasonStatsDAOImpl.clearSeasonStat();
     }
 }

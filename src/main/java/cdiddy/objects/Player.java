@@ -5,6 +5,7 @@
 package cdiddy.objects;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -25,13 +26,15 @@ public class Player implements Serializable
     private String displayPosition;
     private String headshotHtml;
     private int yahooId;
+    private List<SeasonStat> seasonStats;
+
 
   
     
     @Id
     @GeneratedValue(generator = "generator")
     @GenericGenerator(name = "generator", strategy = "increment")
-    @Column(name = "ID", nullable=false)
+    @Column(name = "player_id", nullable=false)
     public int getId() 
     {
         return id;
@@ -104,6 +107,21 @@ public class Player implements Serializable
         this.uniformNumber = uniformNumber;
     }
     
+    @OneToMany( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+    @JoinTable(
+            name="PlayerToSeasonStats",
+            joinColumns = @JoinColumn( name="player_id"),
+            inverseJoinColumns = @JoinColumn( name="season_stat_id")
+    )
+    public List<SeasonStat> getSeasonStats() 
+    {
+        return seasonStats;
+    }
+
+    public void setSeasonStats(List<SeasonStat> seasonStats) 
+    {
+        this.seasonStats = seasonStats;
+    }
     
     
     

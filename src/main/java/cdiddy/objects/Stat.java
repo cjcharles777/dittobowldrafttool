@@ -5,15 +5,20 @@
 package cdiddy.objects;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
  * @author DMDD
  */
-class Stat 
+
+@Entity
+@Table(name = "Stat")
+public class Stat 
 {
     private int table_stat_id;
     String stat_id;

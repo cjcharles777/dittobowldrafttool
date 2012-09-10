@@ -12,7 +12,9 @@ import org.hibernate.annotations.GenericGenerator;
  *
  * @author DMDD
  */
-public class SeasonStats 
+@Entity
+@Table(name = "SeasonStat")
+public class SeasonStat 
 {
     private int id;
     private String season;
@@ -43,7 +45,7 @@ public class SeasonStats
 
     @OneToMany( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
     @JoinTable(
-            name="PlayerSeasonStats",
+            name="SeasonStatsToStats",
             joinColumns = @JoinColumn( name="season_stat_id"),
             inverseJoinColumns = @JoinColumn( name="table_stat_id")
     )

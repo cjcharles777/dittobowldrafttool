@@ -2,7 +2,7 @@ package cdiddy.fantasyfootballapp;
 
 
 import cdiddy.objects.Player;
-import cdiddy.utils.application.PlayerUtil;
+import cdiddy.utils.application.PlayerService;
 import cdiddy.utils.application.StatsService;
 import cdiddy.utils.system.OAuthConnection;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class App
     {
  
      OAuthConnection conn = applicationContext.getBean(OAuthConnection.class);
-      PlayerUtil playerUtil = applicationContext.getBean(PlayerUtil.class);
+      PlayerService playerUtil = applicationContext.getBean(PlayerService.class);
      conn.connect();
          ObjectMapper mapper = new ObjectMapper();
      Map<String,Object> userData;
@@ -38,11 +38,13 @@ public class App
      ArrayList league;
      List<Player> playerObjList;
      String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json", Verb.GET);
-     String response2 = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/league/273.l.8899/players?format=json", Verb.GET);
+     String response2 = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2//players;player_keys=nfl.p.4263,nfl.p.4262/stats?format=json", Verb.GET);
 
      
      StatsService statsService = applicationContext.getBean(StatsService.class);
-     statsService.loadStatCategories();
+     Player p = new Player();
+     p.setYahooId(4262);
+     statsService.retrieveSeasonStats(p);
      
      /**   OAuthRequest request = new OAuthRequest(Verb.GET, "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json");
     service.signRequest(accessToken, request); // the access token from step 4

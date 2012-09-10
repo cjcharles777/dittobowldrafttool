@@ -5,7 +5,7 @@
 package cdiddy.gui;
 
 import cdiddy.objects.Player;
-import cdiddy.utils.application.PlayerUtil;
+import cdiddy.utils.application.PlayerService;
 import cdiddy.utils.application.StatsService;
 import cdiddy.utils.system.OAuthConnection;
 import java.awt.CardLayout;
@@ -20,7 +20,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
       private static final ApplicationContext applicationContext = 
         new ClassPathXmlApplicationContext("app-config.xml");
         OAuthConnection conn = applicationContext.getBean(OAuthConnection.class);
-        PlayerUtil playerUtil = applicationContext.getBean(PlayerUtil.class);
+        PlayerService playerUtil = applicationContext.getBean(PlayerService.class);
         StatsService statsService = applicationContext.getBean(StatsService.class);
         Player playerInContext = null;
     /**
@@ -125,10 +125,11 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     public static void main(String args[]) {
         
         OAuthConnection conn = applicationContext.getBean(OAuthConnection.class);
-        PlayerUtil playerUtil = applicationContext.getBean(PlayerUtil.class);
+        PlayerService playerUtil = applicationContext.getBean(PlayerService.class);
         StatsService statsService = applicationContext.getBean(StatsService.class); 
         conn.connect();
         statsService.primeStatCategories();
+        statsService.primeStats();
         playerUtil.primePlayersDatabase();
         playerUtil.loadPlayers();
         statsService.loadStatCategories();
