@@ -158,7 +158,7 @@ public class StatsService
         {
             userData = mapper.readValue(response, Map.class);
             params = (Map<String, Object>)userData.get("fantasy_content");
-            Map testies = mapper.readValue(JacksonPojoMapper.toJson(((ArrayList<Map>)params.get("players")), false) , Map.class);
+            Map testies = mapper.readValue(JacksonPojoMapper.toJson(((Map<String,Map>)params.get("players")), false) , Map.class);
             seasonInfo = ((Map<String, Map<String, Map<String, String>>>)testies).get("player_stats").get("0");
             seasonStats = ((Map<String, Map<String, ArrayList<Map>>>)testies).get("player_stats").get("stats");
             result.setSeason(seasonInfo.get("season"));
