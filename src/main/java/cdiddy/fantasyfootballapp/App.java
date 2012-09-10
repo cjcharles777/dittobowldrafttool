@@ -38,13 +38,19 @@ public class App
      ArrayList league;
      List<Player> playerObjList;
      String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json", Verb.GET);
-     String response2 = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2//players;player_keys=nfl.p.4263,nfl.p.4262/stats?format=json", Verb.GET);
+     String response2 = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/players;player_keys=nfl.p.4263,nfl.p.4262/stats?format=json", Verb.GET);
 
      
      StatsService statsService = applicationContext.getBean(StatsService.class);
+     LinkedList<Player> listP = new LinkedList<Player>();
      Player p = new Player();
      p.setYahooId(4262);
-     statsService.retrieveSeasonStats(p);
+     listP.add(p);
+     p = new Player();
+     p.setYahooId(24788);
+     listP.add(p);
+             
+     statsService.retrieveSeasonStats(listP);
      
      /**   OAuthRequest request = new OAuthRequest(Verb.GET, "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json");
     service.signRequest(accessToken, request); // the access token from step 4

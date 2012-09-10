@@ -18,14 +18,17 @@ import cdiddy.utils.system.OAuthConnection;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.scribe.model.Verb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 
 /**
  *
@@ -130,6 +133,57 @@ public class StatsService
         return result;
     }
     
+    public SeasonStat retrieveSeasonStats(List<Player> listP)
+    {
+        
+            
+            Map<String,Object> userData;
+            Map<String,Object> params;
+            ArrayList<Map> seasonStats;
+            Map<String, String> seasonInfo;
+            SeasonStat result = new SeasonStat();
+            ObjectMapper mapper = new ObjectMapper();
+            HashMap<String,PositionType> posTypeMap = new HashMap<String, PositionType>();
+            
+            LinkedList<String> playersList = new LinkedList<String>();
+            int i = 0;
+            for (Player p : listP)
+            {
+             String player_key = "nfl.p." + p.getYahooId();
+             playersList.add(player_key);
+            }
+            String finalPlayerKey = StringUtils.join(playersList, ",");
+            String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/players;player_keys="+finalPlayerKey+"/stats?format=json", Verb.GET);
+        try 
+        {
+            userData = mapper.readValue(response, Map.class);
+            params = (Map<String, Object>)userData.get("fantasy_content");
+            Map testies = mapper.readValue(JacksonPojoMapper.toJson(((ArrayList<Map>)params.get("players")), false) , Map.class);
+            seasonInfo = ((Map<String, Map<String, Map<String, String>>>)testies).get("player_stats").get("0");
+            seasonStats = ((Map<String, Map<String, ArrayList<Map>>>)testies).get("player_stats").get("stats");
+            result.setSeason(seasonInfo.get("season"));
+            ArrayList<Stat> statList = new ArrayList<Stat>();
+            for(Map<String,Map> stat : seasonStats)
+            {
+                
+                Stat tempStat = mapper.readValue(JacksonPojoMapper.toJson(stat.get("stat"), false) , Stat.class);
+  
+                
+                statList.add(tempStat);
+            }
+            result.setStats(statList);
+            System.out.println(seasonStats.size());
+            //positionTypeDAOImpl.savePositionTypes(new ArrayList<PositionType>(posTypeMap.values()));
+        } catch (Exception e) {
+            Logger.getLogger(StatsService.class.getName()).log(Level.SEVERE, null, e);
+        }
+      
+
+            
+           // mapper.readValue(JacksonPojoMapper.toJson(trxObj, false), Positions.class);
+        return result;
+    }
+        
     public void loadStatCategories()
     {
         
