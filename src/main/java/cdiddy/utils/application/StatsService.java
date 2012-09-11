@@ -133,15 +133,12 @@ public class StatsService
         return result;
     }
     
-    public SeasonStat retrieveSeasonStats(List<Player> listP)
+    public Map<Integer, SeasonStat> retrieveSeasonStats(List<Player> listP)
     {
         
-            
+            Map<Integer, SeasonStat> result = new HashMap<Integer, SeasonStat>();
             Map<String,Object> userData;
             Map<String,Object> params;
-            ArrayList<Map> seasonStats;
-            Map<String, String> seasonInfo;
-            SeasonStat result = new SeasonStat();
             ObjectMapper mapper = new ObjectMapper();
             HashMap<String,PositionType> posTypeMap = new HashMap<String, PositionType>();
             
@@ -158,21 +155,36 @@ public class StatsService
         {
             userData = mapper.readValue(response, Map.class);
             params = (Map<String, Object>)userData.get("fantasy_content");
-            Map testies = mapper.readValue(JacksonPojoMapper.toJson(((Map<String,Map>)params.get("players")), false) , Map.class);
-            seasonInfo = ((Map<String, Map<String, Map<String, String>>>)testies).get("player_stats").get("0");
-            seasonStats = ((Map<String, Map<String, ArrayList<Map>>>)testies).get("player_stats").get("stats");
-            result.setSeason(seasonInfo.get("season"));
-            ArrayList<Stat> statList = new ArrayList<Stat>();
-            for(Map<String,Map> stat : seasonStats)
+            Map<String, Object> testies = mapper.readValue(JacksonPojoMapper.toJson(((Map<String,Map>)params.get("players")), false) , Map.class);
+            int count = (Integer) testies.get("count");
+            int pos = 0;
+            while (pos<count)
             {
-                
-                Stat tempStat = mapper.readValue(JacksonPojoMapper.toJson(stat.get("stat"), false) , Stat.class);
-  
-                
-                statList.add(tempStat);
+                Map<String, String> seasonInfo;
+                SeasonStat ss = new SeasonStat();
+                List<Map> seasonStats;
+                Map<String,Object> temp =(Map<String,Object>)testies.get(pos+"");
+                Map<String, Object> playerstats = (Map<String, Object>)((List) temp.get("player")).get(1);
+                int playerid =  Integer.parseInt(((Map<String, String>)((List)((List) temp.get("player")).get(0)).get(1)).get("player_id"));
+                seasonInfo = ((Map<String,Map>) playerstats.get("player_stats")).get("0");
+                seasonStats = ((Map<String,List>) playerstats.get("player_stats")).get("stats");
+                ss.setSeason(seasonInfo.get("season"));
+                ArrayList<Stat> statList = new ArrayList<Stat>();
+                for(Map<String,Map> stat : seasonStats)
+                {
+
+                    Stat tempStat = mapper.readValue(JacksonPojoMapper.toJson(stat.get("stat"), false) , Stat.class);
+
+
+                    statList.add(tempStat);
+                }
+                ss.setStats(statList);
+                result.put(playerid, ss);
+                pos++;
             }
-            result.setStats(statList);
-            System.out.println(seasonStats.size());
+
+           
+            
             //positionTypeDAOImpl.savePositionTypes(new ArrayList<PositionType>(posTypeMap.values()));
         } catch (Exception e) {
             Logger.getLogger(StatsService.class.getName()).log(Level.SEVERE, null, e);

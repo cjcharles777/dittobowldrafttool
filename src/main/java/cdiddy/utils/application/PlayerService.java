@@ -85,9 +85,9 @@ public class PlayerService
             }
             
         }
-        List<SeasonStat> seasonStats = new ArrayList<SeasonStat>();
-        seasonStats.add(statsService.retrieveSeasonStats(result));
-        result.setSeasonStats(seasonStats);
+        //List<SeasonStat> seasonStats = new ArrayList<SeasonStat>();
+        //seasonStats.add(statsService.retrieveSeasonStats(result));
+        //result.setSeasonStats(seasonStats);
         return result;
     }
     public List<Player> createPlayersFromList(List<LinkedHashMap<String, List<Collection>>> lhmList)
@@ -150,6 +150,8 @@ public class PlayerService
                 ArrayList<LinkedHashMap<String, List<Collection>>> playersList = new  ArrayList<LinkedHashMap<String, List<Collection>>>(((Map <String, LinkedHashMap>)league.get(1)).get("players").values());
                 playersList.remove(playersList.size()-1);
                 playerObjList = createPlayersFromList(playersList);
+                Map<Integer, SeasonStat> statmap = statsService.retrieveSeasonStats(playerObjList);
+                playerObjList = connectStatsToPlayer(statmap, playerObjList);
                 playerSaveList.addAll(playerObjList);
                 start+=playerObjList.size();
                 
@@ -184,6 +186,20 @@ public class PlayerService
         String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/game/nfl/stat_categories?format=json", Verb.GET);
     
         return response;
+    }
+
+    private List<Player> connectStatsToPlayer(Map<Integer, SeasonStat> statmap, List<Player> playerObjList) 
+    {
+        List<Player> result = new LinkedList<Player>();
+        for(Player p : playerObjList)
+        {
+            List<SeasonStat> ssList = new LinkedList<SeasonStat>();
+            ssList.add(statmap.get(p.getYahooId()));
+            p.setSeasonStats(ssList);
+            result.add(p);
+        
+        }
+        return result;
     }
 
 }

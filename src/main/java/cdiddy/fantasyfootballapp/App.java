@@ -2,6 +2,7 @@ package cdiddy.fantasyfootballapp;
 
 
 import cdiddy.objects.Player;
+import cdiddy.objects.SeasonStat;
 import cdiddy.utils.application.PlayerService;
 import cdiddy.utils.application.StatsService;
 import cdiddy.utils.system.OAuthConnection;
@@ -50,7 +51,7 @@ public class App
      p.setYahooId(24788);
      listP.add(p);
              
-     statsService.retrieveSeasonStats(listP);
+     Map<Integer, SeasonStat> result = statsService.retrieveSeasonStats(listP);
      
      /**   OAuthRequest request = new OAuthRequest(Verb.GET, "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json");
     service.signRequest(accessToken, request); // the access token from step 4
