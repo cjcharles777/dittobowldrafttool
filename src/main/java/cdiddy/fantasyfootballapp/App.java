@@ -51,7 +51,7 @@ public class App
      p.setYahooId(24788);
      listP.add(p);
              
-     Map<Integer, SeasonStat> result = statsService.retrieveSeasonStats(listP);
+     Map<Integer, List<SeasonStat>> result = statsService.retrieveSeasonStats(listP);
      
      /**   OAuthRequest request = new OAuthRequest(Verb.GET, "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json");
     service.signRequest(accessToken, request); // the access token from step 4

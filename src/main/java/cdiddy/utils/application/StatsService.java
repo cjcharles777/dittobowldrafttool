@@ -133,10 +133,10 @@ public class StatsService
         return result;
     }
     
-    public Map<Integer, SeasonStat> retrieveSeasonStats(List<Player> listP)
+    public Map<Integer, List<SeasonStat>> retrieveSeasonStats(List<Player> listP)
     {
         
-            Map<Integer, SeasonStat> result = new HashMap<Integer, SeasonStat>();
+            Map<Integer, List<SeasonStat>> result = new HashMap<Integer, List<SeasonStat>>();
             Map<String,Object> userData;
             Map<String,Object> params;
             ObjectMapper mapper = new ObjectMapper();
@@ -146,50 +146,67 @@ public class StatsService
             int i = 0;
             for (Player p : listP)
             {
-             String player_key = "nfl.p." + p.getYahooId();
-             playersList.add(player_key);
+                String player_key = "nfl.p." + p.getYahooId();
+                playersList.add(player_key);
+               
             }
             String finalPlayerKey = StringUtils.join(playersList, ",");
-            String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/players;player_keys="+finalPlayerKey+"/stats?format=json", Verb.GET);
-        try 
-        {
-            userData = mapper.readValue(response, Map.class);
-            params = (Map<String, Object>)userData.get("fantasy_content");
-            Map<String, Object> testies = mapper.readValue(JacksonPojoMapper.toJson(((Map<String,Map>)params.get("players")), false) , Map.class);
-            int count = (Integer) testies.get("count");
-            int pos = 0;
-            while (pos<count)
-            {
-                Map<String, String> seasonInfo;
-                SeasonStat ss = new SeasonStat();
-                List<Map> seasonStats;
-                Map<String,Object> temp =(Map<String,Object>)testies.get(pos+"");
-                Map<String, Object> playerstats = (Map<String, Object>)((List) temp.get("player")).get(1);
-                int playerid =  Integer.parseInt(((Map<String, String>)((List)((List) temp.get("player")).get(0)).get(1)).get("player_id"));
-                seasonInfo = ((Map<String,Map>) playerstats.get("player_stats")).get("0");
-                seasonStats = ((Map<String,List>) playerstats.get("player_stats")).get("stats");
-                ss.setSeason(seasonInfo.get("season"));
-                ArrayList<Stat> statList = new ArrayList<Stat>();
-                for(Map<String,Map> stat : seasonStats)
-                {
-
-                    Stat tempStat = mapper.readValue(JacksonPojoMapper.toJson(stat.get("stat"), false) , Stat.class);
-
-
-                    statList.add(tempStat);
-                }
-                ss.setStats(statList);
-                result.put(playerid, ss);
-                pos++;
-            }
-
-           
+            String[] requests = new String[3];
+            requests[0] = "http://fantasysports.yahooapis.com/fantasy/v2/players;player_keys="+finalPlayerKey+"/stats?format=json";
+            requests[1] = "http://fantasysports.yahooapis.com/fantasy/v2/players;sort_type=season;sort_season=2011;player_keys="+finalPlayerKey+"/stats;type=season;season=2011?format=json";
+            requests[2] = "http://fantasysports.yahooapis.com/fantasy/v2/players;sort_type=season;sort_season=2010;player_keys="+finalPlayerKey+"/stats;type=season;season=2010?format=json";
             
-            //positionTypeDAOImpl.savePositionTypes(new ArrayList<PositionType>(posTypeMap.values()));
-        } catch (Exception e) {
-            Logger.getLogger(StatsService.class.getName()).log(Level.SEVERE, null, e);
+            for (String request : requests)
+            {    
+                 String response = conn.requestData(request, Verb.GET);
+                try 
+                {
+                userData = mapper.readValue(response, Map.class);
+                params = (Map<String, Object>)userData.get("fantasy_content");
+                Map<String, Object> testies = mapper.readValue(JacksonPojoMapper.toJson(((Map<String,Map>)params.get("players")), false) , Map.class);
+                int count = (Integer) testies.get("count");
+                int pos = 0;
+                while (pos<count)
+                {
+                    Map<String, String> seasonInfo;
+                    SeasonStat ss = new SeasonStat();
+                    List<Map> seasonStats;
+                    Map<String,Object> temp =(Map<String,Object>)testies.get(pos+"");
+                    Map<String, Object> playerstats = (Map<String, Object>)((List) temp.get("player")).get(1);
+                    int playerid =  Integer.parseInt(((Map<String, String>)((List)((List) temp.get("player")).get(0)).get(1)).get("player_id"));
+                    seasonInfo = ((Map<String,Map>) playerstats.get("player_stats")).get("0");
+                    seasonStats = ((Map<String,List>) playerstats.get("player_stats")).get("stats");
+                    ss.setSeason(seasonInfo.get("season"));
+                    ArrayList<Stat> statList = new ArrayList<Stat>();
+                    for(Map<String,Map> stat : seasonStats)
+                    {
+
+                        Stat tempStat = mapper.readValue(JacksonPojoMapper.toJson(stat.get("stat"), false) , Stat.class);
+
+
+                        statList.add(tempStat);
+                    }
+                    ss.setStats(statList);
+                    if(!result.containsKey(playerid))
+                    {
+
+                        result.put(playerid, new LinkedList<SeasonStat>());
+                        result.get(playerid).add(ss);
+                    }
+                    else
+                    {
+                        result.get(playerid).add(ss);
+                    }
+                    pos++;
+                }
+
+
+
+                //positionTypeDAOImpl.savePositionTypes(new ArrayList<PositionType>(posTypeMap.values()));
+            } catch (Exception e) {
+                Logger.getLogger(StatsService.class.getName()).log(Level.SEVERE, null, e);
+            }
         }
-      
 
             
            // mapper.readValue(JacksonPojoMapper.toJson(trxObj, false), Positions.class);
@@ -208,8 +225,10 @@ public class StatsService
     }
 
     public void primeStats() {
+       
+        seasonStatsDAOImpl.clearSeasonStat();
        statDAOImpl.clearStats();
-       seasonStatsDAOImpl.clearSeasonStat();
+       
     }
 
     public StatCategory getStatCategory(int statCatId) 

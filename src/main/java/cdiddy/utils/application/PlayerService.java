@@ -150,7 +150,7 @@ public class PlayerService
                 ArrayList<LinkedHashMap<String, List<Collection>>> playersList = new  ArrayList<LinkedHashMap<String, List<Collection>>>(((Map <String, LinkedHashMap>)league.get(1)).get("players").values());
                 playersList.remove(playersList.size()-1);
                 playerObjList = createPlayersFromList(playersList);
-                Map<Integer, SeasonStat> statmap = statsService.retrieveSeasonStats(playerObjList);
+                Map<Integer, List<SeasonStat>> statmap = statsService.retrieveSeasonStats(playerObjList);
                 playerObjList = connectStatsToPlayer(statmap, playerObjList);
                 playerSaveList.addAll(playerObjList);
                 start+=playerObjList.size();
@@ -188,14 +188,13 @@ public class PlayerService
         return response;
     }
 
-    private List<Player> connectStatsToPlayer(Map<Integer, SeasonStat> statmap, List<Player> playerObjList) 
+    private List<Player> connectStatsToPlayer(Map<Integer, List<SeasonStat>> statmap, List<Player> playerObjList) 
     {
         List<Player> result = new LinkedList<Player>();
         for(Player p : playerObjList)
         {
-            List<SeasonStat> ssList = new LinkedList<SeasonStat>();
-            ssList.add(statmap.get(p.getYahooId()));
-            p.setSeasonStats(ssList);
+                   
+            p.setSeasonStats(statmap.get(p.getYahooId()));
             result.add(p);
         
         }

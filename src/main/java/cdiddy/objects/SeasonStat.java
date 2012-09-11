@@ -7,6 +7,8 @@ package cdiddy.objects;
 import java.util.List;
 import javax.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -43,12 +45,13 @@ public class SeasonStat
         this.season = season;
     }
 
-    @OneToMany( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+    @OneToMany( cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name="SeasonStatsToStats",
             joinColumns = @JoinColumn( name="season_stat_id"),
             inverseJoinColumns = @JoinColumn( name="table_stat_id")
     )
+    @LazyCollection(LazyCollectionOption.FALSE)
     public List<Stat> getStats() {
         return stats;
     }

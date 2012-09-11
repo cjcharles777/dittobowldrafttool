@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -107,12 +109,13 @@ public class Player implements Serializable
         this.uniformNumber = uniformNumber;
     }
     
-    @OneToMany( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
     @JoinTable(
             name="PlayerToSeasonStats",
             joinColumns = @JoinColumn( name="player_id"),
             inverseJoinColumns = @JoinColumn( name="season_stat_id")
     )
+    @LazyCollection(LazyCollectionOption.FALSE)
     public List<SeasonStat> getSeasonStats() 
     {
         return seasonStats;
