@@ -211,4 +211,9 @@ public class StatsService
        statDAOImpl.clearStats();
        seasonStatsDAOImpl.clearSeasonStat();
     }
+
+    public StatCategory getStatCategory(int statCatId) 
+    {
+        return statCategoryDAOImpl.getStatCategoryById(statCatId);
+    }
 }

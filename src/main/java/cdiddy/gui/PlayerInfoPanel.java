@@ -4,6 +4,7 @@
  */
 package cdiddy.gui;
 
+import cdiddy.gui.table.model.PlayerInfoPanelTableModel;
 import cdiddy.objects.Player;
 import cdiddy.utils.application.PlayerService;
 import cdiddy.utils.application.StatsService;
@@ -20,21 +21,20 @@ private StatsService statsService;
      */
     public PlayerInfoPanel() {
         initComponents();
-        jTextArea1.setVisible(true);
+        
     }
     public PlayerInfoPanel(PlayerService playerUtil, StatsService statsService) 
     {
         this.playerUtil = playerUtil;
         this.statsService = statsService; 
         initComponents();
-        jTextArea1.setVisible(true);
+        ;
     }
     public void populatePanel(Player tempPlayer)
     {
-      jTextArea1.setText( playerUtil.getStatsCategories() + "\n" + playerUtil.getPlayerStats(tempPlayer));
-      //System.out.println(playerUtil.getStatsCategories());
-      statsService.retrieveStatCategories();
-      jTextArea1.setVisible(true);
+        PlayerInfoPanelTableModel pipTabModel = new PlayerInfoPanelTableModel(tempPlayer.getSeasonStats());
+        pipTabModel.setStatsService(statsService);
+        jTable1.setModel(pipTabModel);     
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,8 +46,20 @@ private StatsService statsService;
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         jLabel1.setText("YES!");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -56,16 +68,23 @@ private StatsService statsService;
             .addGroup(layout.createSequentialGroup()
                 .addGap(320, 320, 320)
                 .addComponent(jLabel1)
-                .addContainerGap(341, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addContainerGap(407, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(302, 302, 302))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

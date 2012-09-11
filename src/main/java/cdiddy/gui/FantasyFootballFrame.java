@@ -129,10 +129,10 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         StatsService statsService = applicationContext.getBean(StatsService.class); 
         conn.connect();
        // statsService.primeStatCategories();
-        //statsService.primeStats();
-        //playerUtil.primePlayersDatabase();
-        //playerUtil.loadPlayers();
-        //statsService.loadStatCategories();
+       // statsService.primeStats();
+      //  playerUtil.primePlayersDatabase();
+       // playerUtil.loadPlayers();
+      //  statsService.loadStatCategories();
         
         
         /* Set the Nimbus look and feel */
