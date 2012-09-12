@@ -29,6 +29,7 @@ public class Player implements Serializable
     private String headshotHtml;
     private int yahooId;
     private List<SeasonStat> seasonStats;
+    private List<WeeklyStat> weeklyStats;
 
 
   
@@ -125,7 +126,22 @@ public class Player implements Serializable
     {
         this.seasonStats = seasonStats;
     }
-    
+        @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+    @JoinTable(
+            name="PlayerToWeeklyStats",
+            joinColumns = @JoinColumn( name="player_id"),
+            inverseJoinColumns = @JoinColumn( name="weekly_stat_id")
+    )
+    @LazyCollection(LazyCollectionOption.FALSE)
+    public List<WeeklyStat> getWeeklyStats() 
+    {
+        return weeklyStats;
+    }
+
+    public void setWeeklyStats(List<WeeklyStat> weeklyStats) 
+    {
+        this.weeklyStats = weeklyStats;
+    }
     
     
 }

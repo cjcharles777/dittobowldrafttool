@@ -8,9 +8,11 @@ import cdiddy.fantasyfootballapp.App;
 import cdiddy.objects.Player;
 import cdiddy.objects.SeasonStat;
 import cdiddy.objects.Stat;
+import cdiddy.objects.WeeklyStat;
 import cdiddy.objects.dao.PlayersDAO;
 import cdiddy.objects.dao.SeasonStatsDAO;
 import cdiddy.objects.dao.StatDAO;
+import cdiddy.objects.dao.WeeklyStatsDAO;
 import cdiddy.utils.system.OAuthConnection;
 import java.io.IOException;
 import java.util.*;
@@ -37,6 +39,8 @@ public class PlayerService
     private StatDAO statDAOImpl;
     @Autowired
     private SeasonStatsDAO seasonStatsDAOImpl;
+    @Autowired
+    private WeeklyStatsDAO weeklyStatsDAOImpl;
     @Autowired
     private PlayersDAO playersDAOImpl;
     
@@ -103,18 +107,26 @@ public class PlayerService
     public void storePlayersToDatabase(List<Player> playerList)
     {
         LinkedList<SeasonStat> listSS = new LinkedList<SeasonStat>();
+         LinkedList<WeeklyStat> listWS = new LinkedList<WeeklyStat>();
         LinkedList<Stat> listStat = new LinkedList<Stat>();
         for(Player p : playerList)
         {
             List<SeasonStat> tempSSList = p.getSeasonStats();
+            List<WeeklyStat> tempWSList = p.getWeeklyStats();
             listSS.addAll(tempSSList);
             for(SeasonStat ss : tempSSList)
             {
                listStat.addAll(ss.getStats());
             }
+            listWS.addAll(tempWSList);
+            for(WeeklyStat ws : tempWSList)
+            {
+               listStat.addAll(ws.getStats());
+            }
         }
         statDAOImpl.saveStats(listStat);
         seasonStatsDAOImpl.saveSeasonStats(listSS);
+        weeklyStatsDAOImpl.saveWeeklyStats(listWS);
         playersDAOImpl.savePlayers(playerList);
     }
         
@@ -150,8 +162,11 @@ public class PlayerService
                 ArrayList<LinkedHashMap<String, List<Collection>>> playersList = new  ArrayList<LinkedHashMap<String, List<Collection>>>(((Map <String, LinkedHashMap>)league.get(1)).get("players").values());
                 playersList.remove(playersList.size()-1);
                 playerObjList = createPlayersFromList(playersList);
-                Map<Integer, List<SeasonStat>> statmap = statsService.retrieveSeasonStats(playerObjList);
-                playerObjList = connectStatsToPlayer(statmap, playerObjList);
+                Map<Integer, List<SeasonStat>> seasonStatmap = statsService.retrieveSeasonStats(playerObjList);
+                playerObjList = connectStatsToPlayer(seasonStatmap, playerObjList);
+                playerSaveList.addAll(playerObjList);
+                Map<Integer, List<WeeklyStat>> statmap = statsService.retrieveWeeklyStats(playerObjList, 1);
+                playerObjList = connectWeeklyStatsToPlayer(statmap, playerObjList);
                 playerSaveList.addAll(playerObjList);
                 start+=playerObjList.size();
                 
@@ -195,6 +210,20 @@ public class PlayerService
         {
                    
             p.setSeasonStats(statmap.get(p.getYahooId()));
+            result.add(p);
+        
+        }
+        return result;
+    }
+
+    private List<Player> connectWeeklyStatsToPlayer(Map<Integer, List<WeeklyStat>> statmap, List<Player> playerObjList) 
+    {
+        
+        List<Player> result = new LinkedList<Player>();
+        for(Player p : playerObjList)
+        {
+                   
+            p.setWeeklyStats(statmap.get(p.getYahooId()));
             result.add(p);
         
         }
