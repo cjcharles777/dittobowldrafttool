@@ -44,7 +44,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         welcomePanel = new cdiddy.gui.WelcomePanel();
         playerPanel = new cdiddy.gui.PlayerPanel(playerUtil);
-        playerInfoPanel = new PlayerInfoPanel(playerUtil, statsService);
+        playerInfoPanel = playerInfoPanel = new PlayerInfoPanel(playerUtil, statsService);
         apiTestPanel = new APITestPanel(conn);
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -116,7 +116,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public static void preparePlayerInfo(Player tempPlayer)
+    public void preparePlayerInfo(Player tempPlayer)
     {
         ((PlayerInfoPanel) playerInfoPanel).populatePanel(tempPlayer);
         CardLayout cl = (CardLayout)(jPanel1.getLayout());
@@ -149,11 +149,11 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         PlayerService playerUtil = applicationContext.getBean(PlayerService.class);
         StatsService statsService = applicationContext.getBean(StatsService.class); 
         conn.connect();
-        playerUtil.primePlayersDatabase();
-        statsService.primeStatCategories();
-        statsService.primeStats();
-        playerUtil.loadPlayers();
-        statsService.loadStatCategories();
+        //playerUtil.primePlayersDatabase();
+        //statsService.primeStatCategories();
+        //statsService.primeStats();
+        //playerUtil.loadPlayers();
+        //statsService.loadStatCategories();
         
         
         /* Set the Nimbus look and feel */

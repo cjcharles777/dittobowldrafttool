@@ -10,6 +10,7 @@ import cdiddy.utils.application.PlayerService;
 import java.awt.CardLayout;
 import java.util.List;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -112,7 +113,7 @@ public class PlayerPanel extends javax.swing.JPanel {
         JTable target = (JTable)evt.getSource();
         int row = target.getSelectedRow();
         Player tempPlayer = playersList.get(row);
-        FantasyFootballFrame.preparePlayerInfo(tempPlayer);
+       ( (FantasyFootballFrame) (SwingUtilities.getWindowAncestor(this))).preparePlayerInfo(tempPlayer);
         
                
       }

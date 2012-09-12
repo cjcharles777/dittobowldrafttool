@@ -14,18 +14,18 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author DMDD
  */
-public class PlayerInfoPanelTableModel extends AbstractTableModel
+public class PlayerSeasonInfoPanelTableModel extends AbstractTableModel
 {
     private String[] columnNames;
     private List<SeasonStat> listSS;
     private StatsService statsService;
-    public PlayerInfoPanelTableModel(List<SeasonStat> listSS)
+    public PlayerSeasonInfoPanelTableModel(List<SeasonStat> listSS)
     {
         this.listSS = listSS;
         
     }
 
-    public PlayerInfoPanelTableModel() 
+    public PlayerSeasonInfoPanelTableModel() 
     {
         
     }

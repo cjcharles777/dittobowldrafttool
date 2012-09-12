@@ -120,7 +120,7 @@
         </Container>
         <Container class="javax.swing.JPanel" name="playerInfoPanel">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new PlayerInfoPanel(playerUtil, statsService)"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="playerInfoPanel = new PlayerInfoPanel(playerUtil, statsService)"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
           </AuxValues>
           <Constraints>

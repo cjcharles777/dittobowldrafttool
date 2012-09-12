@@ -74,5 +74,10 @@ public class StatCategory implements Serializable
         this.position_types = position_types;
     }
 
+    @Override
+    public String toString()
+    {
+        return display_name;
+    }
 
 }
