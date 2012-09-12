@@ -39,28 +39,49 @@ public class PlayerInfoPanelTableModel extends AbstractTableModel
     @Override
     public int getColumnCount() 
     {
-        return listSS.get(0).getStats().size();
+        return listSS.get(0).getStats().size()+1;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) 
     {
+        
         SeasonStat si = listSS.get(rowIndex);
-        return si.getStats().get(columnIndex).getValue();
+        if (columnIndex > 0)
+        {
+            return si.getStats().get(columnIndex-1).getValue();
+        }
+        else
+        {
+            return si.getSeason();
+        }
     }
     
     @Override
     public String getColumnName(int columnIndex)
     {
-         int statCatId = Integer.parseInt(listSS.get(0).getStats().get(columnIndex).getStat_id());
+        if (columnIndex > 0)
+        {
+         int statCatId = Integer.parseInt(listSS.get(0).getStats().get(columnIndex - 1).getStat_id());
          StatCategory sc = statsService.getStatCategory(statCatId);
          return sc.getDisplay_name();
-         
+        }
+        else
+        {
+            return "Year";
+        }
     }
     @Override
    public Class<?> getColumnClass(int columnIndex)
     {
+          if (columnIndex > 0)
+           {
             return Double.class;
+           }
+          else
+          {
+            return String.class;
+          }
     }
     
     public void setStatsService(StatsService ss)
