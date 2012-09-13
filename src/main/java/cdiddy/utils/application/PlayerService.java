@@ -147,7 +147,7 @@ public class PlayerService
         Map<String,Object> params;
         ArrayList league;
         List<Player> playerObjList;
-        List<Player> playerSaveList = new ArrayList<Player>();
+        List<Player> playerSaveList = new LinkedList<Player>();
         boolean morePlayers = true;
         int start = 0; 
         while (morePlayers)  
@@ -174,10 +174,11 @@ public class PlayerService
                 {
                     morePlayers = false;
                 }
-                if(!morePlayers)
-                {
+ 
+                    Logger.getLogger(App.class.getName()).log(Level.INFO, "Saving 100" );
                     storePlayersToDatabase(playerSaveList);
-                }
+                    playerSaveList = new LinkedList<Player>();
+
             } catch (IOException ex) 
             {
                 Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
