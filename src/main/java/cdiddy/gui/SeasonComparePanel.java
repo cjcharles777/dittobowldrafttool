@@ -13,7 +13,10 @@ import javax.swing.JComboBox;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
@@ -69,7 +72,7 @@ public class SeasonComparePanel extends javax.swing.JPanel {
                if(tempStatID == stat_id)
                {    
                     StatCategory sc = statsService.getStatCategory(tempStatID);              
-                    dataset.addValue(1.0, season.getSeason(), sc.getDisplay_name());
+                    dataset.addValue(stat.getValue(), season.getSeason(), sc.getDisplay_name());
                }
              }
          
@@ -86,6 +89,11 @@ public class SeasonComparePanel extends javax.swing.JPanel {
                                                 false // URLs?
                                                 );
             ((ChartPanel) jPanel1).setChart(chart);
+            CategoryPlot plot = chart.getCategoryPlot();
+            NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+            rangeAxis.setAutoRange(true);
+
+
     }
 
     /**
