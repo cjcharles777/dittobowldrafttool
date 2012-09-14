@@ -16,6 +16,7 @@ public interface PlayersDAO
     public void savePlayer(Player player);
     public void savePlayers(List<Player> players);
     public List<Player> getAllPlayers();
+    public List<Player> getPlayers(int firstResult, int maxResults);
     public Player getPlayerById(String playerId);
     public void deletePlayer(Player player);
     public void clearPlayers();

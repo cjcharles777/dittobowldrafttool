@@ -7,7 +7,6 @@ package cdiddy.gui;
 import cdiddy.gui.table.model.PlayersTableModel;
 import cdiddy.objects.Player;
 import cdiddy.utils.application.PlayerService;
-import java.awt.CardLayout;
 import java.util.List;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
@@ -29,7 +28,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 
     public PlayerPanel(PlayerService playerUtil) {
         this.playerUtil = playerUtil;
-         playersList = playerUtil.retrivePlayers();
+        // playersList = playerUtil.retrivePlayers(0,100);
         initComponents();
     }
     /**

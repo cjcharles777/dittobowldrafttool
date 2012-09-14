@@ -134,6 +134,10 @@ public class PlayerService
     {
          return playersDAOImpl.getAllPlayers();
     }
+    public List<Player> retrivePlayers(int firstResult, int maxResults) 
+    {
+        return playersDAOImpl.getPlayers(firstResult, maxResults);
+    }
     
     public void primePlayersDatabase() 
     {
@@ -230,5 +234,7 @@ public class PlayerService
         }
         return result;
     }
+
+
 
 }

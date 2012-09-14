@@ -6,7 +6,10 @@ package cdiddy.objects.dao;
 
 import cdiddy.objects.Player;
 import java.util.List;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
@@ -44,6 +47,13 @@ public class PlayersDAOImpl implements PlayersDAO
          return (List<Player>) hibernateTemplate.find("from "
                 + Player.class.getName());
     }
+    
+    public List<Player> getPlayers(int firstResult, int maxResults) 
+    {
+                           
+              return (List<Player>) hibernateTemplate.find("from "
+                + Player.class.getName());
+    }
 
     @SuppressWarnings("unchecked")
     public Player getPlayerById(String playerId) {
@@ -60,5 +70,7 @@ public class PlayersDAOImpl implements PlayersDAO
     {
        hibernateTemplate.deleteAll(hibernateTemplate.loadAll(Player.class));
     }
+
+
 
 }

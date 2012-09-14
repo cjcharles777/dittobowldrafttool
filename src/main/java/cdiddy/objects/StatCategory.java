@@ -63,7 +63,7 @@ public class StatCategory implements Serializable
     @ManyToMany( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
     @JoinTable(
             name="StatCategoriesPosition",
-            joinColumns = @JoinColumn( name="stat_id"),
+            joinColumns = @JoinColumn( name="statid"),
             inverseJoinColumns = @JoinColumn( name="positiontype")
     )
     public List<PositionType> getPosition_types() {

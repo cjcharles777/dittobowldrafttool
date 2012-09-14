@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -37,7 +37,7 @@ public class Player implements Serializable
     @Id
     @GeneratedValue(generator = "generator")
     @GenericGenerator(name = "generator", strategy = "increment")
-    @Column(name = "player_id", nullable=false)
+    @Column(name = "playerid", nullable=false)
     public int getId() 
     {
         return id;
@@ -113,7 +113,7 @@ public class Player implements Serializable
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
     @JoinTable(
             name="PlayerToSeasonStats",
-            joinColumns = @JoinColumn( name="player_id"),
+            joinColumns = @JoinColumn( name="playerid"),
             inverseJoinColumns = @JoinColumn( name="season_stat_id")
     )
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -129,7 +129,7 @@ public class Player implements Serializable
         @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
     @JoinTable(
             name="PlayerToWeeklyStats",
-            joinColumns = @JoinColumn( name="player_id"),
+            joinColumns = @JoinColumn( name="playerid"),
             inverseJoinColumns = @JoinColumn( name="weekly_stat_id")
     )
     @LazyCollection(LazyCollectionOption.FALSE)

@@ -19,9 +19,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class FantasyFootballFrame extends javax.swing.JFrame {
       private static final ApplicationContext applicationContext = 
         new ClassPathXmlApplicationContext("app-config.xml");
-        OAuthConnection conn = applicationContext.getBean(OAuthConnection.class);
-        PlayerService playerUtil = applicationContext.getBean(PlayerService.class);
-        StatsService statsService = applicationContext.getBean(StatsService.class);
+        private static OAuthConnection conn = applicationContext.getBean(OAuthConnection.class);
+         private static PlayerService playerUtil = applicationContext.getBean(PlayerService.class);
+         private static StatsService statsService = applicationContext.getBean(StatsService.class);
         Player playerInContext = null;
     /**
      * Creates new form FantasyFootballFrame
@@ -145,17 +145,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         
-        OAuthConnection conn = applicationContext.getBean(OAuthConnection.class);
-        PlayerService playerUtil = applicationContext.getBean(PlayerService.class);
-        StatsService statsService = applicationContext.getBean(StatsService.class); 
         conn.connect();
-        playerUtil.primePlayersDatabase();
-        statsService.primeStatCategories();
-        statsService.primeStats();
-        playerUtil.loadPlayers();
-        statsService.loadStatCategories();
-        
-        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
