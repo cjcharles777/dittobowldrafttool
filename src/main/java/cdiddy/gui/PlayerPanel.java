@@ -28,7 +28,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 
     public PlayerPanel(PlayerService playerUtil) {
         this.playerUtil = playerUtil;
-        // playersList = playerUtil.retrivePlayers(0,100);
+        playersList = playerUtil.retrivePlayers(0,100);
         initComponents();
     }
     /**
