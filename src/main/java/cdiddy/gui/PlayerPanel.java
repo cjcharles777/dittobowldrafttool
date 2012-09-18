@@ -28,7 +28,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 
     public PlayerPanel(PlayerService playerUtil) {
         this.playerUtil = playerUtil;
-        playersList = playerUtil.retrivePlayers(0,100);
+        playersList = playerUtil.retrivePlayers(0,25);
         initComponents();
     }
     /**
@@ -55,7 +55,7 @@ public class PlayerPanel extends javax.swing.JPanel {
         jScrollPane1.setAutoscrolls(true);
 
         jTable1.setAutoCreateRowSorter(true);
-        jTable1.setModel(new PlayersTableModel(playerUtil.retrivePlayers()));
+        jTable1.setModel(new PlayersTableModel(playersList));
         jTable1.setColumnSelectionAllowed(true);
         jTable1.setFillsViewportHeight(true);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {

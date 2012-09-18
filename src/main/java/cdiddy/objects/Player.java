@@ -46,7 +46,7 @@ public class Player implements Serializable
     public void setId(int id) {
         this.id = id;
     }
-     @Column(name = "FIRSTNAME", length=500, nullable=false)
+     @Column(name = "firstname", length=500, nullable=false)
     public String getFirstName() {
         return firstName;
     }
@@ -55,7 +55,7 @@ public class Player implements Serializable
         this.firstName = firstName;
     }
 
-    @Column(name = "LASTNAME", length=500, nullable=false)
+    @Column(name = "lastname", length=500, nullable=false)
     public String getLastName() {
         return lastName;
     }
@@ -64,7 +64,7 @@ public class Player implements Serializable
         this.lastName = lastName;
     }
  
-    @Column(name = "DISPLAYPOSITION", length=30, nullable=false)
+    @Column(name = "position", length=30, nullable=false)
     public String getDisplayPosition() {
         return displayPosition;
     }
@@ -73,7 +73,7 @@ public class Player implements Serializable
         this.displayPosition = displayPosition;
     }
     
-    @Column(name = "HEADSHOTHTML", length=1000, nullable=false)
+    @Column(name = "headshot", length=1000, nullable=false)
     public String getHeadshotHtml() {
         return headshotHtml;
     }
@@ -83,7 +83,7 @@ public class Player implements Serializable
     }
 
 
-    @Column(name = "YAHOOID", nullable=false)
+    @Column(name = "yahooid", nullable=false)
     public int getYahooId() {
         return yahooId;
     }
@@ -92,7 +92,7 @@ public class Player implements Serializable
         this.yahooId = yahooId;
     }
     
-    @Column(name = "TEAM", length=500, nullable=false)
+    @Column(name = "team", length=500, nullable=false)
     public String getTeam() {
         return team;
     }
@@ -101,7 +101,7 @@ public class Player implements Serializable
         this.team = team;
     }
     
-    @Column(name = "UNIFORMNUMBER", nullable=false)
+    @Column(name = "number", nullable=false)
     public int getUniformNumber() {
         return uniformNumber;
     }

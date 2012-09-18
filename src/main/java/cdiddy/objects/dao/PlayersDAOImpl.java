@@ -5,12 +5,18 @@
 package cdiddy.objects.dao;
 
 import cdiddy.objects.Player;
+import java.sql.SQLException;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,9 +56,15 @@ public class PlayersDAOImpl implements PlayersDAO
     
     public List<Player> getPlayers(int firstResult, int maxResults) 
     {
-                           
-              return (List<Player>) hibernateTemplate.find("from "
-                + Player.class.getName());
+       DetachedCriteria criteria;
+       criteria =  DetachedCriteria.forClass(Player.class);
+       criteria.addOrder(Order.asc("yahooId"));
+       return (List<Player>) hibernateTemplate.findByCriteria(criteria, firstResult, maxResults);
+      
+    
+
+
+
     }
 
     @SuppressWarnings("unchecked")
