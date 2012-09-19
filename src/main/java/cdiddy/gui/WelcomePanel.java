@@ -4,19 +4,35 @@
  */
 package cdiddy.gui;
 
+import cdiddy.objects.Team;
+import cdiddy.utils.application.TeamService;
+import java.util.List;
+
 /**
  *
  * @author DMDD
  */
 public class WelcomePanel extends javax.swing.JPanel {
-
+private TeamService teamservice;
     /**
      * Creates new form WelcomePanel
      */
     public WelcomePanel() {
         initComponents();
     }
-
+    public WelcomePanel(TeamService teamservice) 
+    {
+        initComponents();
+        this.teamservice = teamservice;
+         jComboBox1.removeAllItems();
+        List<Team> listTeam = this.teamservice.loadUserTeams();
+        for(Team team : listTeam)
+        {
+            jComboBox1.addItem(team);
+        }
+        jComboBox1.setSelectedIndex(0);
+         
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,28 +42,29 @@ public class WelcomePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
 
-        jLabel1.setText("Welcome to C. Diddy's Fantasy Football App");
+        jComboBox1.setMaximumRowCount(90);
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(112, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(78, 78, 78))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(92, 92, 92)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(98, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(130, 130, 130)
-                .addComponent(jLabel1)
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(264, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox jComboBox1;
     // End of variables declaration//GEN-END:variables
 }

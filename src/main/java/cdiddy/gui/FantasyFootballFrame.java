@@ -7,6 +7,7 @@ package cdiddy.gui;
 import cdiddy.objects.Player;
 import cdiddy.utils.application.PlayerService;
 import cdiddy.utils.application.StatsService;
+import cdiddy.utils.application.TeamService;
 import cdiddy.utils.system.OAuthConnection;
 import java.awt.CardLayout;
 import org.springframework.context.ApplicationContext;
@@ -22,6 +23,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         private static OAuthConnection conn = applicationContext.getBean(OAuthConnection.class);
          private static PlayerService playerUtil = applicationContext.getBean(PlayerService.class);
          private static StatsService statsService = applicationContext.getBean(StatsService.class);
+         private static TeamService teamService = applicationContext.getBean(TeamService.class);
         Player playerInContext = null;
     /**
      * Creates new form FantasyFootballFrame
@@ -42,10 +44,11 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        welcomePanel = new cdiddy.gui.WelcomePanel();
+        welcomePanel = new cdiddy.gui.WelcomePanel(teamService);
         playerPanel = new cdiddy.gui.PlayerPanel(playerUtil);
         playerInfoPanel = playerInfoPanel = new PlayerInfoPanel(playerUtil, statsService);
         apiTestPanel = new APITestPanel(conn);
+        testButtonPanel = new TestButtonPanel(teamService);
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -55,6 +58,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,6 +67,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         jPanel1.add(playerPanel, "card2");
         jPanel1.add(playerInfoPanel, "playerInfo");
         jPanel1.add(apiTestPanel, "apiTestPanel");
+        jPanel1.add(testButtonPanel, "testButton");
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -107,6 +112,14 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
             }
         });
         jMenu4.add(jMenuItem4);
+
+        jMenuItem5.setText("Test Button Page");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem5);
 
         jMenuBar1.add(jMenu4);
 
@@ -156,6 +169,11 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         playerUtil.loadPlayers();
         statsService.loadStatCategories();    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        CardLayout cl = (CardLayout)(jPanel1.getLayout());
+        cl.show(jPanel1, "testButton");
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -203,9 +221,11 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private static javax.swing.JPanel jPanel1;
     private static javax.swing.JPanel playerInfoPanel;
     private javax.swing.JPanel playerPanel;
+    private javax.swing.JPanel testButtonPanel;
     private javax.swing.JPanel welcomePanel;
     // End of variables declaration//GEN-END:variables
 }
