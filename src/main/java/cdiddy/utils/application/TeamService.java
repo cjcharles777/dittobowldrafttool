@@ -53,7 +53,7 @@ public class TeamService
             count = (Integer)league.get("count");
             while(curr < count)
             {
-                List<Map> lmpTeams = ((Map<String,List<Map>>)league.get((new Integer(curr)).toString())).get("team");
+                List<Map> lmpTeams = ((Map<String,List<List<Map>>>)league.get((new Integer(curr)).toString())).get("team").get(0);
                 Team tempTeam = convertToTeam(lmpTeams);
                 if(result == null)
                 {
