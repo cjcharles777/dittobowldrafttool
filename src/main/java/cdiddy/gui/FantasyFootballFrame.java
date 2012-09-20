@@ -44,7 +44,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        welcomePanel = new cdiddy.gui.WelcomePanel(teamService);
+        welcomePanel = new cdiddy.gui.welcome.WelcomePanel(teamService);
         playerPanel = new cdiddy.gui.PlayerPanel(playerUtil);
         playerInfoPanel = playerInfoPanel = new PlayerInfoPanel(playerUtil, statsService);
         apiTestPanel = new APITestPanel(conn);

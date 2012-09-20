@@ -5,6 +5,8 @@
 package cdiddy.utils.application;
 
 import cdiddy.objects.Team;
+import cdiddy.objects.TeamStandings;
+import cdiddy.utils.system.JacksonPojoMapper;
 import cdiddy.utils.system.OAuthConnection;
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -13,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.scribe.model.Verb;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +63,7 @@ public class TeamService
                 {
                     result = new LinkedList<Team>();
                 }
+                tempTeam = loadTeamStandings(tempTeam);
                 result.add(tempTeam);
                 curr++;
             }
@@ -69,7 +74,29 @@ public class TeamService
         }
         return result;
     }
+    public Team loadTeamStandings(Team team)
+    {
+        Map<String,Object> userData;
+        Map<String,List<Map<String, Object>>> params;
+        ObjectMapper mapper = new ObjectMapper();
+        try 
+        {              
+            String response2 = conn.requestData("http://fantasysports.yahooapis.com/fantasy/v2/team/"+team.getTeamKey()+"/standings?format=json", Verb.GET);
+            userData = mapper.readValue(response2, Map.class);
+            params = (Map<String,List<Map<String, Object>>>)userData.get("fantasy_content");
+            
+            Map standing = (Map) params.get("team").get(1).get("team_standings");
+             TeamStandings tempStand = mapper.readValue(JacksonPojoMapper.toJson(standing, false) , TeamStandings.class);
+             team.setStandings(tempStand);
+        }
+       catch (IOException ex) 
+        {
+            Logger.getLogger(TeamService.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
+        return team;
+  
+    }
     private Team convertToTeam(List<Map> lmpTeams) 
     {
         Team result = new Team();

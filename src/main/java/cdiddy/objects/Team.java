@@ -5,6 +5,7 @@
 package cdiddy.objects;
 
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -12,6 +13,8 @@ import java.util.List;
  */
 public class Team 
 {
+    private String gameKey;
+    private String leaugeid;
     private String teamKey;
     private String teamId;
     private String name;
@@ -19,6 +22,7 @@ public class Team
     private String teamLogoUrl;
     private int numberOfMoves;
     private List<Player> teamPlayers;
+    private TeamStandings standings;
 
     public String getTeamKey() {
         return teamKey;
@@ -26,6 +30,8 @@ public class Team
 
     public void setTeamKey(String teamKey) {
         this.teamKey = teamKey;
+        String[] temp = StringUtils.split(teamKey, ".");
+        setLeaugeid(temp[2]);
     }
 
     public String getTeamId() {
@@ -75,6 +81,32 @@ public class Team
     public void setTeamPlayers(List<Player> teamPlayers) {
         this.teamPlayers = teamPlayers;
     }
+
+    public String getGameKey() {
+        return gameKey;
+    }
+
+    public void setGameKey(String gameKey) {
+        this.gameKey = gameKey;
+    }
+
+    public String getLeaugeid() {
+        return leaugeid;
+    }
+
+    public void setLeaugeid(String leaugeid) {
+        this.leaugeid = leaugeid;
+    }
+
+    public TeamStandings getStandings() {
+        return standings;
+    }
+
+    public void setStandings(TeamStandings standings) {
+        this.standings = standings;
+    }
+    
+    
     
         @Override
     public String toString()
