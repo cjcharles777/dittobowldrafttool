@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cdiddy.gui.welcome;
+package cdiddy.gui;
 
 import cdiddy.gui.FantasyFootballFrame;
 import cdiddy.objects.Player;

@@ -4,7 +4,6 @@
  */
 package cdiddy.gui;
 
-import cdiddy.gui.welcome.WelcomePanel;
 import cdiddy.objects.Player;
 import cdiddy.utils.application.PlayerService;
 import cdiddy.utils.application.StatsService;
@@ -45,7 +44,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        welcomePanel = new cdiddy.gui.welcome.WelcomePanel(teamService);
+        welcomePanel = new cdiddy.gui.WelcomePanel(teamService);
         playerPanel = new cdiddy.gui.PlayerPanel(playerUtil);
         playerInfoPanel = playerInfoPanel = new PlayerInfoPanel(playerUtil, statsService);
         apiTestPanel = new APITestPanel(conn);

@@ -93,7 +93,7 @@ public class TeamService
             
             userData = mapper.readValue(response2, Map.class);
             params = (Map<String, Object>)userData.get("fantasy_content");
-            league = ((List<Map<String, Map<String,Object>>>)(params.get("leauge"))).get(1).get("teams");
+            league = ((List<Map<String, Map<String,Object>>>)(params.get("league"))).get(1).get("teams");
             int count;
             count = (Integer)league.get("count");
             while(curr < count)
@@ -176,7 +176,17 @@ public class TeamService
                 }
                 else if(temp.get("number_of_moves")!= null)
                 {
-                result.setNumberOfMoves(Integer.parseInt((String) temp.get("number_of_moves")));
+                    Object numMoves = temp.get("number_of_moves");
+                    int numMovesInt;
+                    if(numMoves instanceof String)
+                    {
+                        numMovesInt = Integer.parseInt((String)numMoves);
+                    }
+                    else
+                    {
+                     numMovesInt = (Integer)numMoves;
+                    }
+                    result.setNumberOfMoves(numMovesInt);
                 }
             }
          }

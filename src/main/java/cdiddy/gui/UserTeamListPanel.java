@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cdiddy.gui.welcome;
+package cdiddy.gui;
 
 import cdiddy.objects.Team;
 import cdiddy.utils.application.TeamService;
@@ -16,43 +16,38 @@ import javax.swing.table.TableCellRenderer;
 
 /**
  *
- * @author DMDD
+ * @author cedric
  */
-public class WelcomePanel extends javax.swing.JPanel {
+public class UserTeamListPanel extends javax.swing.JPanel {
 private TeamService teamservice;
 private  List<Team> listTeam;
 private TeamTableModel teamModel = new TeamTableModel();
     /**
-     * Creates new form WelcomePanel
+     * Creates new form UserTeamListPanel
      */
-    public WelcomePanel() {
+    public UserTeamListPanel() 
+    {
         initComponents();
     }
-    public WelcomePanel(TeamService teamservice) 
+    
+    public UserTeamListPanel(TeamService teamservice) 
     {
         initComponents();
         this.teamservice = teamservice;
-         jComboBox1.removeAllItems();
          listTeam = this.teamservice.loadUserTeams();
          populateTeamTable();
        
          
     }
-    public void loadTableForLeauge(String leaugeid)
-    {
-        listTeam = this.teamservice.loadLeaugeTeams(leaugeid);
-        populateTeamTable();
-
-    }
     private void populateTeamTable()
     {
         for(Team team : listTeam)
         {
-            jComboBox1.addItem(team);
             teamModel.addRow(team);
         }
-        jComboBox1.setSelectedIndex(0);
+        
     }
+
     public class TeamCellEditorRenderer extends AbstractCellEditor implements TableCellRenderer, TableCellEditor 
     {
          private static final long serialVersionUID = 1L;
@@ -77,20 +72,20 @@ private TeamTableModel teamModel = new TeamTableModel();
         }
 
     }
-    public class TeamTableModel extends DefaultTableModel {
+    public class TeamTableModel extends DefaultTableModel 
+    {
+        private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 1L;
+           @Override
+           public int getColumnCount() {
+               return 1;
+           }
 
-    @Override
-    public int getColumnCount() {
-        return 1;
-    }
-
-    public void addRow(Team team) {
-        super.addRow(new Object[]{team});
-        //super.fireTableDataChanged();
-    }
-}
+           public void addRow(Team team) {
+               super.addRow(new Object[]{team});
+               //super.fireTableDataChanged();
+           }
+       }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -100,42 +95,34 @@ private TeamTableModel teamModel = new TeamTableModel();
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable(teamModel);
+        jTable1 = new javax.swing.JTable();
 
-        jComboBox1.setMaximumRowCount(90);
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        setPreferredSize(new java.awt.Dimension(800, 400));
 
+        jTable1.setModel(teamModel);
+        jTable1.setFillsViewportHeight(true);
+        jScrollPane1.setViewportView(jTable1);
         jTable1.setRowHeight(new UserTeamPanel().getPreferredSize().height);
         jTable1.setTableHeader(null);
-        jScrollPane1.setViewportView(jTable1);
         TeamCellEditorRenderer teamCellEditorRenderer = new TeamCellEditorRenderer();
         jTable1.setDefaultRenderer(Object.class, teamCellEditorRenderer);
-
         jTable1.setDefaultEditor(Object.class, teamCellEditorRenderer);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(92, 92, 92)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
