@@ -4,10 +4,13 @@
  */
 package cdiddy.gui.welcome;
 
+import cdiddy.gui.FantasyFootballFrame;
+import cdiddy.objects.Player;
 import cdiddy.objects.Team;
 import cdiddy.objects.TeamStandings;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -92,6 +95,11 @@ public class UserTeamPanel extends javax.swing.JPanel {
         ranking = new javax.swing.JLabel();
 
         teamName.setText("Team Name");
+        teamName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                teamNameMouseClicked(evt);
+            }
+        });
 
         numOfWins.setText("0");
 
@@ -118,7 +126,7 @@ public class UserTeamPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(teamName, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(14, Short.MAX_VALUE))
+                        .addContainerGap(24, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(numOfWins, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -161,6 +169,11 @@ public class UserTeamPanel extends javax.swing.JPanel {
                                 .addContainerGap())))))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void teamNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_teamNameMouseClicked
+          
+       ( (FantasyFootballFrame) (SwingUtilities.getWindowAncestor(this))).prepareLeaugeInfo(team.getLeaugeid());
+    }//GEN-LAST:event_teamNameMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

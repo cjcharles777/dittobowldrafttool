@@ -46,7 +46,7 @@ public class TeamService
         int curr = 0; 
 
 
-        String response2 = conn.requestData("http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams?format=json", Verb.GET);
+        String response2 = conn.requestData("http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams/standings?format=json", Verb.GET);
         try 
         {
             
@@ -57,13 +57,57 @@ public class TeamService
             count = (Integer)league.get("count");
             while(curr < count)
             {
-                List<Map> lmpTeams = ((Map<String,List<List<Map>>>)league.get((new Integer(curr)).toString())).get("team").get(0);
+                List<Map> lmpTeams = (List<Map>)(((Map<String,List<Object>>)league.get((new Integer(curr)).toString())).get("team").get(0));
                 Team tempTeam = convertToTeam(lmpTeams);
                 if(result == null)
                 {
                     result = new LinkedList<Team>();
                 }
-                tempTeam = loadTeamStandings(tempTeam);
+               // tempTeam = loadTeamStandings(tempTeam);
+                Map<String, Map> ts = (Map<String, Map>)((Map<String,List<Object>>)league.get((new Integer(curr)).toString())).get("team").get(1);
+                 TeamStandings tempStand = mapper.readValue(JacksonPojoMapper.toJson(ts.get("team_standings"), false) , TeamStandings.class);
+                 tempTeam.setStandings(tempStand);
+                result.add(tempTeam);
+                curr++;
+            }
+
+        } catch (IOException ex) 
+        {
+            Logger.getLogger(TeamService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    public List<Team> loadLeaugeTeams(String leaugeid)
+    {
+        List<Team> result = null;
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String,Object> userData;
+        Map<String,Object> params;
+        Map<String,Object> league;
+        int curr = 0; 
+
+
+        String response2 = conn.requestData("http://fantasysports.yahooapis.com/fantasy/v2/league/nfl.l." + leaugeid +"/teams/standings?format=json", Verb.GET);
+        try 
+        {
+            
+            userData = mapper.readValue(response2, Map.class);
+            params = (Map<String, Object>)userData.get("fantasy_content");
+            league = ((List<Map<String, Map<String,Object>>>)(params.get("leauge"))).get(1).get("teams");
+            int count;
+            count = (Integer)league.get("count");
+            while(curr < count)
+            {
+                List<Map> lmpTeams = (List<Map>)(((Map<String,List<Object>>)league.get((new Integer(curr)).toString())).get("team").get(0));
+                Team tempTeam = convertToTeam(lmpTeams);
+                if(result == null)
+                {
+                    result = new LinkedList<Team>();
+                }
+               // tempTeam = loadTeamStandings(tempTeam);
+                Map<String, Map> ts = (Map<String, Map>)((Map<String,List<Object>>)league.get((new Integer(curr)).toString())).get("team").get(1);
+                 TeamStandings tempStand = mapper.readValue(JacksonPojoMapper.toJson(ts.get("team_standings"), false) , TeamStandings.class);
+                 tempTeam.setStandings(tempStand);
                 result.add(tempTeam);
                 curr++;
             }

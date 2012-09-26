@@ -4,6 +4,7 @@
  */
 package cdiddy.gui;
 
+import cdiddy.gui.welcome.WelcomePanel;
 import cdiddy.objects.Player;
 import cdiddy.utils.application.PlayerService;
 import cdiddy.utils.application.StatsService;
@@ -147,6 +148,13 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         cl.show(jPanel1, "playerInfo");
     }
     
+    public void prepareLeaugeInfo(String leaugeid) 
+    {
+       ((WelcomePanel) welcomePanel).loadTableForLeauge(leaugeid);
+        CardLayout cl = (CardLayout)(jPanel1.getLayout());
+        cl.show(jPanel1, "card3");
+    }
+    
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
    CardLayout cl = (CardLayout)(jPanel1.getLayout());
    cl.show(jPanel1, "card2");
@@ -230,4 +238,6 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private javax.swing.JPanel testButtonPanel;
     private javax.swing.JPanel welcomePanel;
     // End of variables declaration//GEN-END:variables
+
+
 }

@@ -34,15 +34,25 @@ private TeamTableModel teamModel = new TeamTableModel();
         this.teamservice = teamservice;
          jComboBox1.removeAllItems();
          listTeam = this.teamservice.loadUserTeams();
+         populateTeamTable();
+       
+         
+    }
+    public void loadTableForLeauge(String leaugeid)
+    {
+        listTeam = this.teamservice.loadLeaugeTeams(leaugeid);
+        populateTeamTable();
+
+    }
+    private void populateTeamTable()
+    {
         for(Team team : listTeam)
         {
             jComboBox1.addItem(team);
             teamModel.addRow(team);
         }
         jComboBox1.setSelectedIndex(0);
-         
     }
-    
     public class TeamCellEditorRenderer extends AbstractCellEditor implements TableCellRenderer, TableCellEditor 
     {
          private static final long serialVersionUID = 1L;
