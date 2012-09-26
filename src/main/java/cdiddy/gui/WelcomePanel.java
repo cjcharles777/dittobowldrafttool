@@ -47,22 +47,12 @@ private TeamService teamservice;
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new UserTeamListPanel(teamservice);
-        jPanel2 = new javax.swing.JPanel();
+        jPanel2 = new LeaugeTeamListPanel(teamservice);
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
         jTabbedPane1.addTab("My Teams", jPanel1);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 444, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 303, Short.MAX_VALUE)
-        );
-
+        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
         jTabbedPane1.addTab("League", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -83,6 +73,6 @@ private TeamService teamservice;
     // End of variables declaration//GEN-END:variables
 
     public void loadTableForLeauge(String leaugeid) {
-        throw new UnsupportedOperationException("Not yet implemented");
+       ((LeaugeTeamListPanel) jPanel2).populateLeauge(leaugeid);
     }
 }

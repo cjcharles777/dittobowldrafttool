@@ -7,6 +7,7 @@ package cdiddy.gui;
 import cdiddy.objects.Team;
 import cdiddy.utils.application.TeamService;
 import java.awt.Component;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
@@ -34,7 +35,7 @@ private TeamTableModel teamModel = new TeamTableModel();
     {
         initComponents();
         this.teamservice = teamservice;
-        // listTeam = this.teamservice.loadLeaugeTeams(leaugeId);
+       
          populateTeamTable();
        
          
@@ -48,11 +49,13 @@ private TeamTableModel teamModel = new TeamTableModel();
     }
     private void populateTeamTable()
     {
-        for(Team team : listTeam)
-        {
-            teamModel.addRow(team);
+        if (listTeam != null)
+        {    
+            for(Team team : listTeam)
+            {
+                teamModel.addRow(team);
+            }
         }
-        
     }
 
     public class TeamCellEditorRenderer extends AbstractCellEditor implements TableCellRenderer, TableCellEditor 
