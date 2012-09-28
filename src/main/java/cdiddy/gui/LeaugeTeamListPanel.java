@@ -5,8 +5,10 @@
 package cdiddy.gui;
 
 import cdiddy.objects.Team;
+import cdiddy.objects.comparators.TeamRankComparator;
 import cdiddy.utils.application.TeamService;
 import java.awt.Component;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.AbstractCellEditor;
@@ -43,9 +45,10 @@ private TeamTableModel teamModel = new TeamTableModel();
     public void populateLeauge(String leagueID)
     {
         listTeam = this.teamservice.loadLeaugeTeams(leagueID);
+        Collections.sort(listTeam, new TeamRankComparator());
         teamModel = new TeamTableModel();
         jTable1.setModel(teamModel);
-        populateLeauge(leagueID);
+        populateTeamTable();
     }
     private void populateTeamTable()
     {
