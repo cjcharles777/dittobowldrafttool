@@ -48,6 +48,7 @@ public class GameService
             userData = mapper.readValue(response2, Map.class);
             params = (Map<String, List<Map<String, Object>>>)userData.get("fantasy_content");
             Object game_weeks = ((Map<String, List<Map<String, Object>>>)params).get("game").get(1).get("game_weeks");
+            int count = ((Integer)((Map<String, Object> )game_weeks).get("count"));
         } 
         catch (IOException ex) 
         {
