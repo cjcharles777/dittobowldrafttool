@@ -74,5 +74,6 @@ private TeamService teamservice;
 
     public void loadTableForLeauge(String leaugeid) {
        ((LeaugeTeamListPanel) jPanel2).populateLeauge(leaugeid);
-    }
+       jTabbedPane1.setSelectedComponent(jPanel2); 
+   }
 }
