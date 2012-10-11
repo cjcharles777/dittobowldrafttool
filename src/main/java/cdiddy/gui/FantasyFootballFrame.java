@@ -5,6 +5,7 @@
 package cdiddy.gui;
 
 import cdiddy.objects.Player;
+import cdiddy.utils.application.GameService;
 import cdiddy.utils.application.PlayerService;
 import cdiddy.utils.application.StatsService;
 import cdiddy.utils.application.TeamService;
@@ -24,6 +25,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
          private static PlayerService playerUtil = applicationContext.getBean(PlayerService.class);
          private static StatsService statsService = applicationContext.getBean(StatsService.class);
          private static TeamService teamService = applicationContext.getBean(TeamService.class);
+         private static GameService gameService = applicationContext.getBean(GameService.class);
         Player playerInContext = null;
     /**
      * Creates new form FantasyFootballFrame
@@ -48,7 +50,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         playerPanel = new cdiddy.gui.PlayerPanel(playerUtil);
         playerInfoPanel = playerInfoPanel = new PlayerInfoPanel(playerUtil, statsService);
         apiTestPanel = new APITestPanel(conn);
-        testButtonPanel = new TestButtonPanel(teamService);
+        testButtonPanel = new TestButtonPanel(gameService);
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();

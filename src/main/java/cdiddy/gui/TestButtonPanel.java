@@ -4,14 +4,17 @@
  */
 package cdiddy.gui;
 
-import cdiddy.utils.application.TeamService;
+import cdiddy.objects.GameWeek;
+import cdiddy.utils.application.GameService;
+import java.util.List;
+
 
 /**
  *
  * @author cedric
  */
 public class TestButtonPanel extends javax.swing.JPanel {
- TeamService teamService;
+ GameService gameService;
     /**
      * Creates new form TestButtonPanel
      */
@@ -19,8 +22,8 @@ public class TestButtonPanel extends javax.swing.JPanel {
         initComponents();
     }
 
-    TestButtonPanel(TeamService teamService) {
-        this.teamService = teamService;
+    TestButtonPanel(GameService gameService) {
+        this.gameService = gameService;
         initComponents();
     }
 
@@ -61,7 +64,8 @@ public class TestButtonPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        teamService.loadUserTeams();
+        List<GameWeek> result = gameService.retrieveGameWeeks(); 
+        System.out.println(result.size());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
