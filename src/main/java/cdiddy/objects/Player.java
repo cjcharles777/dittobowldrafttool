@@ -28,6 +28,7 @@ public class Player implements Serializable
     private String displayPosition;
     private String headshotHtml;
     private int yahooId;
+    private List<Position> eligiblePositons;
     private List<SeasonStat> seasonStats;
     private List<WeeklyStat> weeklyStats;
 
@@ -141,6 +142,14 @@ public class Player implements Serializable
     public void setWeeklyStats(List<WeeklyStat> weeklyStats) 
     {
         this.weeklyStats = weeklyStats;
+    }
+
+    public List<Position> getEligiblePositons() {
+        return eligiblePositons;
+    }
+
+    public void setEligiblePositons(List<Position> eligiblePositons) {
+        this.eligiblePositons = eligiblePositons;
     }
     
     

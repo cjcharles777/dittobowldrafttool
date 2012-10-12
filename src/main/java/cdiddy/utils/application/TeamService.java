@@ -57,7 +57,7 @@ public class TeamService
             count = (Integer)league.get("count");
             while(curr < count)
             {
-                List<Map> lmpTeams = (List<Map>)(((Map<String,List<Object>>)league.get((new Integer(curr)).toString())).get("team").get(0));
+                List<Object> lmpTeams = (List<Object>)(((Map<String,List<Object>>)league.get((new Integer(curr)).toString())).get("team").get(0));
                 Team tempTeam = convertToTeam(lmpTeams);
                 if(result == null)
                 {
@@ -98,7 +98,7 @@ public class TeamService
             count = (Integer)league.get("count");
             while(curr < count)
             {
-                List<Map> lmpTeams = (List<Map>)(((Map<String,List<Object>>)league.get((new Integer(curr)).toString())).get("team").get(0));
+                List<Object> lmpTeams = (List<Object>)(((Map<String,List<Object>>)league.get((new Integer(curr)).toString())).get("team").get(0));
                 Team tempTeam = convertToTeam(lmpTeams);
                 if(result == null)
                 {
@@ -141,7 +141,7 @@ public class TeamService
         return team;
   
     }
-    private Team convertToTeam(List<Map> lmpTeams) 
+    private Team convertToTeam(List<Object> lmpTeams) 
     {
         Team result = new Team();
         for(Object col : lmpTeams)

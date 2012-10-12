@@ -155,7 +155,6 @@ public class StatsService
             String[] requests = new String[3];
             requests[0] = "http://fantasysports.yahooapis.com/fantasy/v2/players;player_keys="+finalPlayerKey+"/stats?format=json";
             requests[1] = "http://fantasysports.yahooapis.com/fantasy/v2/players;sort_type=season;sort_season=2011;player_keys="+finalPlayerKey+"/stats;type=season;season=2011?format=json";
-            requests[2] = "http://fantasysports.yahooapis.com/fantasy/v2/players;sort_type=season;sort_season=2010;player_keys="+finalPlayerKey+"/stats;type=season;season=2010?format=json";
             
             for (String request : requests)
             {    
