@@ -4,7 +4,7 @@
  */
 package cdiddy.utils.application;
 
-import cdiddy.fantasyfootballapp.App;
+
 import cdiddy.objects.Player;
 import cdiddy.objects.SeasonStat;
 import cdiddy.objects.Stat;
@@ -33,6 +33,7 @@ public class PlayerService
 
     @Autowired
     OAuthConnection conn;
+    
     @Autowired
     private StatsService statsService;
     @Autowired
@@ -44,6 +45,74 @@ public class PlayerService
     @Autowired
     private PlayersDAO playersDAOImpl;
     
+    //Yahoo grabs
+    
+    public void loadPlayers()
+    {
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String,Object> userData;
+        Map<String,Object> params;
+        ArrayList league;
+        List<Player> playerObjList;
+        List<Player> playerSaveList = new LinkedList<Player>();
+        boolean morePlayers = true;
+        int start = 0; 
+        while (morePlayers)  
+        {   
+            
+            String response2 = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/league/273.l.8899/players;count=25;start="+start+";?format=json", Verb.GET);
+            try 
+            {
+                userData = mapper.readValue(response2, Map.class);
+                params = (Map<String, Object>)userData.get("fantasy_content");
+                league = (ArrayList)params.get("league");
+                ArrayList<LinkedHashMap<String, List<Collection>>> playersList = new  ArrayList<LinkedHashMap<String, List<Collection>>>(((Map <String, LinkedHashMap>)league.get(1)).get("players").values());
+                playersList.remove(playersList.size()-1);
+                playerObjList = createPlayersFromList(playersList);
+                Map<Integer, List<SeasonStat>> seasonStatmap = statsService.retrieveSeasonStats(playerObjList);
+                playerObjList = connectStatsToPlayer(seasonStatmap, playerObjList);
+                playerSaveList.addAll(playerObjList);
+                Map<Integer, List<WeeklyStat>> statmap = statsService.retrieveWeeklyStats(playerObjList, 1);
+                playerObjList = connectWeeklyStatsToPlayer(statmap, playerObjList);
+                playerSaveList.addAll(playerObjList);
+                start+=playerObjList.size();
+                
+                if(playerObjList.size() < 25)
+                {
+                    morePlayers = false;
+                }
+ 
+                    
+                    storePlayersToDatabase(playerSaveList);
+                    playerSaveList = new LinkedList<Player>();
+
+            } catch (IOException ex) 
+            {
+                Logger.getLogger(PlayerService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    public String getPlayerStats(Player p)
+    {
+        
+        String player_key = "nfl.p." + p.getYahooId();
+        String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/player/"+player_key+"/stats?format=json", Verb.GET);
+    
+        return response;
+    }
+    
+        public String getStatsCategories()
+    {
+        
+       // String player_key = "nfl.p." + p.getYahooId();
+        String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/game/nfl/stat_categories?format=json", Verb.GET);
+    
+        return response;
+    }
+      
+    // Helper Methods
+        
     public Player createPlayer(List<Object> lhm)
     {
         Player result = new Player();
@@ -104,6 +173,59 @@ public class PlayerService
         return playerList;
     }
     
+
+    private List<Player> connectStatsToPlayer(Map<Integer, List<SeasonStat>> statmap, List<Player> playerObjList) 
+    {
+        List<Player> result = new LinkedList<Player>();
+        for(Player p : playerObjList)
+        {
+                   
+            p.setSeasonStats(statmap.get(p.getYahooId()));
+            result.add(p);
+        
+        }
+        return result;
+    }
+
+    private List<Player> connectWeeklyStatsToPlayer(Map<Integer, List<WeeklyStat>> statmap, List<Player> playerObjList) 
+    {
+        
+        List<Player> result = new LinkedList<Player>();
+        for(Player p : playerObjList)
+        {
+                   
+            p.setWeeklyStats(statmap.get(p.getYahooId()));
+            result.add(p);
+        
+        }
+        return result;
+    }
+
+     public void yahooWeeklyStatsLoad(int week)
+    {
+        List<Player> allPlayers = playersDAOImpl.getAllPlayers();
+        List<Player> playersToGetStats = new LinkedList<Player>();
+        int i = 0;
+        for(Player p : allPlayers)
+        {
+            playersToGetStats.add(p);
+            i++;
+            if(i%25 == 0)
+            {
+                Map<Integer, List<WeeklyStat>> weeklyStats = statsService.retrieveWeeklyStats(playersToGetStats,week);
+                connectWeeklyStatsToPlayer(weeklyStats, playersToGetStats);
+                playersToGetStats = new LinkedList<Player>();
+                
+            }
+                  
+        }
+        storePlayersToDatabase(allPlayers);
+    }
+
+    
+    //Database Updates
+    
+    
     public void storePlayersToDatabase(List<Player> playerList)
     {
         LinkedList<SeasonStat> listSS = new LinkedList<SeasonStat>();
@@ -134,6 +256,10 @@ public class PlayerService
     {
          return playersDAOImpl.getAllPlayers();
     }
+     public Player retrivePlayer(int playerid) 
+    {
+         return playersDAOImpl.getPlayerbyYahooId(playerid);
+    }
     public List<Player> retrivePlayers(int firstResult, int maxResults) 
     {
         return playersDAOImpl.getPlayers(firstResult, maxResults);
@@ -144,97 +270,5 @@ public class PlayerService
          playersDAOImpl.clearPlayers();
     }
     
-    public void loadPlayers()
-    {
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> userData;
-        Map<String,Object> params;
-        ArrayList league;
-        List<Player> playerObjList;
-        List<Player> playerSaveList = new LinkedList<Player>();
-        boolean morePlayers = true;
-        int start = 0; 
-        while (morePlayers)  
-        {   
-            
-            String response2 = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/league/273.l.8899/players;count=25;start="+start+";?format=json", Verb.GET);
-            try 
-            {
-                userData = mapper.readValue(response2, Map.class);
-                params = (Map<String, Object>)userData.get("fantasy_content");
-                league = (ArrayList)params.get("league");
-                ArrayList<LinkedHashMap<String, List<Collection>>> playersList = new  ArrayList<LinkedHashMap<String, List<Collection>>>(((Map <String, LinkedHashMap>)league.get(1)).get("players").values());
-                playersList.remove(playersList.size()-1);
-                playerObjList = createPlayersFromList(playersList);
-                Map<Integer, List<SeasonStat>> seasonStatmap = statsService.retrieveSeasonStats(playerObjList);
-                playerObjList = connectStatsToPlayer(seasonStatmap, playerObjList);
-                playerSaveList.addAll(playerObjList);
-                Map<Integer, List<WeeklyStat>> statmap = statsService.retrieveWeeklyStats(playerObjList, 1);
-                playerObjList = connectWeeklyStatsToPlayer(statmap, playerObjList);
-                playerSaveList.addAll(playerObjList);
-                start+=playerObjList.size();
-                
-                if(playerObjList.size() < 25)
-                {
-                    morePlayers = false;
-                }
- 
-                    Logger.getLogger(App.class.getName()).log(Level.INFO, "Saving 100" );
-                    storePlayersToDatabase(playerSaveList);
-                    playerSaveList = new LinkedList<Player>();
-
-            } catch (IOException ex) 
-            {
-                Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    
-    public String getPlayerStats(Player p)
-    {
-        
-        String player_key = "nfl.p." + p.getYahooId();
-        String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/player/"+player_key+"/stats?format=json", Verb.GET);
-    
-        return response;
-    }
-    
-        public String getStatsCategories()
-    {
-        
-       // String player_key = "nfl.p." + p.getYahooId();
-        String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/game/nfl/stat_categories?format=json", Verb.GET);
-    
-        return response;
-    }
-
-    private List<Player> connectStatsToPlayer(Map<Integer, List<SeasonStat>> statmap, List<Player> playerObjList) 
-    {
-        List<Player> result = new LinkedList<Player>();
-        for(Player p : playerObjList)
-        {
-                   
-            p.setSeasonStats(statmap.get(p.getYahooId()));
-            result.add(p);
-        
-        }
-        return result;
-    }
-
-    private List<Player> connectWeeklyStatsToPlayer(Map<Integer, List<WeeklyStat>> statmap, List<Player> playerObjList) 
-    {
-        
-        List<Player> result = new LinkedList<Player>();
-        for(Player p : playerObjList)
-        {
-                   
-            p.setWeeklyStats(statmap.get(p.getYahooId()));
-            result.add(p);
-        
-        }
-        return result;
-    }
-
-
 
 }

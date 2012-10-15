@@ -13,6 +13,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,10 +69,29 @@ public class PlayersDAOImpl implements PlayersDAO
     }
 
     @SuppressWarnings("unchecked")
-    public Player getPlayerById(String playerId) {
+    public Player getPlayerById(int playerId) {
         return hibernateTemplate.get(Player.class, playerId);
     }
 
+    public Player getPlayerbyYahooId(int yahooId)
+    {
+        Player result = null;
+        
+        List<Player> tempList =  (List<Player>) hibernateTemplate.findByCriteria(
+        DetachedCriteria.forClass(Player.class)
+        .add(Restrictions.eq("yahooId", yahooId)));
+        
+        if (tempList != null && tempList.size() > 0)
+        {
+            result = tempList.get(0);
+        }
+        else
+        {
+            result = null;
+        }
+        return result;
+    }
+    
     @Transactional(readOnly = false)
     public void deletePlayer(Player player) {
        hibernateTemplate.delete(player);

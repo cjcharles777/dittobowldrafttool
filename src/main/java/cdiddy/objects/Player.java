@@ -144,6 +144,13 @@ public class Player implements Serializable
         this.weeklyStats = weeklyStats;
     }
 
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+    @JoinTable(
+            name="PlayerToEligiblePositions",
+            joinColumns = @JoinColumn( name="playerid"),
+            inverseJoinColumns = @JoinColumn( name="position_id")
+    )
+    @LazyCollection(LazyCollectionOption.FALSE)
     public List<Position> getEligiblePositons() {
         return eligiblePositons;
     }

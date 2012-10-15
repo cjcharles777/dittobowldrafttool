@@ -27,6 +27,10 @@ public class App
         {
             loadFreshData();
         }
+        else if(args.length > 0 && args[0].equals("loadWeek") && args[1] !=null)
+        {
+            loadWeekData(Integer.parseInt(args[1]));
+        }
         else
         {
             FantasyFootballFrame.main(args);
@@ -40,5 +44,9 @@ public class App
         statsService.primeStats();
         playerUtil.loadPlayers();
         statsService.loadStatCategories();
+    }
+        public static void loadWeekData(int week)
+    {
+        playerUtil.yahooWeeklyStatsLoad(week);
     }
 }
