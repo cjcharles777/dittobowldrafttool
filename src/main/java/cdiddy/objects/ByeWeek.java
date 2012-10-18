@@ -16,35 +16,33 @@ import org.hibernate.annotations.GenericGenerator;
  *
  * @author cedric
  */
-
 @Entity
-@Table(name = "Position")
-public class Position implements Serializable
+@Table(name = "ByeWeek")
+public class ByeWeek implements Serializable 
 {
-    private String position;
     private int id;
-    
-    
+    private String week;
+
     @Id
     @GeneratedValue(generator = "generator")
     @GenericGenerator(name = "generator", strategy = "increment")
-    @Column(name = "position_id", nullable=false)
-    public int getId() 
-    {
+    @Column(name = "bye_week_id", nullable=false)
+    public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
-
-    @Column(name = "position", length=500, nullable=false, unique=true)
-    public String getPosition() {
-        return position;
+    
+    @Column(name = "week", length=2, nullable=false)
+    public String getWeek() {
+        return week;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setWeek(String week) {
+        this.week = week;
     }
+    
     
 }

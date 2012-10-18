@@ -21,14 +21,23 @@ public class Player implements Serializable
 {
 
     private int id;
-    private String firstName;
-    private String lastName;
-    private String team;
-    private int uniformNumber;
-    private String displayPosition;
-    private String headshotHtml;
-    private int yahooId;
-    private List<Position> eligiblePositons;
+    private String player_key;
+    private String player_id;
+    private Name name;
+    private String editorial_player_key;
+    private String editorial_team_key;
+    private String editorial_team_full_name;
+    private String editorial_team_abbr;
+    private ByeWeek bye_weeks;
+    private String uniform_number;
+    private String display_position;
+    private PlayerPic headshot;
+    private String image_url;
+    private String is_undroppable;
+    private String position_type;
+    private List<Position> eligible_positions;
+    private String has_player_notes;
+    private String has_recent_player_notes;
     private List<SeasonStat> seasonStats;
     private List<WeeklyStat> weeklyStats;
 
@@ -47,68 +56,167 @@ public class Player implements Serializable
     public void setId(int id) {
         this.id = id;
     }
-     @Column(name = "firstname", length=500, nullable=false)
-    public String getFirstName() {
-        return firstName;
+    
+   @Column(name = "player_key", length=20, nullable=false)
+    public String getPlayer_key() {
+        return player_key;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setPlayer_key(String player_key) {
+        this.player_key = player_key;
     }
 
-    @Column(name = "lastname", length=500, nullable=false)
-    public String getLastName() {
-        return lastName;
+    @Column(name = "player_id_yahoo", length=7, nullable=false)
+    public String getPlayer_id() {
+        return player_id;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
- 
-    @Column(name = "position", length=30, nullable=false)
-    public String getDisplayPosition() {
-        return displayPosition;
+    public void setPlayer_id(String player_id) {
+        this.player_id = player_id;
     }
 
-    public void setDisplayPosition(String displayPosition) {
-        this.displayPosition = displayPosition;
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    public Name getName() {
+        return name;
+    }
+
+    public void setName(Name name) {
+        this.name = name;
+    }
+
+    @Column(name = "editorial_player_key", length=20, nullable=false)
+    public String getEditorial_player_key() {
+        return editorial_player_key;
+    }
+
+    public void setEditorial_player_key(String editorial_player_key) {
+        this.editorial_player_key = editorial_player_key;
+    }
+
+    @Column(name = "editorial_team_key", length=20, nullable=false)
+    public String getEditorial_team_key() {
+        return editorial_team_key;
+    }
+
+    public void setEditorial_team_key(String editorial_team_key) {
+        this.editorial_team_key = editorial_team_key;
+    }
+
+    @Column(name = "editorial_team_key", length=50, nullable=false)
+    public String getEditorial_team_full_name() {
+        return editorial_team_full_name;
+    }
+
+    public void setEditorial_team_full_name(String editorial_team_full_name) {
+        this.editorial_team_full_name = editorial_team_full_name;
+    }
+
+    @Column(name = "editorial_team_abbr", length=10, nullable=false)
+    public String getEditorial_team_abbr() {
+        return editorial_team_abbr;
+    }
+
+    public void setEditorial_team_abbr(String editorial_team_abbr) {
+        this.editorial_team_abbr = editorial_team_abbr;
     }
     
-    @Column(name = "headshot", length=1000, nullable=false)
-    public String getHeadshotHtml() {
-        return headshotHtml;
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    public ByeWeek getBye_weeks() {
+        return bye_weeks;
     }
 
-    public void setHeadshotHtml(String headshotHtml) {
-        this.headshotHtml = headshotHtml;
+    public void setBye_weeks(ByeWeek bye_weeks) {
+        this.bye_weeks = bye_weeks;
     }
 
-
-    @Column(name = "yahooid", nullable=false)
-    public int getYahooId() {
-        return yahooId;
+    @Column(name = "uniform_number", length=2, nullable=false)
+    public String getUniform_number() {
+        return uniform_number;
     }
 
-    public void setYahooId(int yahooId) {
-        this.yahooId = yahooId;
+    public void setUniform_number(String uniform_number) {
+        this.uniform_number = uniform_number;
+    }
+
+    @Column(name = "display_position", length=3, nullable=false)
+    public String getDisplay_position() {
+        return display_position;
+    }
+
+    public void setDisplay_position(String display_position) {
+        this.display_position = display_position;
     }
     
-    @Column(name = "team", length=500, nullable=false)
-    public String getTeam() {
-        return team;
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    public PlayerPic getHeadshot() {
+        return headshot;
     }
 
-    public void setTeam(String team) {
-        this.team = team;
+    public void setHeadshot(PlayerPic headshot) {
+        this.headshot = headshot;
+    }
+
+   @Column(name = "image_url", length=1000, nullable=false) 
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
     
-    @Column(name = "number", nullable=false)
-    public int getUniformNumber() {
-        return uniformNumber;
+    @Column(name = "is_undroppable", length=1, nullable=false) 
+    public String getIs_undroppable() {
+        return is_undroppable;
     }
 
-    public void setUniformNumber(int uniformNumber) {
-        this.uniformNumber = uniformNumber;
+    public void setIs_undroppable(String is_undroppable) {
+        this.is_undroppable = is_undroppable;
+    }
+    
+    @Column(name = "position_type", length=10, nullable=false) 
+    public String getPosition_type() {
+        return position_type;
+    }
+
+    public void setPosition_type(String position_type) {
+        this.position_type = position_type;
+    }
+    
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+    @JoinTable(
+            name="PlayerToEligiblePositions",
+            joinColumns = @JoinColumn( name="playerid"),
+            inverseJoinColumns = @JoinColumn( name="position_id")
+    )
+    @LazyCollection(LazyCollectionOption.FALSE)
+    public List<Position> getEligible_positions() {
+        return eligible_positions;
+    }
+
+    public void setEligible_positions(List<Position> eligible_positions) {
+        this.eligible_positions = eligible_positions;
+    }
+
+    @Column(name = "has_player_notes", length=1, nullable=false)
+    public String getHas_player_notes() {
+        return has_player_notes;
+    }
+
+    public void setHas_player_notes(String has_player_notes) {
+        this.has_player_notes = has_player_notes;
+    }
+
+    @Column(name = "has_recent_player_notes", length=1, nullable=false)
+    public String getHas_recent_player_notes() {
+        return has_recent_player_notes;
+    }
+
+    public void setHas_recent_player_notes(String has_recent_player_notes) {
+        this.has_recent_player_notes = has_recent_player_notes;
     }
     
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
@@ -143,21 +251,5 @@ public class Player implements Serializable
     {
         this.weeklyStats = weeklyStats;
     }
-
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
-    @JoinTable(
-            name="PlayerToEligiblePositions",
-            joinColumns = @JoinColumn( name="playerid"),
-            inverseJoinColumns = @JoinColumn( name="position_id")
-    )
-    @LazyCollection(LazyCollectionOption.FALSE)
-    public List<Position> getEligiblePositons() {
-        return eligiblePositons;
-    }
-
-    public void setEligiblePositons(List<Position> eligiblePositons) {
-        this.eligiblePositons = eligiblePositons;
-    }
-    
-    
+   
 }
