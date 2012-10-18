@@ -158,7 +158,7 @@ public class StatsService
                
             }
             String finalPlayerKey = StringUtils.join(playersList, ",");
-            String[] requests = new String[3];
+            String[] requests = new String[2];
             requests[0] = "http://fantasysports.yahooapis.com/fantasy/v2/players;player_keys="+finalPlayerKey+"/stats?format=json";
             requests[1] = "http://fantasysports.yahooapis.com/fantasy/v2/players;sort_type=season;sort_season=2011;player_keys="+finalPlayerKey+"/stats;type=season;season=2011?format=json";
           
@@ -233,7 +233,7 @@ public class StatsService
             int i = 0;
             for (Player p : listP)
             {
-                String player_key = "nfl.p." + p.getYahooId();
+                String player_key = "\'nfl.p." + p.getYahooId()+"\'";
                 playersList.add(player_key);
                
             }
@@ -243,7 +243,7 @@ public class StatsService
             requests[0] = "select * from fantasysports.players.stats where league_key='273.l.8899' and player_key in ("+finalPlayerKey+") and stats_type='week' and stats_week="+week;
             for (String request : requests)
             {    
-                String response = YQLQueryUtil.queryYQL(request);
+                String response = yqlUitl.queryYQL(request);
                  
                 try 
                 {
@@ -266,13 +266,13 @@ public class StatsService
                     Map<String, Object> playerstats = (Map<String,Object>) temp.get("player_stats");
                     int playerid =  Integer.parseInt((String)temp.get("player_id"));
                     
-                    weeklyStats = (List<Map>) playerstats.get("stat");
+                    weeklyStats = ((Map<String, List<Map>>) playerstats.get("stats")).get("stat");
                     ss.setWeek((String)playerstats.get("week"));
                     ArrayList<Stat> statList = new ArrayList<Stat>();
-                    for(Map<String,Map> stat : weeklyStats)
+                    for(Map<String,Object> stat : weeklyStats)
                     {
 
-                        Stat tempStat = mapper.readValue(JacksonPojoMapper.toJson(stat.get("stat"), false) , Stat.class);
+                        Stat tempStat = mapper.readValue(JacksonPojoMapper.toJson(stat, false) , Stat.class);
 
 
                         statList.add(tempStat);

@@ -84,9 +84,10 @@ public class PlayerService
  
                     
                     storePlayersToDatabase(playerSaveList);
-                    playerSaveList = new LinkedList<Player>();
+                    playerSaveList = new LinkedList<Player>(); 
+                    Thread.sleep(2000);
 
-            } catch (IOException ex) 
+            } catch (Exception ex) 
             {
                 Logger.getLogger(PlayerService.class.getName()).log(Level.SEVERE, null, ex);
             }

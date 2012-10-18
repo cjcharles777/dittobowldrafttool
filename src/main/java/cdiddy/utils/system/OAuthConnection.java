@@ -34,7 +34,8 @@ public class OAuthConnection
     Verifier verifier;
     Token accessToken;
     String oauthSessionHandle;
-    
+
+ 
     @Autowired
     private OAuthDAO oauthDAOImpl;
     
@@ -144,4 +145,21 @@ public class OAuthConnection
          
     }
       
+    public Token getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(Token accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getOauthSessionHandle() {
+        return oauthSessionHandle;
+    }
+
+    public void setOauthSessionHandle(String oauthSessionHandle) {
+        this.oauthSessionHandle = oauthSessionHandle;
+    }
+    
+    
 }

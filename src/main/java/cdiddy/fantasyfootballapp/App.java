@@ -39,6 +39,7 @@ public class App
     }
     public static void loadFreshData()
     {
+        conn.connect();
         playerUtil.primePlayersDatabase();
         statsService.primeStatCategories();
         statsService.primeStats();
@@ -47,6 +48,7 @@ public class App
     }
         public static void loadWeekData(int week)
     {
+        conn.connect();
         playerUtil.yahooWeeklyStatsLoad(week);
     }
 }

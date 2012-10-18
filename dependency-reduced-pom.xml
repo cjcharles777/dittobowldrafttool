@@ -18,6 +18,13 @@
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <version>2.2</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>cdiddy.fantasyfootballapp.App</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
