@@ -104,7 +104,7 @@ public class Player implements Serializable
         this.editorial_team_key = editorial_team_key;
     }
 
-    @Column(name = "editorial_team_key", length=50, nullable=false)
+    @Column(name = "editorial_team_full_name", length=50, nullable=false)
     public String getEditorial_team_full_name() {
         return editorial_team_full_name;
     }

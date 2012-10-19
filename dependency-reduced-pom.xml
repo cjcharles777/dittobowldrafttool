@@ -99,7 +99,7 @@
       <artifactId>simpleyql</artifactId>
       <version>1.0</version>
       <scope>system</scope>
-      <systemPath>/home/cedric/NetBeansProjects/FantasyFootballApp/lib/simpleyql.jar</systemPath>
+      <systemPath>/home/cedric/NetBeansProjects/FantasyFootballApp/jars/simpleyql.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>

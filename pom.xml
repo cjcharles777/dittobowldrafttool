@@ -273,7 +273,7 @@
       <artifactId>simpleyql</artifactId>
       <version>1.0</version>
       <scope>system</scope>
-       <systemPath>${project.basedir}/lib/simpleyql.jar</systemPath>
+       <systemPath>${project.basedir}/jars/simpleyql.jar</systemPath>
     </dependency>
   </dependencies>
   
