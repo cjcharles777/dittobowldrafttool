@@ -94,6 +94,13 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>Cdiddy.Dep.jars</groupId>
+      <artifactId>simpleyql</artifactId>
+      <version>1.0</version>
+      <scope>system</scope>
+      <systemPath>/home/cedric/NetBeansProjects/FantasyFootballApp/lib/simpleyql.jar</systemPath>
+    </dependency>
   </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

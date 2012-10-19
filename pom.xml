@@ -272,6 +272,8 @@
       <groupId>Cdiddy.Dep.jars</groupId>
       <artifactId>simpleyql</artifactId>
       <version>1.0</version>
+      <scope>system</scope>
+       <systemPath>${project.basedir}/lib/simpleyql.jar</systemPath>
     </dependency>
   </dependencies>
   
