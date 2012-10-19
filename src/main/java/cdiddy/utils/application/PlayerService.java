@@ -5,7 +5,11 @@
 package cdiddy.utils.application;
 
 
+import cdiddy.objects.ByeWeek;
+import cdiddy.objects.Name;
 import cdiddy.objects.Player;
+import cdiddy.objects.PlayerPic;
+import cdiddy.objects.Position;
 import cdiddy.objects.SeasonStat;
 import cdiddy.objects.Stat;
 import cdiddy.objects.WeeklyStat;
@@ -13,8 +17,8 @@ import cdiddy.objects.dao.PlayersDAO;
 import cdiddy.objects.dao.SeasonStatsDAO;
 import cdiddy.objects.dao.StatDAO;
 import cdiddy.objects.dao.WeeklyStatsDAO;
+import cdiddy.utils.system.JacksonPojoMapper;
 import cdiddy.utils.system.OAuthConnection;
-import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,6 +48,8 @@ public class PlayerService
     private WeeklyStatsDAO weeklyStatsDAOImpl;
     @Autowired
     private PlayersDAO playersDAOImpl;
+    @Autowired
+    private YQLQueryUtil yqlUitl ;
     
     //Yahoo grabs
     
@@ -51,7 +57,8 @@ public class PlayerService
     {
         ObjectMapper mapper = new ObjectMapper();
         Map<String,Object> userData;
-        Map<String,Object> params;
+        Map<String,Object> results;
+        Map<String,Object> query;
         ArrayList league;
         List<Player> playerObjList;
         List<Player> playerSaveList = new LinkedList<Player>();
@@ -59,25 +66,29 @@ public class PlayerService
         int start = 0; 
         while (morePlayers)  
         {   
+            String yql = "select * from fantasysports.players where game_key='nfl' and start="+start;
+            String response = yqlUitl.queryYQL(yql);
             
-            String response2 = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/league/273.l.8899/players;count=25;start="+start+";?format=json", Verb.GET);
             try 
             {
-                userData = mapper.readValue(response2, Map.class);
-                params = (Map<String, Object>)userData.get("fantasy_content");
-                league = (ArrayList)params.get("league");
-                ArrayList<LinkedHashMap<String, List<Collection>>> playersList = new  ArrayList<LinkedHashMap<String, List<Collection>>>(((Map <String, LinkedHashMap>)league.get(1)).get("players").values());
-                playersList.remove(playersList.size()-1);
-                playerObjList = createPlayersFromList(playersList);
+                userData = mapper.readValue(response, Map.class);
+                results = (Map<String, Object>)userData.get("results"); //result details
+                query = (Map<String, Object>)userData.get("query"); // query details
+                int count = Integer.parseInt((String)query.get("count"));
+                List<Map> playersList = (List<Map>) results.get("player");
+                playerObjList = new LinkedList<Player>();
+                for(Map temp : playersList)
+                {
+                    playerObjList.add(mapper.readValue(JacksonPojoMapper.toJson(temp, false) , Player.class));
+                }
                 Map<Integer, List<SeasonStat>> seasonStatmap = statsService.retrieveSeasonStats(playerObjList);
-                playerObjList = connectStatsToPlayer(seasonStatmap, playerObjList);
-                playerSaveList.addAll(playerObjList);
+                playerObjList = connectStatsToPlayer(seasonStatmap, playerObjList);       
                 Map<Integer, List<WeeklyStat>> statmap = statsService.retrieveWeeklyStats(playerObjList, 1);
                 playerObjList = connectWeeklyStatsToPlayer(statmap, playerObjList);
                 playerSaveList.addAll(playerObjList);
-                start+=playerObjList.size();
+                start+=count;
                 
-                if(playerObjList.size() < 25)
+                if(count < 25)
                 {
                     morePlayers = false;
                 }
@@ -85,7 +96,7 @@ public class PlayerService
                     
                     storePlayersToDatabase(playerSaveList);
                     playerSaveList = new LinkedList<Player>(); 
-                    Thread.sleep(2000);
+                   // Thread.sleep(2000);
 
             } catch (Exception ex) 
             {
@@ -97,7 +108,7 @@ public class PlayerService
     public String getPlayerStats(Player p)
     {
         
-        String player_key = "nfl.p." + p.getYahooId();
+        String player_key = p.getPlayer_id();
         String response = conn.requestData( "http://fantasysports.yahooapis.com/fantasy/v2/player/"+player_key+"/stats?format=json", Verb.GET);
     
         return response;
@@ -114,74 +125,13 @@ public class PlayerService
       
     // Helper Methods
         
-    public Player createPlayer(List<Object> lhm)
-    {
-        Player result = new Player();
-        for(Object col : lhm)
-        {
-            if(col instanceof LinkedHashMap)
-            {
-                LinkedHashMap temp = (LinkedHashMap) col;
-                if(temp.get("player_id")!= null)
-                {
-                result.setYahooId(Integer.parseInt((String)temp.get("player_id")));
-                }
-                else if(temp.get("name")!= null)
-                {
-                    result.setFirstName((String) ((LinkedHashMap)temp.get("name")).get("first"));
-                    result.setLastName((String) ((LinkedHashMap)temp.get("name")).get("last"));
-                }
-                else if(temp.get("headshot")!= null)
-                {
-                result.setHeadshotHtml((String) ((LinkedHashMap)temp.get("headshot")).get("url"));
-                }
-                else if(temp.get("editorial_team_abbr")!= null)
-                {
-                result.setTeam((String) temp.get("editorial_team_abbr"));
-                }
-                else if(temp.get("uniform_number")!= null)
-                {
-                    if(!((temp.get("uniform_number")) instanceof String )
-                            ||(((String)temp.get("uniform_number")).trim()).equals(""))
-                    {
-                        result.setUniformNumber(-1);
-                    }
-                    else
-                    {
-                        result.setUniformNumber(Integer.parseInt((String)temp.get("uniform_number")));
-                    }
-                
-                }
-                else if(temp.get("display_position")!= null)
-                {
-                result.setDisplayPosition(((String) temp.get("display_position")));
-                }
-            }
-            
-        }
-        //List<SeasonStat> seasonStats = new ArrayList<SeasonStat>();
-        //seasonStats.add(statsService.retrieveSeasonStats(result));
-        //result.setSeasonStats(seasonStats);
-        return result;
-    }
-    public List<Player> createPlayersFromList(List<LinkedHashMap<String, List<Collection>>> lhmList)
-    {
-        LinkedList<Player> playerList = new LinkedList<Player>();
-        for(LinkedHashMap<String, List<Collection>> temp : lhmList)
-        {
-            playerList.add(createPlayer((List)temp.get("player").get(0)));
-        }
-        return playerList;
-    }
-    
-
-    private List<Player> connectStatsToPlayer(Map<Integer, List<SeasonStat>> statmap, List<Player> playerObjList) 
+      private List<Player> connectStatsToPlayer(Map<Integer, List<SeasonStat>> statmap, List<Player> playerObjList) 
     {
         List<Player> result = new LinkedList<Player>();
         for(Player p : playerObjList)
         {
                    
-            p.setSeasonStats(statmap.get(p.getYahooId()));
+            p.setSeasonStats(statmap.get(Integer.parseInt(p.getPlayer_id())));
             result.add(p);
         
         }
@@ -195,13 +145,13 @@ public class PlayerService
         for(Player p : playerObjList)
         {
                    
-            p.setWeeklyStats(statmap.get(p.getYahooId()));
+            p.setWeeklyStats(statmap.get(Integer.parseInt(p.getPlayer_id())));
             result.add(p);
         
         }
         return result;
     }
-
+    
      public void yahooWeeklyStatsLoad(int week)
     {
         List<Player> allPlayers = playersDAOImpl.getAllPlayers();
@@ -230,8 +180,13 @@ public class PlayerService
     public void storePlayersToDatabase(List<Player> playerList)
     {
         LinkedList<SeasonStat> listSS = new LinkedList<SeasonStat>();
-         LinkedList<WeeklyStat> listWS = new LinkedList<WeeklyStat>();
+        LinkedList<WeeklyStat> listWS = new LinkedList<WeeklyStat>();
         LinkedList<Stat> listStat = new LinkedList<Stat>();
+        List<Name> listNames = new LinkedList<Name>();
+        List<ByeWeek> listByeWeek = new LinkedList<ByeWeek>();
+        List<PlayerPic> listPlayerPic = new LinkedList<PlayerPic>();
+        List<Position> listAvailPositions = new LinkedList<Position>();
+           
         for(Player p : playerList)
         {
             List<SeasonStat> tempSSList = p.getSeasonStats();
@@ -246,6 +201,11 @@ public class PlayerService
             {
                listStat.addAll(ws.getStats());
             }
+            
+            listNames.add(p.getName());
+            listByeWeek.add(p.getBye_weeks());
+            listAvailPositions.addAll(p.getEligible_positions());
+            listPlayerPic.add(p.getHeadshot());
         }
         statDAOImpl.saveStats(listStat);
         seasonStatsDAOImpl.saveSeasonStats(listSS);

@@ -38,6 +38,7 @@ public class Player implements Serializable
     private List<Position> eligible_positions;
     private String has_player_notes;
     private String has_recent_player_notes;
+    private String status;
     private List<SeasonStat> seasonStats;
     private List<WeeklyStat> weeklyStats;
 
@@ -251,5 +252,15 @@ public class Player implements Serializable
     {
         this.weeklyStats = weeklyStats;
     }
+    
+    @Column(name = "status", length=1, nullable=false)
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
    
+    
 }

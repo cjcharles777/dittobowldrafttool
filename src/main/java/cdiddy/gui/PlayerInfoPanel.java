@@ -49,10 +49,10 @@ private Player tempPlayer;
     }
     public void populatePanel(Player tempPlayer)
     {
-        playerName.setText(tempPlayer.getFirstName() +"" +tempPlayer.getLastName());
-        playerNumber.setText(""+tempPlayer.getUniformNumber());
-        positionNumber.setText(tempPlayer.getDisplayPosition());
-        teamName.setText(tempPlayer.getTeam());
+        playerName.setText(tempPlayer.getName().getFull());
+        playerNumber.setText(tempPlayer.getUniform_number());
+        positionNumber.setText(tempPlayer.getDisplay_position());
+        teamName.setText(tempPlayer.getEditorial_team_full_name());
         
         PlayerSeasonInfoPanelTableModel pipTabModel = new PlayerSeasonInfoPanelTableModel(tempPlayer.getSeasonStats());
         pipTabModel.setStatsService(statsService);
@@ -63,8 +63,8 @@ private Player tempPlayer;
         jTable2.setModel(pipWeekTabModel);
         
         ((SeasonComparePanel)seasonComparePanel).init(tempPlayer.getSeasonStats());
-         ImageIcon icon = createImageIcon(tempPlayer.getHeadshotHtml(),
-                                         tempPlayer.getTeam());
+         ImageIcon icon = createImageIcon(tempPlayer.getImage_url(),
+                                         tempPlayer.getEditorial_team_full_name());
          
          playerPic.setIcon(icon);
       

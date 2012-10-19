@@ -46,15 +46,15 @@ public class PlayersTableModel extends AbstractTableModel{
             case 0: 
                 return si.getId();
             case 1:
-                return si.getDisplayPosition();
+                return si.getDisplay_position();
             case 2:
-                return si.getFirstName();
+                return si.getName().getFirst();
             case 3:
-                return si.getLastName();
+                return si.getName().getLast();
             case 4:
-                return si.getTeam();
+                return si.getEditorial_team_full_name();
             case 5:
-                return si.getUniformNumber();
+                return si.getUniform_number();
 
            }
            return null;
