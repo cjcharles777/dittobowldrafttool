@@ -208,13 +208,25 @@ public class PlayerService
             i++;
             if(i%25 == 0)
             {
+                Logger.getLogger(PlayerService.class.getName()).log(Level.INFO, "Players: " + i + " out of " + allPlayers.size());
                 Map<Integer, List<WeeklyStat>> weeklyStats = statsService.retrieveWeeklyStats(playersToGetStats,week);
                 connectWeeklyStatsToPlayer(weeklyStats, playersToGetStats);
                 playersToGetStats = new LinkedList<Player>();
+                try 
+                {
+                    Thread.sleep(30000);
+                } 
+                catch (InterruptedException ex) {
+                    Logger.getLogger(PlayerService.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
             }
                   
         }
+        Logger.getLogger(PlayerService.class.getName()).log(Level.INFO, "Players: " + i + " out of " + allPlayers.size());
+        Map<Integer, List<WeeklyStat>> weeklyStats = statsService.retrieveWeeklyStats(playersToGetStats,week);
+        connectWeeklyStatsToPlayer(weeklyStats, playersToGetStats);
+         //playersToGetStats = new LinkedList<Player>();
         storePlayersToDatabase(allPlayers);
     }
 
