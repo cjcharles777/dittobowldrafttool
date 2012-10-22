@@ -47,7 +47,7 @@ public class Name
         this.full = full;
     }
     
-    @Column(name = "first_name", length=500, nullable=false)
+    @Column(name = "first_name", length=500, nullable=true)
     public String getFirst() {
         return first;
     }
@@ -56,7 +56,7 @@ public class Name
         this.first = first;
     }
 
-    @Column(name = "last_name", length=500, nullable=false)
+    @Column(name = "last_name", length=500, nullable=true)
     public String getLast() {
         return last;
     }
@@ -65,7 +65,7 @@ public class Name
         this.last = last;
     }
     
-    @Column(name = "ascii_first_name", length=500, nullable=false)
+    @Column(name = "ascii_first_name", length=500, nullable=true)
     public String getAscii_first() {
         return ascii_first;
     }
@@ -74,7 +74,7 @@ public class Name
         this.ascii_first = ascii_first;
     }
 
-     @Column(name = "ascii_last_name", length=500, nullable=false)
+     @Column(name = "ascii_last_name", length=500, nullable=true)
     public String getAscii_last() {
         return ascii_last;
     }

@@ -13,10 +13,7 @@ import cdiddy.objects.Position;
 import cdiddy.objects.SeasonStat;
 import cdiddy.objects.Stat;
 import cdiddy.objects.WeeklyStat;
-import cdiddy.objects.dao.PlayersDAO;
-import cdiddy.objects.dao.SeasonStatsDAO;
-import cdiddy.objects.dao.StatDAO;
-import cdiddy.objects.dao.WeeklyStatsDAO;
+import cdiddy.objects.dao.*;
 import cdiddy.utils.system.JacksonPojoMapper;
 import cdiddy.utils.system.OAuthConnection;
 import java.util.*;
@@ -49,6 +46,14 @@ public class PlayerService
     @Autowired
     private PlayersDAO playersDAOImpl;
     @Autowired
+    private PositionDAO positionDAOImpl;
+    @Autowired
+    private ByeWeekDAO byeWeekDAOImpl;
+    @Autowired
+    private PlayerPicDAO playerPicDAOImpl;
+    @Autowired
+    private NameDAO nameDAOImpl;
+    @Autowired
     private YQLQueryUtil yqlUitl ;
     
     //Yahoo grabs
@@ -62,6 +67,7 @@ public class PlayerService
         ArrayList league;
         List<Player> playerObjList;
         List<Player> playerSaveList = new LinkedList<Player>();
+        Map<String,Position> posMap = new HashMap<String,Position>();
         boolean morePlayers = true;
         int start = 0; 
         while (morePlayers)  
@@ -72,14 +78,53 @@ public class PlayerService
             try 
             {
                 userData = mapper.readValue(response, Map.class);
-                results = (Map<String, Object>)userData.get("results"); //result details
+                
                 query = (Map<String, Object>)userData.get("query"); // query details
-                int count = Integer.parseInt((String)query.get("count"));
+                results = (Map<String, Object>)query.get("results"); //result details
+                int count = (Integer)query.get("count");
                 List<Map> playersList = (List<Map>) results.get("player");
                 playerObjList = new LinkedList<Player>();
                 for(Map temp : playersList)
                 {
-                    playerObjList.add(mapper.readValue(JacksonPojoMapper.toJson(temp, false) , Player.class));
+                    Player tempPlayer = mapper.readValue(JacksonPojoMapper.toJson(temp, false) , Player.class);
+                    playerObjList.add(tempPlayer);
+                    Object elegiblePosObj = ((Map<String,Map<String,Object>>)temp).get("eligible_positions").get("position");
+                     List<Position> tempPosList = new LinkedList<Position>();
+                    if (elegiblePosObj instanceof String)
+                    {
+                        if(!posMap.containsKey((String) elegiblePosObj))
+                        {
+                            Position tempPos = new Position();
+                            tempPos.setPosition((String) elegiblePosObj);
+                            tempPosList.add(tempPos);
+                            posMap.put((String)elegiblePosObj , tempPos);
+                        }
+                        else
+                        {
+                            tempPosList.add(posMap.get((String)elegiblePosObj));
+                        }
+                       
+                       
+                    }
+                    if(elegiblePosObj instanceof List)
+                    {
+                        for(Object o : (List)elegiblePosObj)
+                        {
+                            if(!posMap.containsKey((String) o))
+                            {
+                                Position tempPos = new Position();
+                                tempPos.setPosition((String) o);
+                                tempPosList.add(tempPos);
+                                posMap.put((String)o , tempPos);
+                            }
+                            else
+                            {
+                                tempPosList.add(posMap.get((String)o));
+                            }
+                        }
+                    
+                    }
+                    tempPlayer.setEligible_positions(tempPosList);
                 }
                 Map<Integer, List<SeasonStat>> seasonStatmap = statsService.retrieveSeasonStats(playerObjList);
                 playerObjList = connectStatsToPlayer(seasonStatmap, playerObjList);       
@@ -87,7 +132,7 @@ public class PlayerService
                 playerObjList = connectWeeklyStatsToPlayer(statmap, playerObjList);
                 playerSaveList.addAll(playerObjList);
                 start+=count;
-                
+                Logger.getLogger(PlayerService.class.getName()).log(Level.INFO, "Start Count : "+ start);
                 if(count < 25)
                 {
                     morePlayers = false;
@@ -96,7 +141,7 @@ public class PlayerService
                     
                     storePlayersToDatabase(playerSaveList);
                     playerSaveList = new LinkedList<Player>(); 
-                   // Thread.sleep(2000);
+                    Thread.sleep(30000);
 
             } catch (Exception ex) 
             {
@@ -186,7 +231,16 @@ public class PlayerService
         List<ByeWeek> listByeWeek = new LinkedList<ByeWeek>();
         List<PlayerPic> listPlayerPic = new LinkedList<PlayerPic>();
         List<Position> listAvailPositions = new LinkedList<Position>();
-           
+        Map<String,Position> distinctPosions = new HashMap<String, Position>();
+        List<Position> exsistingPositions = positionDAOImpl.getPositions();
+        if(exsistingPositions == null)
+        {
+            exsistingPositions = new LinkedList();
+        }
+        for(Position pos : exsistingPositions)
+        {
+            distinctPosions.put(pos.getPosition(), pos);       
+        }
         for(Player p : playerList)
         {
             List<SeasonStat> tempSSList = p.getSeasonStats();
@@ -201,15 +255,37 @@ public class PlayerService
             {
                listStat.addAll(ws.getStats());
             }
-            
+
+            List<Position> savePosList = new LinkedList<Position>();
+            //positionDAOImpl.getPositions();
+            List<Position> attemptedSavePosList =  p.getEligible_positions();
+            for(Position pos : attemptedSavePosList)
+            {
+                Position savedPos = pos;
+               if(distinctPosions.containsKey(pos.getPosition()))
+               {   
+                   savedPos = distinctPosions.get(pos.getPosition());
+               }
+               else
+               {
+                   distinctPosions.put(pos.getPosition(), pos);
+               }
+                savePosList.add(savedPos);
+               
+            }
+            p.setEligible_positions(savePosList);
             listNames.add(p.getName());
             listByeWeek.add(p.getBye_weeks());
-            listAvailPositions.addAll(p.getEligible_positions());
+            //listAvailPositions.addAll(p.getEligible_positions());
             listPlayerPic.add(p.getHeadshot());
         }
         statDAOImpl.saveStats(listStat);
         seasonStatsDAOImpl.saveSeasonStats(listSS);
         weeklyStatsDAOImpl.saveWeeklyStats(listWS);
+        positionDAOImpl.savePositions(new LinkedList<Position>(distinctPosions.values()));
+        nameDAOImpl.saveNames(listNames);
+        playerPicDAOImpl.savePlayerPics(listPlayerPic);
+        byeWeekDAOImpl.saveByeWeeks(listByeWeek);
         playersDAOImpl.savePlayers(playerList);
     }
         

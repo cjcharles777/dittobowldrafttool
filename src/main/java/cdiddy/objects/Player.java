@@ -7,6 +7,8 @@ package cdiddy.objects;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -17,6 +19,7 @@ import org.hibernate.annotations.LazyCollectionOption;
  */
 @Entity
 @Table(name = "Players")
+@JsonIgnoreProperties({"eligible_positions"})
 public class Player implements Serializable
 {
 
@@ -39,6 +42,7 @@ public class Player implements Serializable
     private String has_player_notes;
     private String has_recent_player_notes;
     private String status;
+    private String on_disabled_list;
     private List<SeasonStat> seasonStats;
     private List<WeeklyStat> weeklyStats;
 
@@ -132,7 +136,7 @@ public class Player implements Serializable
         this.bye_weeks = bye_weeks;
     }
 
-    @Column(name = "uniform_number", length=2, nullable=false)
+    @Column(name = "uniform_number", length=2, nullable=true)
     public String getUniform_number() {
         return uniform_number;
     }
@@ -141,7 +145,7 @@ public class Player implements Serializable
         this.uniform_number = uniform_number;
     }
 
-    @Column(name = "display_position", length=3, nullable=false)
+    @Column(name = "display_position", length=10, nullable=false)
     public String getDisplay_position() {
         return display_position;
     }
@@ -169,7 +173,7 @@ public class Player implements Serializable
         this.image_url = image_url;
     }
     
-    @Column(name = "is_undroppable", length=1, nullable=false) 
+    @Column(name = "is_undroppable", length=1, nullable=true) 
     public String getIs_undroppable() {
         return is_undroppable;
     }
@@ -187,13 +191,13 @@ public class Player implements Serializable
         this.position_type = position_type;
     }
     
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+    
+    @ManyToMany( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
     @JoinTable(
-            name="PlayerToEligiblePositions",
+            name="PlayerToPosition",
             joinColumns = @JoinColumn( name="playerid"),
-            inverseJoinColumns = @JoinColumn( name="position_id")
+            inverseJoinColumns = @JoinColumn( name="position")
     )
-    @LazyCollection(LazyCollectionOption.FALSE)
     public List<Position> getEligible_positions() {
         return eligible_positions;
     }
@@ -202,7 +206,7 @@ public class Player implements Serializable
         this.eligible_positions = eligible_positions;
     }
 
-    @Column(name = "has_player_notes", length=1, nullable=false)
+    @Column(name = "has_player_notes", length=1, nullable=true)
     public String getHas_player_notes() {
         return has_player_notes;
     }
@@ -211,7 +215,7 @@ public class Player implements Serializable
         this.has_player_notes = has_player_notes;
     }
 
-    @Column(name = "has_recent_player_notes", length=1, nullable=false)
+    @Column(name = "has_recent_player_notes", length=1, nullable=true)
     public String getHas_recent_player_notes() {
         return has_recent_player_notes;
     }
@@ -253,7 +257,7 @@ public class Player implements Serializable
         this.weeklyStats = weeklyStats;
     }
     
-    @Column(name = "status", length=1, nullable=false)
+    @Column(name = "status", length=35, nullable=true)
     public String getStatus() {
         return status;
     }
@@ -261,6 +265,16 @@ public class Player implements Serializable
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Column(name = "on_disabled_list", length=1, nullable=true)
+    public String getOn_disabled_list() {
+        return on_disabled_list;
+    }
+
+    public void setOn_disabled_list(String on_disabled_list) {
+        this.on_disabled_list = on_disabled_list;
+    }
    
+    
     
 }

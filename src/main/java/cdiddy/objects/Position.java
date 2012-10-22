@@ -38,7 +38,7 @@ public class Position implements Serializable
         this.id = id;
     }
 
-    @Column(name = "position", length=500, nullable=false, unique=true)
+    @Column(name = "position", length=500, nullable=false, unique=false)
     public String getPosition() {
         return position;
     }

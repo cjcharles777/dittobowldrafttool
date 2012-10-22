@@ -24,6 +24,25 @@
             <target>1.6</target>
           </configuration>
         </plugin>
+        <plugin>
+            <groupId>com.googlecode.addjars-maven-plugin</groupId>
+            <artifactId>addjars-maven-plugin</artifactId>
+            <version>1.0.4</version>
+            <executions>
+            <execution>
+                <goals>
+                    <goal>add-jars</goal>
+                </goals>
+                <configuration>
+                    <resources>
+                        <resource>
+                            <directory>${basedir}/dep</directory>
+                        </resource>
+                    </resources>
+                </configuration>
+            </execution>
+            </executions>
+        </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-jar-plugin</artifactId>
@@ -269,9 +288,16 @@
       <type>jar</type>
     </dependency>
     <dependency>
-      <groupId>Cdiddy.Dep.jars</groupId>
+        <groupId>${project.groupId}</groupId>
+        <version>[${project.version}]</version>
+        <artifactId>lib</artifactId>
+        <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>cdiddy.fanfoot.app</groupId>
       <artifactId>simpleyql</artifactId>
-      <version>1.0</version>
+      <version>0.9.3</version>
+      <type>jar</type>
     </dependency>
   </dependencies>
   

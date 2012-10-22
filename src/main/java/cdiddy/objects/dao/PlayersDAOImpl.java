@@ -52,7 +52,7 @@ public class PlayersDAOImpl implements PlayersDAO
     {
        DetachedCriteria criteria;
        criteria =  DetachedCriteria.forClass(Player.class);
-       criteria.addOrder(Order.asc("yahooId"));
+       criteria.addOrder(Order.asc("player_id"));
        return (List<Player>) hibernateTemplate.findByCriteria(criteria, firstResult, maxResults);
       
     
