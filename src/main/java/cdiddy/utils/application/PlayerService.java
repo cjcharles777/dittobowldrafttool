@@ -201,6 +201,7 @@ public class PlayerService
     {
         List<Player> allPlayers = playersDAOImpl.getAllPlayers();
         List<Player> playersToGetStats = new LinkedList<Player>();
+       
         int i = 0;
         for(Player p : allPlayers)
         {
@@ -212,6 +213,7 @@ public class PlayerService
                 Map<Integer, List<WeeklyStat>> weeklyStats = statsService.retrieveWeeklyStats(playersToGetStats,week);
                 connectWeeklyStatsToPlayer(weeklyStats, playersToGetStats);
                 playersToGetStats = new LinkedList<Player>();
+                storePlayersToDatabase(playersToGetStats);
                 try 
                 {
                     Thread.sleep(30000);
@@ -226,8 +228,9 @@ public class PlayerService
         Logger.getLogger(PlayerService.class.getName()).log(Level.INFO, "Players: " + i + " out of " + allPlayers.size());
         Map<Integer, List<WeeklyStat>> weeklyStats = statsService.retrieveWeeklyStats(playersToGetStats,week);
         connectWeeklyStatsToPlayer(weeklyStats, playersToGetStats);
+        storePlayersToDatabase(playersToGetStats);
          //playersToGetStats = new LinkedList<Player>();
-        storePlayersToDatabase(allPlayers);
+        
     }
 
     
