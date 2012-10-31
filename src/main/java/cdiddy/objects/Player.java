@@ -198,6 +198,7 @@ public class Player implements Serializable
             joinColumns = @JoinColumn( name="playerid"),
             inverseJoinColumns = @JoinColumn( name="position")
     )
+     @LazyCollection(LazyCollectionOption.FALSE)
     public List<Position> getEligible_positions() {
         return eligible_positions;
     }

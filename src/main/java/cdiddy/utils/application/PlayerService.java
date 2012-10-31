@@ -200,7 +200,11 @@ public class PlayerService
                 weekStatMap.put(week.getWeek(), week);
             }
             List<WeeklyStat> playerWeekStat = statmap.get(Integer.parseInt(p.getPlayer_id()));
-            for(WeeklyStat week : tempListWeeklyStat)
+            if(playerWeekStat == null)
+            {
+                playerWeekStat = new LinkedList<WeeklyStat>(); // just incase the player got no stats for this week. o_0
+            }
+            for(WeeklyStat week : playerWeekStat)
             {
                if(weekStatMap.containsKey(week.getWeek()))
                {
@@ -235,6 +239,8 @@ public class PlayerService
                 Map<Integer, List<WeeklyStat>> weeklyStats = statsService.retrieveWeeklyStats(playersToGetStats,week);
                 playerstoSave.addAll(connectWeeklyStatsToPlayer(weeklyStats, playersToGetStats));
                 playersToGetStats = new LinkedList<Player>();
+                storePlayersToDatabase(playerstoSave);
+                playerstoSave = new LinkedList<Player>();
                 try 
                 {
                     Thread.sleep(30000);
@@ -249,6 +255,7 @@ public class PlayerService
         Logger.getLogger(PlayerService.class.getName()).log(Level.INFO, "Players: " + i + " out of " + allPlayers.size());
         Map<Integer, List<WeeklyStat>> weeklyStats = statsService.retrieveWeeklyStats(playersToGetStats,week);
         playerstoSave.addAll(connectWeeklyStatsToPlayer(weeklyStats, playersToGetStats));
+        ///storePlayersToDatabase(playersToGetStats);
          //playersToGetStats = new LinkedList<Player>();
         storePlayersToDatabase(playerstoSave);
     }
