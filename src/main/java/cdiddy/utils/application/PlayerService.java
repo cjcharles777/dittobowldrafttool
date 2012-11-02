@@ -243,7 +243,7 @@ public class PlayerService
                 playerstoSave = new LinkedList<Player>();
                 try 
                 {
-                    Thread.sleep(30000);
+                    Thread.sleep(15000);
                 } 
                 catch (InterruptedException ex) {
                     Logger.getLogger(PlayerService.class.getName()).log(Level.SEVERE, null, ex);
