@@ -189,34 +189,8 @@ public class PlayerService
         List<Player> result = new LinkedList<Player>();
         for(Player p : playerObjList)
         {
-            if(p.getWeeklyStats() == null)
-            {
-                p.setWeeklyStats(new LinkedList<WeeklyStat>());
-            }
-            List <WeeklyStat> tempListWeeklyStat = p.getWeeklyStats();
-            Map <String, WeeklyStat> weekStatMap = new HashMap<String, WeeklyStat>();
-            for(WeeklyStat week : tempListWeeklyStat)
-            {
-                weekStatMap.put(week.getWeek(), week);
-            }
-            List<WeeklyStat> playerWeekStat = statmap.get(Integer.parseInt(p.getPlayer_id()));
-            if(playerWeekStat == null)
-            {
-                playerWeekStat = new LinkedList<WeeklyStat>(); // just incase the player got no stats for this week. o_0
-            }
-            for(WeeklyStat week : playerWeekStat)
-            {
-               if(weekStatMap.containsKey(week.getWeek()))
-               {
-                   weekStatMap.remove(week.getWeek());
-                   weekStatMap.put(week.getWeek(), week);
-               }
-               else
-               {
-                    weekStatMap.put(week.getWeek(), week);
-               }
-            }
-            p.setWeeklyStats(new LinkedList<WeeklyStat>(weekStatMap.values()));
+                   
+            p.setWeeklyStats(statmap.get(Integer.parseInt(p.getPlayer_id())));
             result.add(p);
         
         }
@@ -227,7 +201,7 @@ public class PlayerService
     {
         List<Player> allPlayers = playersDAOImpl.getAllPlayers();
         List<Player> playersToGetStats = new LinkedList<Player>();
-        List<Player> playerstoSave = new LinkedList<Player>();
+       
         int i = 0;
         for(Player p : allPlayers)
         {
@@ -237,13 +211,12 @@ public class PlayerService
             {
                 Logger.getLogger(PlayerService.class.getName()).log(Level.INFO, "Players: " + i + " out of " + allPlayers.size());
                 Map<Integer, List<WeeklyStat>> weeklyStats = statsService.retrieveWeeklyStats(playersToGetStats,week);
-                playerstoSave.addAll(connectWeeklyStatsToPlayer(weeklyStats, playersToGetStats));
+                connectWeeklyStatsToPlayer(weeklyStats, playersToGetStats);
                 playersToGetStats = new LinkedList<Player>();
-                storePlayersToDatabase(playerstoSave);
-                playerstoSave = new LinkedList<Player>();
+                storePlayersToDatabase(playersToGetStats);
                 try 
                 {
-                    Thread.sleep(15000);
+                    Thread.sleep(30000);
                 } 
                 catch (InterruptedException ex) {
                     Logger.getLogger(PlayerService.class.getName()).log(Level.SEVERE, null, ex);
@@ -254,10 +227,10 @@ public class PlayerService
         }
         Logger.getLogger(PlayerService.class.getName()).log(Level.INFO, "Players: " + i + " out of " + allPlayers.size());
         Map<Integer, List<WeeklyStat>> weeklyStats = statsService.retrieveWeeklyStats(playersToGetStats,week);
-        playerstoSave.addAll(connectWeeklyStatsToPlayer(weeklyStats, playersToGetStats));
-        ///storePlayersToDatabase(playersToGetStats);
+        connectWeeklyStatsToPlayer(weeklyStats, playersToGetStats);
+        storePlayersToDatabase(playersToGetStats);
          //playersToGetStats = new LinkedList<Player>();
-        storePlayersToDatabase(playerstoSave);
+        
     }
 
     
@@ -349,6 +322,5 @@ public class PlayerService
          playersDAOImpl.clearPlayers();
     }
     
-    //new
 
 }
