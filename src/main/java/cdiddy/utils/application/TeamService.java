@@ -4,6 +4,8 @@
  */
 package cdiddy.utils.application;
 
+import cdiddy.objects.Player;
+import cdiddy.objects.Roster;
 import cdiddy.objects.Team;
 import cdiddy.objects.TeamStandings;
 import cdiddy.utils.system.JacksonPojoMapper;
@@ -33,7 +35,8 @@ public class TeamService
     
     @Autowired
     OAuthConnection conn;
-    
+    @Autowired
+    private YQLQueryUtil yqlUitl ;
     
     public List<Team> loadUserTeams()
     {
@@ -49,6 +52,7 @@ public class TeamService
         String response2 = conn.requestData("http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams/standings?format=json", Verb.GET);
         try 
         {
+           
             
             userData = mapper.readValue(response2, Map.class);
             params = (Map<String, Object>)userData.get("fantasy_content");
@@ -140,6 +144,30 @@ public class TeamService
 
         return team;
   
+    }
+    public Roster getRoster (String teamKey, int week)
+    {
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String,Object> userData;
+            Map<String,Object> results;
+            Map<String,Object> query;
+            Roster rosterResults = null;
+            String yql = "select * from fantasysports.teams.roster where team_key='"+ teamKey +"' and week='"+ week +"'";
+            String response = yqlUitl.queryYQL(yql);
+            try
+            {
+                userData = mapper.readValue(response, Map.class);
+                query = (Map<String, Object>)userData.get("query"); // query details
+                results = (Map<String, Object>)query.get("results"); //result details
+                Roster roster = mapper.readValue(JacksonPojoMapper.toJson((Map)results.get("roster"), false) , Roster.class);
+                rosterResults = roster;
+            }
+            catch(Exception e)
+            {
+                 Logger.getLogger(TeamService.class.getName()).log(Level.SEVERE, null, e);
+            }
+             
+             return rosterResults;
     }
     private Team convertToTeam(List<Object> lmpTeams) 
     {
