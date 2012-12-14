@@ -15,7 +15,7 @@ import java.net.URL;
  */
 public class DataRequestCaller {
     
-    public static Object requestData(String requestURL, String method)
+    public static String requestData(String requestURL, String method)
     {
         
         try
@@ -30,6 +30,8 @@ public class DataRequestCaller {
                                     + conn.getResponseCode());
             }
 
+            
+        
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     (conn.getInputStream())));
 
