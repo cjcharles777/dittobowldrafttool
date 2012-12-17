@@ -6,13 +6,21 @@ package cdiddy.services.rest;
 
 import cdiddy.objects.Player;
 import cdiddy.utils.system.DataRequestCaller;
+import cdiddy.utils.system.JacksonPojoMapper;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author cedric
  */
+
+@Repository("playerRESTUtil")
 public class PlayersRESTService 
 {
     private String BaseURL = "http://donkeigy.endofinternet.net:18077/fantasy-football-data-service/restServices/";
@@ -20,24 +28,43 @@ public class PlayersRESTService
     
     public Player retrivePlayer(int playerid) 
     {
-        ObjectMapper mapper = new ObjectMapper();
-        String URL = BaseURL+"players/retrievePlayer/"+playerid;
-        String jsonResult = DataRequestCaller.requestData(URL, "GET");
-        
+        try 
+        {
+            ObjectMapper mapper = new ObjectMapper();
+            String URL = BaseURL+"players/retrievePlayer/"+playerid;
+            String jsonResult = DataRequestCaller.requestData(URL, "GET");
+            Player result = mapper.readValue(jsonResult, Player.class);
+           return result;
+        } 
+        catch (Exception ex) 
+        {
+            Logger.getLogger(PlayersRESTService.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } 
        
-        URLConnection urlConnection =  new URL(fetchUrl).openConnection();
-    urlConnection.connect();
-    JsonReader reader = new JsonReader(
-         new InputStreamReader(urlConnection.getInputStream()));
-    JsonParser parser = new JsonParser();
-    JsonElement rootElement = parser.parse(reader);
-    JsonArray tweetsJson = rootElement.getAsJsonArray();
-         return playersDAOImpl.getPlayerbyYahooId(playerid);
     }
     
     public List<Player> retrivePlayers(int firstResult, int maxResults) 
     {
-        return playersDAOImpl.getPlayers(firstResult, maxResults);
+                try 
+        {
+            ObjectMapper mapper = new ObjectMapper();
+            String URL = BaseURL+"players/retrievePlayers/"+firstResult+"/"+maxResults;
+            String jsonResult = DataRequestCaller.requestData(URL, "GET");
+            List<Map> retivedList = mapper.readValue(jsonResult, List.class);
+            List<Player> result = new LinkedList<Player>();
+            for(Map temp : retivedList)
+            {
+               Player tempPlayer = mapper.readValue(JacksonPojoMapper.toJson(temp, false) , Player.class);
+               result.add(tempPlayer);
+            }
+           return result;
+        } 
+        catch (Exception ex) 
+        {
+            Logger.getLogger(PlayersRESTService.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } 
     }
     
 }

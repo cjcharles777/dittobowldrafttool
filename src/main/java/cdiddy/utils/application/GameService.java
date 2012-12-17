@@ -5,8 +5,6 @@
 package cdiddy.utils.application;
 
 import cdiddy.objects.GameWeek;
-import cdiddy.objects.Stat;
-import cdiddy.objects.Team;
 import cdiddy.utils.system.JacksonPojoMapper;
 import cdiddy.utils.system.OAuthConnection;
 import java.io.IOException;
@@ -15,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.scribe.model.Verb;
 import org.springframework.beans.factory.annotation.Autowired;

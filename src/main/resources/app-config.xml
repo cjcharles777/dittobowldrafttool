@@ -22,6 +22,7 @@
     </bean>
 
     <context:component-scan base-package="cdiddy.objects" />
+     <context:component-scan base-package="cdiddy.services.rest" />
     <context:component-scan base-package="cdiddy.objects.dao" />
      <context:component-scan base-package="cdiddy.utils.application" />
     <context:component-scan base-package="cdiddy.utils.system" />

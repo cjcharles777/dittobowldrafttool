@@ -6,6 +6,7 @@ package cdiddy.gui;
 
 import cdiddy.gui.table.model.PlayersTableModel;
 import cdiddy.objects.Player;
+import cdiddy.services.rest.PlayersRESTService;
 import cdiddy.utils.application.PlayerService;
 import java.util.List;
 import javax.swing.JTable;
@@ -16,7 +17,7 @@ import javax.swing.SwingUtilities;
  * @author DMDD
  */
 public class PlayerPanel extends javax.swing.JPanel {
-  private PlayerService playerUtil;
+  private PlayersRESTService playerUtil;
   private List<Player> playersList;
     /**
      * Creates new form PlayerPanel
@@ -26,7 +27,7 @@ public class PlayerPanel extends javax.swing.JPanel {
         initComponents();
     }
 
-    public PlayerPanel(PlayerService playerUtil) {
+    public PlayerPanel(PlayersRESTService playerUtil) {
         this.playerUtil = playerUtil;
         playersList = playerUtil.retrivePlayers(0,25);
         initComponents();
