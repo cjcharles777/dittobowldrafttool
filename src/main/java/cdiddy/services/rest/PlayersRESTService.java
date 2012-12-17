@@ -46,14 +46,14 @@ public class PlayersRESTService
     
     public List<Player> retrivePlayers(int firstResult, int maxResults) 
     {
-                try 
+        try 
         {
             ObjectMapper mapper = new ObjectMapper();
             String URL = BaseURL+"players/retrievePlayers/"+firstResult+"/"+maxResults;
             String jsonResult = DataRequestCaller.requestData(URL, "GET");
-            List<Map> retivedList = mapper.readValue(jsonResult, List.class);
+            List<Map> retrievedList = mapper.readValue(jsonResult, List.class);
             List<Player> result = new LinkedList<Player>();
-            for(Map temp : retivedList)
+            for(Map temp : retrievedList)
             {
                Player tempPlayer = mapper.readValue(JacksonPojoMapper.toJson(temp, false) , Player.class);
                result.add(tempPlayer);

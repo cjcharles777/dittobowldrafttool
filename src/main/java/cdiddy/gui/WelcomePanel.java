@@ -4,18 +4,8 @@
  */
 package cdiddy.gui;
 
-import cdiddy.gui.UserTeamListPanel;
-import cdiddy.objects.Team;
-import cdiddy.objects.comparators.TeamRankComparator;
+import cdiddy.services.rest.PlayersRESTService;
 import cdiddy.utils.application.TeamService;
-import java.awt.Component;
-import java.util.Collections;
-import java.util.List;
-import javax.swing.AbstractCellEditor;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -23,6 +13,7 @@ import javax.swing.table.TableCellRenderer;
  */
 public class WelcomePanel extends javax.swing.JPanel {
 private TeamService teamservice;
+private PlayersRESTService playersRESTService;
 
     /**
      * Creates new form WelcomePanel
@@ -30,9 +21,10 @@ private TeamService teamservice;
     public WelcomePanel() {
         initComponents();
     }
-    public WelcomePanel(TeamService teamservice) 
+    public WelcomePanel(TeamService teamservice, PlayersRESTService playersRESTService) 
     {
-        this.teamservice = teamservice;   
+        this.teamservice = teamservice;
+        this.playersRESTService = playersRESTService;
         initComponents();
            
     }
@@ -48,12 +40,11 @@ private TeamService teamservice;
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new UserTeamListPanel(teamservice);
         jPanel2 = new LeaugeTeamListPanel(teamservice);
+        rosterPanel = new TeamRosterPanel(teamservice, playersRESTService);
 
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
         jTabbedPane1.addTab("My Teams", jPanel1);
-
-        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
         jTabbedPane1.addTab("League", jPanel2);
+        jTabbedPane1.addTab("Roster", rosterPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -70,10 +61,17 @@ private TeamService teamservice;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JPanel rosterPanel;
     // End of variables declaration//GEN-END:variables
 
     public void loadTableForLeauge(String leaugeid) {
        ((LeaugeTeamListPanel) jPanel2).populateLeauge(leaugeid);
        jTabbedPane1.setSelectedComponent(jPanel2); 
    }
+
+    public void loadTableForRoster(String teamId) 
+    {
+        ((TeamRosterPanel) rosterPanel).populateRoster(teamId);
+       jTabbedPane1.setSelectedComponent(rosterPanel); 
+    }
 }

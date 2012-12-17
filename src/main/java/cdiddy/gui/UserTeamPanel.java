@@ -4,8 +4,6 @@
  */
 package cdiddy.gui;
 
-import cdiddy.gui.FantasyFootballFrame;
-import cdiddy.objects.Player;
 import cdiddy.objects.Team;
 import cdiddy.objects.TeamStandings;
 import java.net.URL;
@@ -93,6 +91,13 @@ public class UserTeamPanel extends javax.swing.JPanel {
         numOfTies = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         ranking = new javax.swing.JLabel();
+        rosterLabel = new javax.swing.JLabel();
+
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         teamName.setText("Team Name");
         teamName.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -114,6 +119,14 @@ public class UserTeamPanel extends javax.swing.JPanel {
         jLabel5.setText("Ties");
 
         ranking.setText("0");
+
+        rosterLabel.setForeground(new java.awt.Color(1, 68, 250));
+        rosterLabel.setText("Roster");
+        rosterLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rosterLabelMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -139,6 +152,8 @@ public class UserTeamPanel extends javax.swing.JPanel {
                         .addComponent(numOfTies, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
+                        .addGap(38, 38, 38)
+                        .addComponent(rosterLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(ranking, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(11, 11, 11))))
@@ -148,9 +163,6 @@ public class UserTeamPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(teamPhoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(teamName, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -162,11 +174,13 @@ public class UserTeamPanel extends javax.swing.JPanel {
                                     .addComponent(numOfLosses)
                                     .addComponent(jLabel3)
                                     .addComponent(numOfTies)
-                                    .addComponent(jLabel5))
+                                    .addComponent(jLabel5)
+                                    .addComponent(rosterLabel))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(ranking, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                                .addContainerGap())))))
+                                .addComponent(ranking, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())))
+                    .addComponent(teamPhoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -174,6 +188,14 @@ public class UserTeamPanel extends javax.swing.JPanel {
           
        ( (FantasyFootballFrame) (SwingUtilities.getWindowAncestor(this))).prepareLeaugeInfo(team.getLeaugeid());
     }//GEN-LAST:event_teamNameMouseClicked
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formMouseClicked
+
+    private void rosterLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rosterLabelMouseClicked
+         ( (FantasyFootballFrame) (SwingUtilities.getWindowAncestor(this))).prepareRosterInfo(team.getTeamKey());
+    }//GEN-LAST:event_rosterLabelMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -183,6 +205,7 @@ public class UserTeamPanel extends javax.swing.JPanel {
     private javax.swing.JLabel numOfTies;
     private javax.swing.JLabel numOfWins;
     private javax.swing.JLabel ranking;
+    private javax.swing.JLabel rosterLabel;
     private javax.swing.JLabel teamName;
     private javax.swing.JLabel teamPhoto;
     // End of variables declaration//GEN-END:variables

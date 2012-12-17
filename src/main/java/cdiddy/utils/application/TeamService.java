@@ -150,6 +150,7 @@ public class TeamService
             ObjectMapper mapper = new ObjectMapper();
             Map<String,Object> userData;
             Map<String,Object> results;
+            Map<String,Object> team;
             Map<String,Object> query;
             Roster rosterResults = null;
             String yql = "select * from fantasysports.teams.roster where team_key='"+ teamKey +"' and week='"+ week +"'";
@@ -159,7 +160,8 @@ public class TeamService
                 userData = mapper.readValue(response, Map.class);
                 query = (Map<String, Object>)userData.get("query"); // query details
                 results = (Map<String, Object>)query.get("results"); //result details
-                Roster roster = mapper.readValue(JacksonPojoMapper.toJson((Map)results.get("roster"), false) , Roster.class);
+                team = (Map<String, Object>)results.get("team"); //result details
+                Roster roster = mapper.readValue(JacksonPojoMapper.toJson((Map)team.get("roster"), false) , Roster.class);
                 rosterResults = roster;
             }
             catch(Exception e)

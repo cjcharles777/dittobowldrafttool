@@ -22,7 +22,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
       private static final ApplicationContext applicationContext = 
         new ClassPathXmlApplicationContext("app-config.xml");
         private static OAuthConnection conn = applicationContext.getBean(OAuthConnection.class);
-         private static PlayersRESTService playersRESTUtil = applicationContext.getBean(PlayersRESTService.class);
+         private static PlayersRESTService playersRESTService = applicationContext.getBean(PlayersRESTService.class);
          private static StatsService statsService = applicationContext.getBean(StatsService.class);
          private static TeamService teamService = applicationContext.getBean(TeamService.class);
          private static GameService gameService = applicationContext.getBean(GameService.class);
@@ -46,9 +46,9 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        welcomePanel = new cdiddy.gui.WelcomePanel(teamService);
-        playerPanel = new cdiddy.gui.PlayerPanel(playersRESTUtil);
-        playerInfoPanel = playerInfoPanel = new PlayerInfoPanel(playersRESTUtil, statsService);
+        welcomePanel = new cdiddy.gui.WelcomePanel(teamService, playersRESTService);
+        playerPanel = new cdiddy.gui.PlayerPanel(playersRESTService);
+        playerInfoPanel = playerInfoPanel = new PlayerInfoPanel(playersRESTService, statsService);
         apiTestPanel = new APITestPanel(conn);
         testButtonPanel = new TestButtonPanel(gameService);
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -147,6 +147,13 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         cl.show(jPanel1, "card3");
     }
     
+    public void prepareRosterInfo(String teamId) 
+    {
+       ((WelcomePanel) welcomePanel).loadTableForRoster(teamId);
+        CardLayout cl = (CardLayout)(jPanel1.getLayout());
+        cl.show(jPanel1, "card3");
+    }
+    
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
    CardLayout cl = (CardLayout)(jPanel1.getLayout());
    cl.show(jPanel1, "card2");
@@ -222,6 +229,10 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private javax.swing.JPanel testButtonPanel;
     private javax.swing.JPanel welcomePanel;
     // End of variables declaration//GEN-END:variables
+
+
+
+
 
 
 }

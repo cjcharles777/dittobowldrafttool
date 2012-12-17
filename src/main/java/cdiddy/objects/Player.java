@@ -19,7 +19,7 @@ import org.hibernate.annotations.LazyCollectionOption;
  */
 @Entity
 @Table(name = "Players")
-@JsonIgnoreProperties({"eligible_positions"})
+@JsonIgnoreProperties({"eligible_positions", "selected_position"})
 public class Player implements Serializable
 {
 
