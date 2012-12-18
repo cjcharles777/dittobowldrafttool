@@ -7,13 +7,9 @@ package cdiddy.gui;
 import cdiddy.gui.table.model.PlayerSeasonInfoPanelTableModel;
 import cdiddy.gui.table.model.PlayerWeeklyInfoPanelTableModel;
 import cdiddy.objects.Player;
-import cdiddy.objects.Stat;
-import cdiddy.objects.StatCategory;
 import cdiddy.services.rest.PlayersRESTService;
-import cdiddy.utils.application.PlayerService;
 import cdiddy.utils.application.StatsService;
 import java.net.URL;
-import javax.swing.ComboBoxModel;
 import javax.swing.ImageIcon;
 
 /**

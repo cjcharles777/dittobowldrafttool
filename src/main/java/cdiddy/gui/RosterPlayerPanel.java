@@ -92,9 +92,9 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
         playerStatsPanel = new javax.swing.JPanel();
         passingStatsPanel = new javax.swing.JPanel();
         passingStatsContainerPanel = new javax.swing.JPanel();
-        passingYrdsLabel = new javax.swing.JLabel();
-        passingTDLabel = new javax.swing.JLabel();
         passingInt = new javax.swing.JLabel();
+        passingTDLabel = new javax.swing.JLabel();
+        passingYrdsLabel = new javax.swing.JLabel();
         rushingStatsPanel = new javax.swing.JPanel();
         rushingStatsContainerPanel = new javax.swing.JPanel();
         rushingYrdsLabel = new javax.swing.JLabel();
@@ -111,24 +111,22 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
         fanPointsPanel = new javax.swing.JPanel();
         totalFanPtsLabel = new javax.swing.JLabel();
 
+        setOpaque(false);
+
         positionPanel.setPreferredSize(new java.awt.Dimension(47, 50));
 
+        positionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         positionLabel.setText("pos");
 
         javax.swing.GroupLayout positionPanelLayout = new javax.swing.GroupLayout(positionPanel);
         positionPanel.setLayout(positionPanelLayout);
         positionPanelLayout.setHorizontalGroup(
             positionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(positionPanelLayout.createSequentialGroup()
-                .addComponent(positionLabel)
-                .addGap(0, 25, Short.MAX_VALUE))
+            .addComponent(positionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
         );
         positionPanelLayout.setVerticalGroup(
             positionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(positionPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(positionLabel)
-                .addContainerGap(22, Short.MAX_VALUE))
+            .addComponent(positionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         playerInfoPanel.setPreferredSize(new java.awt.Dimension(289, 50));
@@ -155,48 +153,47 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
             playerInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(playerInfoPanelLayout.createSequentialGroup()
                 .addComponent(playerNameLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(playerInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(playerTeamPosLabel)
+                    .addComponent(playerTeamPosLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(oppLabel)))
         );
 
         playerStatsPanel.setPreferredSize(new java.awt.Dimension(511, 50));
 
-        passingYrdsLabel.setText("0");
+        passingInt.setText("0");
+        passingInt.setPreferredSize(new java.awt.Dimension(56, 50));
 
         passingTDLabel.setText("0");
+        passingTDLabel.setPreferredSize(new java.awt.Dimension(56, 50));
 
-        passingInt.setText("0");
+        passingYrdsLabel.setText("0");
+        passingYrdsLabel.setPreferredSize(new java.awt.Dimension(56, 50));
 
         javax.swing.GroupLayout passingStatsContainerPanelLayout = new javax.swing.GroupLayout(passingStatsContainerPanel);
         passingStatsContainerPanel.setLayout(passingStatsContainerPanelLayout);
         passingStatsContainerPanelLayout.setHorizontalGroup(
             passingStatsContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(passingStatsContainerPanelLayout.createSequentialGroup()
-                .addComponent(passingYrdsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(passingTDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(passingInt, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(passingYrdsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passingInt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passingTDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         passingStatsContainerPanelLayout.setVerticalGroup(
             passingStatsContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(passingStatsContainerPanelLayout.createSequentialGroup()
-                .addGroup(passingStatsContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passingYrdsLabel)
-                    .addComponent(passingTDLabel)
-                    .addComponent(passingInt))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(passingStatsContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(passingYrdsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(passingInt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(passingTDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout passingStatsPanelLayout = new javax.swing.GroupLayout(passingStatsPanel);
         passingStatsPanel.setLayout(passingStatsPanelLayout);
         passingStatsPanelLayout.setHorizontalGroup(
             passingStatsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(passingStatsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(passingStatsContainerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(passingStatsContainerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         passingStatsPanelLayout.setVerticalGroup(
             passingStatsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,59 +201,58 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
         );
 
         rushingYrdsLabel.setText("0");
+        rushingYrdsLabel.setPreferredSize(new java.awt.Dimension(56, 50));
 
         rushingTDLabel.setText("0");
+        rushingTDLabel.setPreferredSize(new java.awt.Dimension(56, 50));
 
         javax.swing.GroupLayout rushingStatsContainerPanelLayout = new javax.swing.GroupLayout(rushingStatsContainerPanel);
         rushingStatsContainerPanel.setLayout(rushingStatsContainerPanelLayout);
         rushingStatsContainerPanelLayout.setHorizontalGroup(
             rushingStatsContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rushingStatsContainerPanelLayout.createSequentialGroup()
-                .addComponent(rushingYrdsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(rushingYrdsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(rushingTDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(rushingTDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         rushingStatsContainerPanelLayout.setVerticalGroup(
             rushingStatsContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(rushingStatsContainerPanelLayout.createSequentialGroup()
-                .addGroup(rushingStatsContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rushingYrdsLabel)
-                    .addComponent(rushingTDLabel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(rushingStatsContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(rushingYrdsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(rushingTDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout rushingStatsPanelLayout = new javax.swing.GroupLayout(rushingStatsPanel);
         rushingStatsPanel.setLayout(rushingStatsPanelLayout);
         rushingStatsPanelLayout.setHorizontalGroup(
             rushingStatsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(rushingStatsContainerPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(rushingStatsContainerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         rushingStatsPanelLayout.setVerticalGroup(
             rushingStatsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(rushingStatsContainerPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(rushingStatsContainerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         recievingYrdsLabel.setText("0");
+        recievingYrdsLabel.setPreferredSize(new java.awt.Dimension(56, 50));
 
         recievingTDLabel.setText("0");
+        recievingTDLabel.setPreferredSize(new java.awt.Dimension(56, 50));
 
         javax.swing.GroupLayout recievingStatsContainerPanelLayout = new javax.swing.GroupLayout(recievingStatsContainerPanel);
         recievingStatsContainerPanel.setLayout(recievingStatsContainerPanelLayout);
         recievingStatsContainerPanelLayout.setHorizontalGroup(
             recievingStatsContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(recievingStatsContainerPanelLayout.createSequentialGroup()
-                .addComponent(recievingYrdsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(recievingYrdsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(recievingTDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(recievingTDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         recievingStatsContainerPanelLayout.setVerticalGroup(
             recievingStatsContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(recievingStatsContainerPanelLayout.createSequentialGroup()
-                .addGroup(recievingStatsContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(recievingYrdsLabel)
-                    .addComponent(recievingTDLabel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(recievingStatsContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(recievingYrdsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(recievingTDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout recievingStatsPanelLayout = new javax.swing.GroupLayout(recievingStatsPanel);
@@ -270,43 +266,44 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
             .addComponent(recievingStatsContainerPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        miscStatsContainerPanel.setPreferredSize(new java.awt.Dimension(192, 50));
+
         retTDLabel.setText("0");
+        retTDLabel.setPreferredSize(new java.awt.Dimension(56, 50));
 
         twoPtLabel.setText("0");
+        twoPtLabel.setPreferredSize(new java.awt.Dimension(56, 50));
 
         lostFumLabel.setText("0");
+        lostFumLabel.setPreferredSize(new java.awt.Dimension(56, 50));
 
         javax.swing.GroupLayout miscStatsContainerPanelLayout = new javax.swing.GroupLayout(miscStatsContainerPanel);
         miscStatsContainerPanel.setLayout(miscStatsContainerPanelLayout);
         miscStatsContainerPanelLayout.setHorizontalGroup(
             miscStatsContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(miscStatsContainerPanelLayout.createSequentialGroup()
-                .addComponent(retTDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(retTDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(twoPtLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(twoPtLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lostFumLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lostFumLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         miscStatsContainerPanelLayout.setVerticalGroup(
             miscStatsContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(miscStatsContainerPanelLayout.createSequentialGroup()
-                .addGroup(miscStatsContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(retTDLabel)
-                    .addComponent(twoPtLabel)
-                    .addComponent(lostFumLabel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(miscStatsContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(twoPtLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lostFumLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(retTDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout miscStatsPanelLayout = new javax.swing.GroupLayout(miscStatsPanel);
         miscStatsPanel.setLayout(miscStatsPanelLayout);
         miscStatsPanelLayout.setHorizontalGroup(
             miscStatsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 144, Short.MAX_VALUE)
+            .addGap(0, 192, Short.MAX_VALUE)
             .addGroup(miscStatsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(miscStatsPanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(miscStatsContainerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+                .addComponent(miscStatsContainerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         miscStatsPanelLayout.setVerticalGroup(
             miscStatsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,19 +312,21 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
                 .addComponent(miscStatsContainerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        fanPointsPanel.setPreferredSize(new java.awt.Dimension(56, 28));
+
         totalFanPtsLabel.setText("0");
+        totalFanPtsLabel.setPreferredSize(new java.awt.Dimension(56, 28));
+        totalFanPtsLabel.setVerifyInputWhenFocusTarget(false);
 
         javax.swing.GroupLayout fanPointsPanelLayout = new javax.swing.GroupLayout(fanPointsPanel);
         fanPointsPanel.setLayout(fanPointsPanelLayout);
         fanPointsPanelLayout.setHorizontalGroup(
             fanPointsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(totalFanPtsLabel)
+            .addComponent(totalFanPtsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         fanPointsPanelLayout.setVerticalGroup(
             fanPointsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(fanPointsPanelLayout.createSequentialGroup()
-                .addComponent(totalFanPtsLabel)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(totalFanPtsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout playerStatsPanelLayout = new javax.swing.GroupLayout(playerStatsPanel);
@@ -353,7 +352,7 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
             .addComponent(rushingStatsPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(miscStatsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(passingStatsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(fanPointsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(fanPointsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -364,8 +363,8 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
                 .addComponent(positionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(playerInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(playerStatsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(playerStatsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(

@@ -4,7 +4,6 @@
  */
 package cdiddy.utils.application;
 
-import cdiddy.objects.Player;
 import cdiddy.objects.Roster;
 import cdiddy.objects.Team;
 import cdiddy.objects.TeamStandings;
@@ -17,8 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.scribe.model.Verb;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,6 +143,33 @@ public class TeamService
   
     }
     public Roster getRoster (String teamKey, int week)
+    {
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String,Object> userData;
+            Map<String,Object> results;
+            Map<String,Object> team;
+            Map<String,Object> query;
+            Roster rosterResults = null;
+            String yql = "select * from fantasysports.teams.roster where team_key='"+ teamKey +"' and week='"+ week +"'";
+            String response = yqlUitl.queryYQL(yql);
+            try
+            {
+                userData = mapper.readValue(response, Map.class);
+                query = (Map<String, Object>)userData.get("query"); // query details
+                results = (Map<String, Object>)query.get("results"); //result details
+                team = (Map<String, Object>)results.get("team"); //result details
+                Roster roster = mapper.readValue(JacksonPojoMapper.toJson((Map)team.get("roster"), false) , Roster.class);
+                rosterResults = roster;
+            }
+            catch(Exception e)
+            {
+                 Logger.getLogger(TeamService.class.getName()).log(Level.SEVERE, null, e);
+            }
+             
+             return rosterResults;
+    }
+    
+    public Roster getRoster2 (String teamKey, int week)
     {
             ObjectMapper mapper = new ObjectMapper();
             Map<String,Object> userData;

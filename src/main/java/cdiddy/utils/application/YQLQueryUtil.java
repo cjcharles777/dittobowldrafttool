@@ -10,9 +10,6 @@ import com.simpleyql.ApiFactory;
 import com.simpleyql.QueryResult;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.httpclient.URIException;
-import org.apache.commons.httpclient.util.URIUtil;
-import org.scribe.model.Verb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

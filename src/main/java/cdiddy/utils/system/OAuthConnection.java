@@ -5,8 +5,8 @@
 package cdiddy.utils.system;
 
 import cdiddy.objects.OAuthToken;
-import cdiddy.objects.dao.OAuthDAO;
-import cdiddy.objects.dao.OAuthDAOImpl;
+import cdiddy.dao.OAuthDAO;
+import cdiddy.dao.OAuthDAOImpl;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;

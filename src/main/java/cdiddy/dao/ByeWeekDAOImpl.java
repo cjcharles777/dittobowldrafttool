@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cdiddy.objects.dao;
+package cdiddy.dao;
 
-import cdiddy.objects.Position;
+import cdiddy.objects.ByeWeek;
 import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author cedric
  */
-@Repository("positionDAO")
+
+@Repository("ByeWeekDAO")
 @Transactional
-public class PositionDAOImpl implements PositionDAO
+public class ByeWeekDAOImpl implements ByeWeekDAO
 {
         private HibernateTemplate hibernateTemplate;
     
@@ -29,38 +30,42 @@ public class PositionDAOImpl implements PositionDAO
     
     @Transactional(readOnly = false)
     @Override
-    public void savePosition(Position p) 
+    public void saveByeWeek(ByeWeek bw) 
     {
-         hibernateTemplate.saveOrUpdate(p);
+         hibernateTemplate.saveOrUpdate(bw);
     }
 
     @Transactional(readOnly = false)
     @Override
-    public void savePositions(List<Position> listN) {
-         hibernateTemplate.saveOrUpdateAll(listN);
-    }
-
-    @Override
-    public List<Position> getPositions() {
-          return (List<Position>) hibernateTemplate.find("from "
-                + Position.class.getName());
-    }
-
-    @Override
-    public Position gePositionById(int positionId) 
+    public void saveByeWeeks(List<ByeWeek> listBW) 
     {
-        return hibernateTemplate.get(Position.class, positionId);
+         hibernateTemplate.saveOrUpdateAll(listBW);
+    }
+
+    @Override
+    public List<ByeWeek> getByeWeeks() {
+          return (List<ByeWeek>) hibernateTemplate.find("from "
+                + ByeWeek.class.getName());
+    }
+
+    @Override
+    public ByeWeek geByeWeekById(int byeWeekId) 
+    {
+        return hibernateTemplate.get(ByeWeek.class, byeWeekId);
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void deletePosition(Position p) {
-        hibernateTemplate.delete(p);
+    public void deleteByeWeek(ByeWeek bw) 
+    {
+        hibernateTemplate.delete(bw);
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void clearPositions() {
-         hibernateTemplate.deleteAll(hibernateTemplate.loadAll(Position.class));
+    public void clearByeWeeks() 
+    {
+         hibernateTemplate.deleteAll(hibernateTemplate.loadAll(ByeWeek.class));
     }
+    
 }

@@ -5,6 +5,14 @@
 package cdiddy.utils.application;
 
 
+import cdiddy.dao.StatDAO;
+import cdiddy.dao.PlayersDAO;
+import cdiddy.dao.NameDAO;
+import cdiddy.dao.PlayerPicDAO;
+import cdiddy.dao.ByeWeekDAO;
+import cdiddy.dao.WeeklyStatsDAO;
+import cdiddy.dao.SeasonStatsDAO;
+import cdiddy.dao.PositionDAO;
 import cdiddy.objects.ByeWeek;
 import cdiddy.objects.Name;
 import cdiddy.objects.Player;
@@ -13,7 +21,6 @@ import cdiddy.objects.Position;
 import cdiddy.objects.SeasonStat;
 import cdiddy.objects.Stat;
 import cdiddy.objects.WeeklyStat;
-import cdiddy.objects.dao.*;
 import cdiddy.utils.system.JacksonPojoMapper;
 import cdiddy.utils.system.OAuthConnection;
 import java.util.*;

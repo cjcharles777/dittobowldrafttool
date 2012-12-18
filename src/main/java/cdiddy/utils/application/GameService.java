@@ -5,6 +5,7 @@
 package cdiddy.utils.application;
 
 import cdiddy.objects.GameWeek;
+import cdiddy.objects.league.YahooLeague;
 import cdiddy.utils.system.JacksonPojoMapper;
 import cdiddy.utils.system.OAuthConnection;
 import java.io.IOException;
@@ -28,7 +29,9 @@ public class GameService
 {
     
     @Autowired
-    OAuthConnection conn;
+    private OAuthConnection conn;
+    @Autowired
+    private YQLQueryUtil yqlUitl ;
     
     
     public List<GameWeek> retrieveGameWeeks()
@@ -68,4 +71,37 @@ public class GameService
         return result;
      
     }
+    
+    public List<YahooLeague> getUserLeagues ()
+    {
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String,Object> userData;
+            Map<String,Object> results;
+            List<Map<String, Object>> leaugeList;
+            Map<String,Object> query;
+            List<YahooLeague>  leagueListResults = new LinkedList<YahooLeague>();
+            String yql = "select * from fantasysports.leagues.settings where game_key = 'nfl' and use_login=1";
+            String response = yqlUitl.queryYQL(yql);
+            try
+            {
+                userData = mapper.readValue(response, Map.class);
+                query = (Map<String, Object>)userData.get("query"); // query details
+                results = (Map<String, Object>)query.get("results"); //result details
+                leaugeList = (List<Map<String, Object>>)results.get("leauge"); //result details
+                for (Map map : leaugeList)
+                {
+                    YahooLeague tempLeauge = mapper.readValue(JacksonPojoMapper.toJson(map, false) , YahooLeague.class);
+                    leagueListResults.add(tempLeauge);
+                }
+                
+               
+            }
+            catch(Exception e)
+            {
+                 Logger.getLogger(TeamService.class.getName()).log(Level.SEVERE, null, e);
+            }
+             
+             return leagueListResults;
+    }
+    
 }

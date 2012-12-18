@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cdiddy.objects.dao;
+package cdiddy.dao;
 
 import cdiddy.objects.Player;
 import java.util.List;

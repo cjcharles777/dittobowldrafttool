@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <Properties>
+    <Property name="opaque" type="boolean" value="false"/>
+  </Properties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -20,8 +23,8 @@
               <Component id="positionPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="playerInfoPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="playerStatsPanel" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="playerStatsPanel" pref="565" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -45,25 +48,19 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Component id="positionLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="25" max="32767" attributes="0"/>
-              </Group>
+              <Component id="positionLabel" alignment="0" pref="47" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="positionLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="22" max="32767" attributes="0"/>
-              </Group>
+              <Component id="positionLabel" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JLabel" name="positionLabel">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="pos"/>
           </Properties>
         </Component>
@@ -94,9 +91,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="playerNameLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="18" max="32767" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="playerTeamPosLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="playerTeamPosLabel" alignment="3" max="32767" attributes="0"/>
                       <Component id="oppLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -152,7 +149,7 @@
               <Component id="rushingStatsPanel" alignment="1" max="32767" attributes="0"/>
               <Component id="miscStatsPanel" alignment="0" max="32767" attributes="0"/>
               <Component id="passingStatsPanel" alignment="0" max="32767" attributes="0"/>
-              <Component id="fanPointsPanel" alignment="0" max="32767" attributes="0"/>
+              <Component id="fanPointsPanel" alignment="0" pref="50" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -162,10 +159,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="passingStatsContainerPanel" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="passingStatsContainerPanel" min="-2" max="-2" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -181,41 +175,47 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="passingYrdsLabel" min="-2" pref="36" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="passingTDLabel" min="-2" pref="36" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="passingInt" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="passingYrdsLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="passingInt" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="passingTDLabel" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="passingYrdsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="passingTDLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="passingInt" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="passingYrdsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="passingInt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="passingTDLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="passingYrdsLabel">
+                <Component class="javax.swing.JLabel" name="passingInt">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="0"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[56, 50]"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="passingTDLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="0"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[56, 50]"/>
+                    </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="passingInt">
+                <Component class="javax.swing.JLabel" name="passingYrdsLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="0"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[56, 50]"/>
+                    </Property>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -227,12 +227,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="rushingStatsContainerPanel" alignment="1" max="32767" attributes="0"/>
+                  <Component id="rushingStatsContainerPanel" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="rushingStatsContainerPanel" alignment="1" max="32767" attributes="0"/>
+                  <Component id="rushingStatsContainerPanel" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -243,21 +243,17 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="rushingYrdsLabel" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="rushingYrdsLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="rushingTDLabel" min="-2" pref="36" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="rushingTDLabel" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="rushingYrdsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rushingTDLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                          <Component id="rushingYrdsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="rushingTDLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -266,11 +262,17 @@
                 <Component class="javax.swing.JLabel" name="rushingYrdsLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="0"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[56, 50]"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="rushingTDLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="0"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[56, 50]"/>
+                    </Property>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -298,20 +300,17 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="recievingYrdsLabel" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="recievingYrdsLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="recievingTDLabel" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="recievingTDLabel" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="recievingYrdsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="recievingTDLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                          <Component id="recievingYrdsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="recievingTDLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -320,11 +319,17 @@
                 <Component class="javax.swing.JLabel" name="recievingYrdsLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="0"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[56, 50]"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="recievingTDLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="0"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[56, 50]"/>
+                    </Property>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -336,13 +341,9 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="144" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="192" max="32767" attributes="0"/>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="miscStatsContainerPanel" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="miscStatsContainerPanel" alignment="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -357,28 +358,31 @@
           </Layout>
           <SubComponents>
             <Container class="javax.swing.JPanel" name="miscStatsContainerPanel">
+              <Properties>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[192, 50]"/>
+                </Property>
+              </Properties>
 
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="retTDLabel" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="retTDLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="twoPtLabel" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="twoPtLabel" min="-2" pref="56" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="lostFumLabel" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="lostFumLabel" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="retTDLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="twoPtLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lostFumLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="twoPtLabel" alignment="3" max="32767" attributes="0"/>
+                          <Component id="lostFumLabel" alignment="3" max="32767" attributes="0"/>
+                          <Component id="retTDLabel" alignment="3" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -387,16 +391,25 @@
                 <Component class="javax.swing.JLabel" name="retTDLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="0"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[56, 50]"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="twoPtLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="0"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[56, 50]"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lostFumLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="0"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[56, 50]"/>
+                    </Property>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -404,6 +417,11 @@
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="fanPointsPanel">
+          <Properties>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[56, 28]"/>
+            </Property>
+          </Properties>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -413,10 +431,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="totalFanPtsLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="totalFanPtsLabel" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -424,6 +439,10 @@
             <Component class="javax.swing.JLabel" name="totalFanPtsLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="0"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[56, 28]"/>
+                </Property>
+                <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
               </Properties>
             </Component>
           </SubComponents>
