@@ -133,6 +133,7 @@ public class TeamRosterPanel extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
 
         jTable1.setModel(rosterTableModel);
+        jTable1.setRowHeight(new RosterPlayerPanel().getPreferredSize().height);
         jScrollPane1.setViewportView(jTable1);
         jTable1.setTableHeader(null);
         PlayerCellEditorRenderer playerCellEditorRenderer = new PlayerCellEditorRenderer();
