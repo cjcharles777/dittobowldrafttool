@@ -5,12 +5,15 @@
 package cdiddy.gui;
 
 import cdiddy.objects.Player;
+import cdiddy.objects.league.YahooLeague;
 import cdiddy.services.rest.PlayersRESTService;
 import cdiddy.utils.application.GameService;
 import cdiddy.utils.application.StatsService;
 import cdiddy.utils.application.TeamService;
 import cdiddy.utils.system.OAuthConnection;
 import java.awt.CardLayout;
+import java.util.LinkedList;
+import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -26,6 +29,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
          private static StatsService statsService = applicationContext.getBean(StatsService.class);
          private static TeamService teamService = applicationContext.getBean(TeamService.class);
          private static GameService gameService = applicationContext.getBean(GameService.class);
+         private static List<YahooLeague> userleauges = new LinkedList<YahooLeague>();
         Player playerInContext = null;
     /**
      * Creates new form FantasyFootballFrame
@@ -46,7 +50,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        welcomePanel = new cdiddy.gui.WelcomePanel(teamService, playersRESTService);
+        welcomePanel = new cdiddy.gui.WelcomePanel(teamService, playersRESTService, userleauges);
         playerPanel = new cdiddy.gui.PlayerPanel(playersRESTService);
         playerInfoPanel = playerInfoPanel = new PlayerInfoPanel(playersRESTService, statsService);
         apiTestPanel = new APITestPanel(conn);
@@ -182,6 +186,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     public static void main(String args[]) {
         
         conn.connect();
+        userleauges = gameService.getUserLeagues();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

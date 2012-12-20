@@ -4,8 +4,10 @@
  */
 package cdiddy.gui;
 
+import cdiddy.objects.league.YahooLeague;
 import cdiddy.services.rest.PlayersRESTService;
 import cdiddy.utils.application.TeamService;
+import java.util.List;
 
 /**
  *
@@ -14,17 +16,18 @@ import cdiddy.utils.application.TeamService;
 public class WelcomePanel extends javax.swing.JPanel {
 private TeamService teamservice;
 private PlayersRESTService playersRESTService;
-
+private List<YahooLeague> userLeague;
     /**
      * Creates new form WelcomePanel
      */
     public WelcomePanel() {
         initComponents();
     }
-    public WelcomePanel(TeamService teamservice, PlayersRESTService playersRESTService) 
+    public WelcomePanel(TeamService teamservice, PlayersRESTService playersRESTService, List<YahooLeague> userLeague) 
     {
         this.teamservice = teamservice;
         this.playersRESTService = playersRESTService;
+        this.userLeague = userLeague;
         initComponents();
            
     }
@@ -39,7 +42,7 @@ private PlayersRESTService playersRESTService;
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new UserTeamListPanel(teamservice);
-        jPanel2 = new LeaugeTeamListPanel(teamservice);
+        jPanel2 = new LeaugeTeamListPanel(teamservice, userLeague);
         rosterPanel = new TeamRosterPanel(teamservice, playersRESTService);
 
         jTabbedPane1.addTab("My Teams", jPanel1);

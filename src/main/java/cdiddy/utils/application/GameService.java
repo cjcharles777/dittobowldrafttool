@@ -87,7 +87,7 @@ public class GameService
                 userData = mapper.readValue(response, Map.class);
                 query = (Map<String, Object>)userData.get("query"); // query details
                 results = (Map<String, Object>)query.get("results"); //result details
-                leaugeList = (List<Map<String, Object>>)results.get("leauge"); //result details
+                leaugeList = (List<Map<String, Object>>)results.get("league"); //result details
                 for (Map map : leaugeList)
                 {
                     YahooLeague tempLeauge = mapper.readValue(JacksonPojoMapper.toJson(map, false) , YahooLeague.class);

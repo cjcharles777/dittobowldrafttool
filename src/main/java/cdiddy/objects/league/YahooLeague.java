@@ -164,6 +164,10 @@ public class YahooLeague
         this.settings = settings;
     }
      
-     
+    @Override
+    public String toString()
+    {
+        return name + "   " + league_id;
+    }
      
 }

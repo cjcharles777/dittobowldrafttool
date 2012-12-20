@@ -28,7 +28,7 @@ public class YahooLeagueSettings
       private String trade_reject_time;
       private String player_pool;
       private String can_trade_draft_picks;
-      private YahooLeagueRosterPosition roster_positions;
+      private YahooLeagueRosterPositionList roster_positions;
       private YahooLeaugeStatCategories stat_categories;
       private YahooLeagueStatModifier stat_modifiers;
 
@@ -176,11 +176,11 @@ public class YahooLeagueSettings
         this.can_trade_draft_picks = can_trade_draft_picks;
     }
 
-    public YahooLeagueRosterPosition getRoster_positions() {
+    public YahooLeagueRosterPositionList getRoster_positions() {
         return roster_positions;
     }
 
-    public void setRoster_positions(YahooLeagueRosterPosition roster_positions) {
+    public void setRoster_positions(YahooLeagueRosterPositionList roster_positions) {
         this.roster_positions = roster_positions;
     }
 

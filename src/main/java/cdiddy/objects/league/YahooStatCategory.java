@@ -16,6 +16,8 @@ class YahooStatCategory
           private String  display_name;
           private String  sort_order;
           private String  position_type;
+          private String is_only_display_stat;
+          private String is_excluded_from_display;
 
     public String getStat_id() {
         return stat_id;
@@ -64,6 +66,23 @@ class YahooStatCategory
     public void setPosition_type(String position_type) {
         this.position_type = position_type;
     }
-          
+
+    public String getIs_only_display_stat() {
+        return is_only_display_stat;
+    }
+
+    public void setIs_only_display_stat(String is_only_display_stat) {
+        this.is_only_display_stat = is_only_display_stat;
+    }
+
+    public String getIs_excluded_from_display() {
+        return is_excluded_from_display;
+    }
+
+    public void setIs_excluded_from_display(String is_excluded_from_display) {
+        this.is_excluded_from_display = is_excluded_from_display;
+    }
+     
+    
           
 }

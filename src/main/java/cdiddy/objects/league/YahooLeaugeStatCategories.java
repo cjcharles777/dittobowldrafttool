@@ -10,7 +10,7 @@ package cdiddy.objects.league;
  */
 public class YahooLeaugeStatCategories 
 {
-    public YahooStatCategoriesObj stats;
+    private YahooStatCategoriesObj stats;
 
     public YahooStatCategoriesObj getStats() {
         return stats;
