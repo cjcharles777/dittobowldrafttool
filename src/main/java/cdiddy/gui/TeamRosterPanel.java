@@ -6,6 +6,7 @@ package cdiddy.gui;
 
 import cdiddy.objects.Player;
 import cdiddy.objects.Roster;
+import cdiddy.objects.league.YahooLeague;
 import cdiddy.services.rest.PlayersRESTService;
 import cdiddy.utils.application.TeamService;
 import java.awt.Component;
@@ -27,6 +28,8 @@ public class TeamRosterPanel extends javax.swing.JPanel {
     private RosterPlayerTableModel rosterTableModel = new RosterPlayerTableModel();
     private TeamService teamservice;
     private PlayersRESTService playersRESTService;
+    private YahooLeague yl;
+    private int week;
     
     
     /**
@@ -35,11 +38,13 @@ public class TeamRosterPanel extends javax.swing.JPanel {
     public TeamRosterPanel() {
         initComponents();
     }
-    public TeamRosterPanel(TeamService teamservice, PlayersRESTService playersRESTService) 
+    public TeamRosterPanel(TeamService teamservice, PlayersRESTService playersRESTService, YahooLeague yl, int week) 
     {
         initComponents();
         this.teamservice = teamservice;
         this.playersRESTService = playersRESTService;
+        this.yl = yl;
+        this.week = week;
          populateRosterTable();
        
          
@@ -87,14 +92,14 @@ public class TeamRosterPanel extends javax.swing.JPanel {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) 
         {
-            renderer.setPlayer((Player) value);
+            renderer.setPlayer((Player) value, yl, week);
             return renderer;
         }
 
         @Override
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) 
         {
-            editor.setPlayer((Player) value);
+            editor.setPlayer((Player) value, yl, week);
             return editor;
         }
 

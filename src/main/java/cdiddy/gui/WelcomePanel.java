@@ -17,6 +17,8 @@ public class WelcomePanel extends javax.swing.JPanel {
 private TeamService teamservice;
 private PlayersRESTService playersRESTService;
 private List<YahooLeague> userLeague;
+private int week = 1;
+private YahooLeague yl = userLeague.get(0);
     /**
      * Creates new form WelcomePanel
      */
@@ -43,7 +45,7 @@ private List<YahooLeague> userLeague;
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new UserTeamListPanel(teamservice);
         jPanel2 = new LeaugeTeamListPanel(teamservice, userLeague);
-        rosterPanel = new TeamRosterPanel(teamservice, playersRESTService);
+        rosterPanel = new TeamRosterPanel(teamservice, playersRESTService, yl, week);
 
         jTabbedPane1.addTab("My Teams", jPanel1);
         jTabbedPane1.addTab("League", jPanel2);

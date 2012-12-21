@@ -8,7 +8,7 @@ package cdiddy.objects.league;
  *
  * @author cedric
  */
-class YahooLeagueStatModifierBonus 
+public class YahooLeagueStatModifierBonus 
 {
     public String target;
     public String points;

@@ -7,6 +7,8 @@ package cdiddy.gui;
 import cdiddy.objects.Player;
 import cdiddy.objects.SeasonStat;
 import cdiddy.objects.Stat;
+import cdiddy.objects.league.YahooLeague;
+import cdiddy.objects.util.StatsUtil;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +27,7 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
         initComponents();
     }
 
-    public void setPlayer(Player player) 
+    public void setPlayer(Player player, YahooLeague yl, int week) 
     {
         this.player = player;
       
@@ -65,7 +67,7 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
         
         
         
-        
+        StatsUtil.calculateFantasyPointsForWeek(player, yl, week);
         
         totalFanPtsLabel.setText("0");
     }
