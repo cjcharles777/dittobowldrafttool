@@ -18,7 +18,7 @@ private TeamService teamservice;
 private PlayersRESTService playersRESTService;
 private List<YahooLeague> userLeague;
 private int week = 1;
-private YahooLeague yl = userLeague.get(0);
+private YahooLeague yl;
     /**
      * Creates new form WelcomePanel
      */
