@@ -104,4 +104,34 @@ public class GameService
              return leagueListResults;
     }
     
+     public YahooLeague getLeague (String leagueid)
+    {
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String,Object> userData;
+            Map<String,Object> results;
+            List<Map<String, Object>> leaugeList;
+            Map<String,Object> query;
+            YahooLeague  leagueListResults = new YahooLeague();
+            String yql = "select * from fantasysports.leagues.settings where league_key='"+leagueid+"'";
+            String response = yqlUitl.queryYQL(yql);
+            try
+            {
+                userData = mapper.readValue(response, Map.class);
+                query = (Map<String, Object>)userData.get("query"); // query details
+                results = (Map<String, Object>)query.get("results"); //result details
+                Map map = (Map<String, Object>)results.get("league"); //result details
+                YahooLeague tempLeauge = mapper.readValue(JacksonPojoMapper.toJson(map, false) , YahooLeague.class);
+                leagueListResults = tempLeauge;
+
+                
+               
+            }
+            catch(Exception e)
+            {
+                 Logger.getLogger(TeamService.class.getName()).log(Level.SEVERE, null, e);
+            }
+             
+             return leagueListResults;
+    }
+    
 }

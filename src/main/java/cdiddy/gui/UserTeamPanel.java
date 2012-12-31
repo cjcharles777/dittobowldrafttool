@@ -194,7 +194,7 @@ public class UserTeamPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_formMouseClicked
 
     private void rosterLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rosterLabelMouseClicked
-         ( (FantasyFootballFrame) (SwingUtilities.getWindowAncestor(this))).prepareRosterInfo(team.getTeamKey());
+         ( (FantasyFootballFrame) (SwingUtilities.getWindowAncestor(this))).prepareRosterInfo(team.getTeamKey(), "nfl.l."+team.getLeaugeid());
     }//GEN-LAST:event_rosterLabelMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

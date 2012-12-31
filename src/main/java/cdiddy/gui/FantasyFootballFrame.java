@@ -50,7 +50,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        welcomePanel = new cdiddy.gui.WelcomePanel(teamService, playersRESTService, userleauges);
+        welcomePanel = new cdiddy.gui.WelcomePanel(teamService, playersRESTService, gameService);
         playerPanel = new cdiddy.gui.PlayerPanel(playersRESTService);
         playerInfoPanel = playerInfoPanel = new PlayerInfoPanel(playersRESTService, statsService);
         apiTestPanel = new APITestPanel(conn);
@@ -151,9 +151,9 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         cl.show(jPanel1, "card3");
     }
     
-    public void prepareRosterInfo(String teamId) 
+    public void prepareRosterInfo(String teamId, String leagueId) 
     {
-       ((WelcomePanel) welcomePanel).loadTableForRoster(teamId);
+       ((WelcomePanel) welcomePanel).loadTableForRoster(teamId, leagueId);
         CardLayout cl = (CardLayout)(jPanel1.getLayout());
         cl.show(jPanel1, "card3");
     }

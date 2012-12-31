@@ -7,6 +7,7 @@ package cdiddy.gui;
 import cdiddy.objects.Team;
 import cdiddy.objects.comparators.TeamRankComparator;
 import cdiddy.objects.league.YahooLeague;
+import cdiddy.utils.application.GameService;
 import cdiddy.utils.application.TeamService;
 import java.awt.Component;
 import java.util.Collections;
@@ -24,6 +25,7 @@ import javax.swing.table.TableCellRenderer;
  */
 public class LeaugeTeamListPanel extends javax.swing.JPanel {
 private TeamService teamservice;
+private GameService gameService;
 private  List<Team> listTeam;
 private TeamTableModel teamModel = new TeamTableModel();
     /**
@@ -34,14 +36,17 @@ private TeamTableModel teamModel = new TeamTableModel();
         initComponents();
     }
     
-    public LeaugeTeamListPanel(TeamService teamservice, List<YahooLeague> userLeaguesList) 
+    public LeaugeTeamListPanel(TeamService teamservice, GameService gameService) 
     {
         initComponents();
         this.teamservice = teamservice;
-       
-         populateTeamTable();
+        
+        this.gameService = gameService;
+        
+        populateTeamTable();
          
-         leaugeComboBox.removeAllItems();
+        leaugeComboBox.removeAllItems();
+        List<YahooLeague> userLeaguesList = gameService.getUserLeagues();
         for(YahooLeague leauge : userLeaguesList)
         {
             leaugeComboBox.addItem(leauge);

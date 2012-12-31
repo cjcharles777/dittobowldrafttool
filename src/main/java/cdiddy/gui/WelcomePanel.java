@@ -6,6 +6,7 @@ package cdiddy.gui;
 
 import cdiddy.objects.league.YahooLeague;
 import cdiddy.services.rest.PlayersRESTService;
+import cdiddy.utils.application.GameService;
 import cdiddy.utils.application.TeamService;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public class WelcomePanel extends javax.swing.JPanel {
 private TeamService teamservice;
 private PlayersRESTService playersRESTService;
-private List<YahooLeague> userLeague;
+private GameService gameService;
 private int week = 1;
 private YahooLeague yl;
     /**
@@ -25,11 +26,11 @@ private YahooLeague yl;
     public WelcomePanel() {
         initComponents();
     }
-    public WelcomePanel(TeamService teamservice, PlayersRESTService playersRESTService, List<YahooLeague> userLeague) 
+    public WelcomePanel(TeamService teamservice, PlayersRESTService playersRESTService, GameService gameService) 
     {
         this.teamservice = teamservice;
         this.playersRESTService = playersRESTService;
-        this.userLeague = userLeague;
+        this.gameService = gameService;
         initComponents();
            
     }
@@ -44,8 +45,8 @@ private YahooLeague yl;
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new UserTeamListPanel(teamservice);
-        jPanel2 = new LeaugeTeamListPanel(teamservice, userLeague);
-        rosterPanel = new TeamRosterPanel(teamservice, playersRESTService, yl, week);
+        jPanel2 = new LeaugeTeamListPanel(teamservice, gameService);
+        rosterPanel = new TeamRosterPanel(teamservice, playersRESTService, gameService, week);
 
         jTabbedPane1.addTab("My Teams", jPanel1);
         jTabbedPane1.addTab("League", jPanel2);
@@ -74,9 +75,9 @@ private YahooLeague yl;
        jTabbedPane1.setSelectedComponent(jPanel2); 
    }
 
-    public void loadTableForRoster(String teamId) 
+    public void loadTableForRoster(String teamId, String leagueId) 
     {
-        ((TeamRosterPanel) rosterPanel).populateRoster(teamId);
+        ((TeamRosterPanel) rosterPanel).populateRoster(teamId, leagueId);
        jTabbedPane1.setSelectedComponent(rosterPanel); 
     }
 }
