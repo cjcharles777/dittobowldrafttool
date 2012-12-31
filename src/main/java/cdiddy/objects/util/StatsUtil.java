@@ -53,9 +53,16 @@ public class StatsUtil
                     for(Stat stat : playerWeekStat.getStats())
                     {
                         YahooLeagueStatModifierObj currModifier = modifierMap.get(stat.getStat_id());
-                        YahooLeagueStatModifierBonusList currBonus= currModifier.getBonuses();
+                        YahooLeagueStatModifierBonusList currBonus = null;
+                        BigDecimal modifierValue = new BigDecimal(0);
+                        
+                        if(currModifier != null)
+                        {
+                            currBonus= currModifier.getBonuses();
+                            modifierValue = new BigDecimal(currModifier.getValue());
+                            
+                        }                           
                         BigDecimal statValue = new BigDecimal(stat.getValue());
-                        BigDecimal modifierValue = new BigDecimal(currModifier.getValue());
                         BigDecimal statYahooValue = statValue.multiply(modifierValue);
                         BigDecimal statYahooBonus = new BigDecimal(0);
                         if(currBonus != null)

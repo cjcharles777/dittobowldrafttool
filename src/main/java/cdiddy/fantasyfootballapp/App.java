@@ -25,7 +25,7 @@ public class App
     {
         if(args.length > 0 && args[0].equals("load"))
         {
-            loadFreshData();
+            //loadFreshData();
         }
         else if(args.length > 0 && args[0].equals("loadWeek") && args[1] !=null)
         {
