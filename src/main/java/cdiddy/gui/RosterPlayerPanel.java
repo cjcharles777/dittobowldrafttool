@@ -9,6 +9,7 @@ import cdiddy.objects.SeasonStat;
 import cdiddy.objects.Stat;
 import cdiddy.objects.league.YahooLeague;
 import cdiddy.objects.util.StatsUtil;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,9 +68,9 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
         
         
         
-        StatsUtil.calculateFantasyPointsForWeek(player, yl, week);
+        BigDecimal calcFanPts = StatsUtil.calculateFantasyPointsForWeek(player, yl, week);
         
-        totalFanPtsLabel.setText("0");
+        totalFanPtsLabel.setText(calcFanPts.toString());
     }
     public Player getPlayer() 
     {
