@@ -140,6 +140,8 @@ public class TeamRosterPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
+        setLayout(new java.awt.BorderLayout());
+
         jTable1.setModel(rosterTableModel);
         jTable1.setRowHeight(new RosterPlayerPanel().getPreferredSize().height);
         jScrollPane1.setViewportView(jTable1);
@@ -148,16 +150,7 @@ public class TeamRosterPanel extends javax.swing.JPanel {
         jTable1.setDefaultRenderer(Object.class, playerCellEditorRenderer);
         jTable1.setDefaultEditor(Object.class, playerCellEditorRenderer);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
-        );
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;

@@ -114,8 +114,11 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
         fanPointsPanel = new javax.swing.JPanel();
         totalFanPtsLabel = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(254, 254, 254));
+        setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         setOpaque(false);
 
+        positionPanel.setBackground(new java.awt.Color(254, 254, 254));
         positionPanel.setPreferredSize(new java.awt.Dimension(47, 50));
 
         positionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -132,6 +135,7 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
             .addComponent(positionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        playerInfoPanel.setBackground(new java.awt.Color(254, 254, 254));
         playerInfoPanel.setPreferredSize(new java.awt.Dimension(289, 50));
 
         playerNameLabel.setText("jLabel1");
@@ -162,7 +166,12 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
                     .addComponent(oppLabel)))
         );
 
+        playerStatsPanel.setBackground(new java.awt.Color(254, 254, 254));
         playerStatsPanel.setPreferredSize(new java.awt.Dimension(511, 50));
+
+        passingStatsPanel.setBackground(new java.awt.Color(254, 254, 254));
+
+        passingStatsContainerPanel.setBackground(new java.awt.Color(254, 254, 254));
 
         passingInt.setText("0");
         passingInt.setPreferredSize(new java.awt.Dimension(56, 50));
@@ -203,6 +212,10 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
             .addComponent(passingStatsContainerPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        rushingStatsPanel.setBackground(new java.awt.Color(254, 254, 254));
+
+        rushingStatsContainerPanel.setBackground(new java.awt.Color(254, 254, 254));
+
         rushingYrdsLabel.setText("0");
         rushingYrdsLabel.setPreferredSize(new java.awt.Dimension(56, 50));
 
@@ -235,6 +248,10 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
             rushingStatsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(rushingStatsContainerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        recievingStatsPanel.setBackground(new java.awt.Color(254, 254, 254));
+
+        recievingStatsContainerPanel.setBackground(new java.awt.Color(254, 254, 254));
 
         recievingYrdsLabel.setText("0");
         recievingYrdsLabel.setPreferredSize(new java.awt.Dimension(56, 50));
@@ -269,6 +286,9 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
             .addComponent(recievingStatsContainerPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        miscStatsPanel.setBackground(new java.awt.Color(254, 254, 254));
+
+        miscStatsContainerPanel.setBackground(new java.awt.Color(254, 254, 254));
         miscStatsContainerPanel.setPreferredSize(new java.awt.Dimension(192, 50));
 
         retTDLabel.setText("0");
@@ -315,6 +335,7 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
                 .addComponent(miscStatsContainerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        fanPointsPanel.setBackground(new java.awt.Color(254, 254, 254));
         fanPointsPanel.setPreferredSize(new java.awt.Dimension(56, 28));
 
         totalFanPtsLabel.setText("0");

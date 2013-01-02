@@ -5,6 +5,7 @@
 package cdiddy.utils.application;
 
 import cdiddy.objects.GameWeek;
+import cdiddy.objects.draft.DraftResults;
 import cdiddy.objects.league.YahooLeague;
 import cdiddy.utils.system.JacksonPojoMapper;
 import cdiddy.utils.system.OAuthConnection;
@@ -133,5 +134,36 @@ public class GameService
              
              return leagueListResults;
     }
+       public DraftResults getDraftResults (String leagueid)
+    {
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String,Object> userData;
+            Map<String,Object> results;
+            List<Map<String, Object>> draftList;
+            Map<String,Object> query;
+            DraftResults  leagueListResults = new DraftResults();
+            String yql = "select * from fantasysports.draftresults where league_key='"+leagueid+"'";
+            String response = yqlUitl.queryYQL(yql);
+            try
+            {
+                userData = mapper.readValue(response, Map.class);
+                query = (Map<String, Object>)userData.get("query"); // query details
+                results = (Map<String, Object>)query.get("results"); //result details
+                Map leauge = (Map<String, Object>)results.get("league"); //result details
+                Map map = (Map<String, Object>)leauge.get("draft_results"); //result details
+                DraftResults tempLeauge = mapper.readValue(JacksonPojoMapper.toJson(map, false) , DraftResults.class);
+                leagueListResults = tempLeauge;
+
+                
+               
+            }
+            catch(Exception e)
+            {
+                 Logger.getLogger(TeamService.class.getName()).log(Level.SEVERE, null, e);
+            }
+             
+             return leagueListResults;
+    }
+     
     
 }
