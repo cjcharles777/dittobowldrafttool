@@ -8,7 +8,7 @@ package cdiddy.objects.draft;
  *
  * @author cedric
  */
-class DraftPick 
+public class DraftPick 
 {
     String pick;
     String round;

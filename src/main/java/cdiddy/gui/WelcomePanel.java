@@ -47,10 +47,24 @@ private YahooLeague yl;
         jPanel1 = new UserTeamListPanel(teamservice);
         jPanel2 = new LeaugeTeamListPanel(teamservice, gameService);
         rosterPanel = new TeamRosterPanel(teamservice, playersRESTService, gameService, week);
+        jPanel3 = new javax.swing.JPanel();
 
         jTabbedPane1.addTab("My Teams", jPanel1);
         jTabbedPane1.addTab("League", jPanel2);
         jTabbedPane1.addTab("Roster", rosterPanel);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 578, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 347, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Draft", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -66,6 +80,7 @@ private YahooLeague yl;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel rosterPanel;
     // End of variables declaration//GEN-END:variables
