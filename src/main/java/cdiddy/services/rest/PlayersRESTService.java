@@ -44,6 +44,24 @@ public class PlayersRESTService
        
     }
     
+    public Player retrivePlayerWithYahooKey(String playerKey) 
+    {
+        try 
+        {
+            ObjectMapper mapper = new ObjectMapper();
+            String URL = BaseURL+"/retrievePlayer/playerkey/"+playerKey;
+            String jsonResult = DataRequestCaller.requestData(URL, "GET");
+            Player result = mapper.readValue(jsonResult, Player.class);
+           return result;
+        } 
+        catch (Exception ex) 
+        {
+            Logger.getLogger(PlayersRESTService.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } 
+       
+    }
+    
     public List<Player> retrivePlayers(int firstResult, int maxResults) 
     {
         try 

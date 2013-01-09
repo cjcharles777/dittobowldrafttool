@@ -4,16 +4,28 @@
  */
 package cdiddy.gui;
 
+import cdiddy.gui.table.model.DraftResultsTableModel;
+import cdiddy.objects.draft.EnhancedDraftPick;
+import cdiddy.objects.draft.EnhancedDraftResults;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  *
  * @author cedric
  */
 public class DraftResultsPanel extends javax.swing.JPanel {
-
+List<EnhancedDraftPick> picksList;
     /**
      * Creates new form DraftResultsPanel
      */
     public DraftResultsPanel() {
+        this.picksList = new LinkedList<EnhancedDraftPick>();
+        initComponents();
+    }
+    public DraftResultsPanel(EnhancedDraftResults edResults) 
+    {
+        this.picksList = edResults.getPicks();
         initComponents();
     }
 
@@ -29,17 +41,7 @@ public class DraftResultsPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTable1.setModel(new DraftResultsTableModel(picksList));
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -57,4 +59,15 @@ public class DraftResultsPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+    public void populateDraft(EnhancedDraftResults edResults) 
+    {
+ 
+        if (edResults != null)
+        {    
+           this.picksList = edResults.getPicks();
+           initComponents();
+        }
+
+    }
 }

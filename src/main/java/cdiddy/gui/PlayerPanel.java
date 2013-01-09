@@ -7,31 +7,30 @@ package cdiddy.gui;
 import cdiddy.gui.table.model.PlayersTableModel;
 import cdiddy.objects.Player;
 import cdiddy.services.rest.PlayersRESTService;
-import cdiddy.utils.application.PlayerService;
 import java.util.List;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author DMDD
  */
+@Repository("playerPanel")
 public class PlayerPanel extends javax.swing.JPanel {
-  private PlayersRESTService playerUtil;
+  @Autowired
+  private PlayersRESTService playerRESTUtil;
   private List<Player> playersList;
     /**
      * Creates new form PlayerPanel
      */
     public PlayerPanel() {
         
+        //playersList = playerRESTUtil.retrivePlayers(0,25);
         initComponents();
     }
 
-    public PlayerPanel(PlayersRESTService playerUtil) {
-        this.playerUtil = playerUtil;
-        playersList = playerUtil.retrivePlayers(0,25);
-        initComponents();
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

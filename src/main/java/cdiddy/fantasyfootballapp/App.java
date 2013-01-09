@@ -14,11 +14,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class App 
 {
-      private static final ApplicationContext applicationContext = 
-        new ClassPathXmlApplicationContext("app-config.xml");
+      private static final ApplicationContext applicationContext = new ClassPathXmlApplicationContext("app-config.xml");
         private static OAuthConnection conn = applicationContext.getBean(OAuthConnection.class);
         private static PlayerService playerUtil = applicationContext.getBean(PlayerService.class);
-       private static StatsService statsService = applicationContext.getBean(StatsService.class); 
+       private static StatsService statsService = applicationContext.getBean(StatsService.class);
+       private static FantasyFootballFrame fantasyFootballFrame = applicationContext.getBean(FantasyFootballFrame.class);
     
        
        public static void main( String[] args )
@@ -33,7 +33,29 @@ public class App
         }
         else
         {
-            FantasyFootballFrame.main(args);
+                try 
+                {
+                    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                        if ("Nimbus".equals(info.getName())) {
+                            javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                            break;
+                        }
+                    }
+                } catch (ClassNotFoundException ex) {
+                    java.util.logging.Logger.getLogger(FantasyFootballFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    java.util.logging.Logger.getLogger(FantasyFootballFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    java.util.logging.Logger.getLogger(FantasyFootballFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+                    java.util.logging.Logger.getLogger(FantasyFootballFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+             java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                fantasyFootballFrame.init();
+                fantasyFootballFrame.setVisible(true);
+            }
+        });
         }
          
     }

@@ -11,54 +11,40 @@ import cdiddy.utils.application.GameService;
 import cdiddy.utils.application.TeamService;
 import java.awt.Component;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author cedric
  */
+@Repository("leaugeTeamListPanel")
 public class LeaugeTeamListPanel extends javax.swing.JPanel {
-private TeamService teamservice;
-private GameService gameService;
-private  List<Team> listTeam;
-private TeamTableModel teamModel = new TeamTableModel();
+    @Autowired
+    private TeamService teamService;
+    @Autowired
+    private GameService gameService;
+    private  List<Team> listTeam;
+    private TeamTableModel teamModel = new TeamTableModel();
     /**
      * Creates new form UserTeamListPanel
      */
     public LeaugeTeamListPanel() 
     {
         initComponents();
+    
     }
     
-    public LeaugeTeamListPanel(TeamService teamservice, GameService gameService) 
-    {
-        initComponents();
-        this.teamservice = teamservice;
-        
-        this.gameService = gameService;
-        
-        populateTeamTable();
-         
-        leaugeComboBox.removeAllItems();
-        List<YahooLeague> userLeaguesList = gameService.getUserLeagues();
-        for(YahooLeague leauge : userLeaguesList)
-        {
-            leaugeComboBox.addItem(leauge);
-        }
-        leaugeComboBox.setSelectedIndex(0);
-       
-       
-         
-    }
+
     public void populateLeauge(String leagueID)
     {
-        listTeam = this.teamservice.loadLeaugeTeams(leagueID);
+        listTeam = teamService.loadLeaugeTeams(leagueID);
         Collections.sort(listTeam, new TeamRankComparator());
         teamModel = new TeamTableModel();
         jTable1.setModel(teamModel);
@@ -73,6 +59,20 @@ private TeamTableModel teamModel = new TeamTableModel();
                 teamModel.addRow(team);
             }
         }
+    }
+
+    public void init() 
+    {
+            populateTeamTable();
+         
+        leaugeComboBox.removeAllItems();
+        List<YahooLeague> userLeaguesList = gameService.getUserLeagues();
+        for(YahooLeague leauge : userLeaguesList)
+        {
+            leaugeComboBox.addItem(leauge);
+        }
+        leaugeComboBox.setSelectedIndex(0);
+         initComponents();
     }
 
     public class TeamCellEditorRenderer extends AbstractCellEditor implements TableCellRenderer, TableCellEditor 

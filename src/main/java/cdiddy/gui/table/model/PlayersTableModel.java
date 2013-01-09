@@ -21,7 +21,10 @@ public class PlayersTableModel extends AbstractTableModel{
                 "Team", "Uniform Number"};
 
     public PlayersTableModel(List<Player> list){
-         this.li = list;
+        if(list !=null)
+        {
+            this.li = list;
+        }
     }
 
     @Override

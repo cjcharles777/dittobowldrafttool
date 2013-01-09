@@ -13,32 +13,28 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author cedric
  */
+@Repository("userTeamListPanel")
 public class UserTeamListPanel extends javax.swing.JPanel {
-private TeamService teamservice;
-private  List<Team> listTeam;
-private TeamTableModel teamModel = new TeamTableModel();
+    @Autowired
+    private TeamService teamService;
+    private  List<Team> listTeam;
+    private TeamTableModel teamModel = new TeamTableModel();
     /**
      * Creates new form UserTeamListPanel
      */
     public UserTeamListPanel() 
     {
         initComponents();
+       
     }
     
-    public UserTeamListPanel(TeamService teamservice) 
-    {
-        initComponents();
-        this.teamservice = teamservice;
-         listTeam = this.teamservice.loadUserTeams();
-         populateTeamTable();
-       
-         
-    }
     private void populateTeamTable()
     {
         for(Team team : listTeam)
@@ -46,6 +42,12 @@ private TeamTableModel teamModel = new TeamTableModel();
             teamModel.addRow(team);
         }
         
+    }
+    public void init()
+    {
+        listTeam = teamService.loadUserTeams();
+        populateTeamTable();
+         initComponents();
     }
 
     public class TeamCellEditorRenderer extends AbstractCellEditor implements TableCellRenderer, TableCellEditor 

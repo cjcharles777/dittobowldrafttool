@@ -14,28 +14,38 @@ import cdiddy.utils.system.OAuthConnection;
 import java.awt.CardLayout;
 import java.util.LinkedList;
 import java.util.List;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author cedric
  */
+@Repository("fantasyFootballFrame")
 public class FantasyFootballFrame extends javax.swing.JFrame {
-      private static final ApplicationContext applicationContext = 
-        new ClassPathXmlApplicationContext("app-config.xml");
-        private static OAuthConnection conn = applicationContext.getBean(OAuthConnection.class);
-         private static PlayersRESTService playersRESTService = applicationContext.getBean(PlayersRESTService.class);
-         private static StatsService statsService = applicationContext.getBean(StatsService.class);
-         private static TeamService teamService = applicationContext.getBean(TeamService.class);
-         private static GameService gameService = applicationContext.getBean(GameService.class);
-         private static List<YahooLeague> userleauges = new LinkedList<YahooLeague>();
+
+         @Autowired 
+         private OAuthConnection conn;
+         @Autowired 
+         private PlayersRESTService playersRESTService;
+         @Autowired 
+         private StatsService statsService ;
+         @Autowired 
+         private TeamService teamService  ;
+         @Autowired 
+         private GameService gameService ;
+         @Autowired 
+         private PlayerPanel playerPanel;
+         @Autowired 
+         private WelcomePanel welcomePanel;
+         
+         private List<YahooLeague> userleauges = new LinkedList<YahooLeague>();
         Player playerInContext = null;
     /**
      * Creates new form FantasyFootballFrame
      */
     public FantasyFootballFrame() {
-        initComponents();
+        
 
     }
 
@@ -50,9 +60,9 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        welcomePanel = new cdiddy.gui.WelcomePanel(teamService, playersRESTService, gameService);
-        playerPanel = new cdiddy.gui.PlayerPanel(playersRESTService);
-        playerInfoPanel = playerInfoPanel = new PlayerInfoPanel(playersRESTService, statsService);
+        welcomeGuiPanel = this.welcomePanel;
+        playerGuiPanel = this.playerPanel;
+        playerInfoGuiPanel = new PlayerInfoPanel(playersRESTService, statsService);
         apiTestPanel = new APITestPanel(conn);
         testButtonPanel = new TestButtonPanel(gameService);
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -68,9 +78,9 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setLayout(new java.awt.CardLayout());
-        jPanel1.add(welcomePanel, "card3");
-        jPanel1.add(playerPanel, "card2");
-        jPanel1.add(playerInfoPanel, "playerInfo");
+        jPanel1.add(welcomeGuiPanel, "card3");
+        jPanel1.add(playerGuiPanel, "card2");
+        jPanel1.add(playerInfoGuiPanel, "playerInfo");
         jPanel1.add(apiTestPanel, "apiTestPanel");
         jPanel1.add(testButtonPanel, "testButton");
 
@@ -139,21 +149,21 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     public void preparePlayerInfo(Player tempPlayer)
     {
-        ((PlayerInfoPanel) playerInfoPanel).populatePanel(tempPlayer);
+        ((PlayerInfoPanel) playerInfoGuiPanel).populatePanel(tempPlayer);
         CardLayout cl = (CardLayout)(jPanel1.getLayout());
         cl.show(jPanel1, "playerInfo");
     }
     
     public void prepareLeaugeInfo(String leaugeid) 
     {
-       ((WelcomePanel) welcomePanel).loadTableForLeauge(leaugeid);
+       ((WelcomePanel) welcomeGuiPanel).loadTableForLeauge(leaugeid);
         CardLayout cl = (CardLayout)(jPanel1.getLayout());
         cl.show(jPanel1, "card3");
     }
     
     public void prepareRosterInfo(String teamId, String leagueId) 
     {
-       ((WelcomePanel) welcomePanel).loadTableForRoster(teamId, leagueId);
+       ((WelcomePanel) welcomeGuiPanel).loadTableForRoster(teamId, leagueId);
         CardLayout cl = (CardLayout)(jPanel1.getLayout());
         cl.show(jPanel1, "card3");
     }
@@ -183,7 +193,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public void main(String args[]) {
         
         conn.connect();
         userleauges = gameService.getUserLeagues();
@@ -229,11 +239,19 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem5;
     private static javax.swing.JPanel jPanel1;
-    private static javax.swing.JPanel playerInfoPanel;
-    private javax.swing.JPanel playerPanel;
+    private javax.swing.JPanel playerGuiPanel;
+    private static javax.swing.JPanel playerInfoGuiPanel;
     private javax.swing.JPanel testButtonPanel;
-    private javax.swing.JPanel welcomePanel;
+    private javax.swing.JPanel welcomeGuiPanel;
     // End of variables declaration//GEN-END:variables
+
+    public void init() {
+        initComponents();
+        conn.connect();
+        userleauges = gameService.getUserLeagues();
+        welcomePanel.init();
+ 
+    }
 
 
 

@@ -4,7 +4,7 @@
  */
 package cdiddy.gui.table.model;
 
-import cdiddy.objects.Player;
+import cdiddy.objects.draft.EnhancedDraftPick;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -15,10 +15,10 @@ import javax.swing.table.AbstractTableModel;
  */
 public class DraftResultsTableModel  extends AbstractTableModel
 {
-    private List<Player> li = new ArrayList();
-    private String[] columnNames = { "ID", "Player",  "Drafted By", "Pick Number","Actual Rank(Amonst Draftees)"};
+    private List<EnhancedDraftPick> li = new ArrayList();
+    private String[] columnNames = { "Pick", "Player",  "Drafted By", "Round","Actual Rank(Amonst Draftees)"};
     
-    public DraftResultsTableModel(List<Player> list)
+    public DraftResultsTableModel(List<EnhancedDraftPick> list)
     {
          this.li = list;
     }
@@ -40,18 +40,18 @@ public class DraftResultsTableModel  extends AbstractTableModel
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Player si = li.get(rowIndex);
+        EnhancedDraftPick pick = li.get(rowIndex);
         switch (columnIndex) {
             case 0: 
-                return si.getId();
+                return pick.getPick();
             case 1:
-                return si.getDisplay_position();
+                return pick.getPlayer().getName().getFull();
             case 2:
-                return si.getName().getFirst();
+                return pick.getTeam().getName();
             case 3:
-                return si.getName().getLast();
+                return pick.getRound();
             case 4:
-                return si.getEditorial_team_full_name();
+                return new Integer(0);
 
            }
            return null;
@@ -65,13 +65,12 @@ public class DraftResultsTableModel  extends AbstractTableModel
              case 1:
                 return String.class;
              case 2:
-               return String.class;
+                return String.class;
              case 3:
-                return String.class;
+                 return Integer.class;
              case 4:
-                return String.class;
-             case 5:
-              return Integer.class;
+                 return Integer.class;
+             
              }
              return null;
       }
