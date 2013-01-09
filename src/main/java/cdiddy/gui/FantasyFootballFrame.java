@@ -141,7 +141,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -246,10 +246,13 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void init() {
-        initComponents();
+        
         conn.connect();
         userleauges = gameService.getUserLeagues();
+        initComponents();
         welcomePanel.init();
+        CardLayout cl = (CardLayout)(jPanel1.getLayout());
+        cl.show(jPanel1, "card3");
  
     }
 

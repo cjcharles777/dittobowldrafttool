@@ -101,6 +101,7 @@ public class UserTeamListPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
+        setMaximumSize(new java.awt.Dimension(3276700, 3276700));
         setPreferredSize(new java.awt.Dimension(800, 400));
 
         jTable1.setModel(teamModel);

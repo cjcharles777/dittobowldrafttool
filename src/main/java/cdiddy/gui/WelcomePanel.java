@@ -10,7 +10,6 @@ import cdiddy.objects.util.DraftUtil;
 import cdiddy.services.rest.PlayersRESTService;
 import cdiddy.utils.application.GameService;
 import cdiddy.utils.application.TeamService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -36,7 +35,7 @@ private YahooLeague yl;
      * Creates new form WelcomePanel
      */
     public WelcomePanel() {
-        initComponents();
+       // initComponents();
     }
 
      /**
@@ -54,6 +53,8 @@ private YahooLeague yl;
         rosterPanel = new TeamRosterPanel(teamservice, playersRESTService, gameService, week);
         jPanel3 = new DraftResultsPanel();
 
+        jTabbedPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTabbedPane1.setDoubleBuffered(true);
         jTabbedPane1.addTab("My Teams", jPanel1);
         jTabbedPane1.addTab("League", jPanel2);
         jTabbedPane1.addTab("Roster", rosterPanel);
@@ -63,11 +64,13 @@ private YahooLeague yl;
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jTabbedPane1))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -87,16 +90,16 @@ private YahooLeague yl;
     }
     public void loadTableForLeauge(String leaugeid) {
        
-       EnhancedDraftResults edResults = new DraftUtil().createEnhancedDraftResults(gameService.getDraftResults(leaugeid), leaugeid);
-       ((DraftResultsPanel) jPanel3).populateDraft(edResults);
+//       EnhancedDraftResults edResults = new DraftUtil().createEnhancedDraftResults(gameService.getDraftResults(leaugeid), leaugeid);
+       //((DraftResultsPanel) jPanel3).populateDraft(edResults);
       ((LeaugeTeamListPanel) jPanel2).populateLeauge(leaugeid);
        jTabbedPane1.setSelectedComponent(jPanel2); 
    }
 
     public void loadTableForRoster(String teamId, String leagueId) 
     {
-       EnhancedDraftResults edResults = new DraftUtil().createEnhancedDraftResults(gameService.getDraftResults(leagueId), leagueId);
-       ((DraftResultsPanel) jPanel3).populateDraft(edResults);
+//       EnhancedDraftResults edResults = new DraftUtil().createEnhancedDraftResults(gameService.getDraftResults(leagueId), leagueId);
+   //    ((DraftResultsPanel) jPanel3).populateDraft(edResults);
         ((TeamRosterPanel) rosterPanel).populateRoster(teamId, leagueId);
        jTabbedPane1.setSelectedComponent(rosterPanel); 
     }
