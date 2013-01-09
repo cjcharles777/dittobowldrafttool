@@ -45,9 +45,10 @@ public class UserTeamListPanel extends javax.swing.JPanel {
     }
     public void init()
     {
+        initComponents();
         listTeam = teamService.loadUserTeams();
         populateTeamTable();
-         initComponents();
+        
     }
 
     public class TeamCellEditorRenderer extends AbstractCellEditor implements TableCellRenderer, TableCellEditor 
