@@ -46,8 +46,8 @@ public class UserTeamListPanel extends javax.swing.JPanel {
     public void init()
     {
         initComponents();
-        listTeam = teamService.loadUserTeams();
-        populateTeamTable();
+        //listTeam = teamService.loadUserTeams();
+        //populateTeamTable();
         
     }
 
