@@ -33,9 +33,16 @@ public class YQLQueryUtil
          
         try 
         { 
-            String authdata = conn. getAccessToken().getToken() + AUTHDATA_SEPARATOR+ conn. getAccessToken().getSecret() + AUTHDATA_SEPARATOR + conn.getOauthSessionHandle();
-            QueryResult qr = api.query(query, authdata);
-            return qr.getText();
+            if(conn.isAuthorized())
+            {
+                String authdata = conn.getAccessToken().getToken() + AUTHDATA_SEPARATOR+ conn. getAccessToken().getSecret() + AUTHDATA_SEPARATOR + conn.getOauthSessionHandle();
+                QueryResult qr = api.query(query, authdata);
+                return qr.getText();
+            }
+            else
+            {
+                return null;
+            }
         }
         catch (Exception ex) 
         {

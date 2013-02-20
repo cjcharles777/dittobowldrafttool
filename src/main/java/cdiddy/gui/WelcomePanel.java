@@ -83,10 +83,14 @@ private YahooLeague yl;
 
     public void init() 
     {
-        userTeamListPanel.init();
-        leaugeTeamListPanel.init();
+
         initComponents();
         
+    }
+    public void populatePanel()
+    {
+        userTeamListPanel.init();
+        leaugeTeamListPanel.init();
     }
     public void loadTableForLeauge(String leaugeid) {
        

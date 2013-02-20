@@ -271,9 +271,9 @@
       <type>jar</type>
     </dependency>
     <dependency>
-      <groupId>unknown.binary</groupId>
-      <artifactId>AbsoluteLayout</artifactId>
-      <version>SNAPSHOT</version>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>2.2.9</version>
     </dependency>
   </dependencies>
   

@@ -14,6 +14,8 @@ import cdiddy.utils.system.OAuthConnection;
 import java.awt.CardLayout;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -44,7 +46,8 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     /**
      * Creates new form FantasyFootballFrame
      */
-    public FantasyFootballFrame() {
+    public FantasyFootballFrame() 
+    {
         
 
     }
@@ -67,6 +70,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         testButtonPanel = new TestButtonPanel(gameService);
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -85,6 +89,15 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         jPanel1.add(testButtonPanel, "testButton");
 
         jMenu1.setText("File");
+
+        jMenuItem4.setText("Settings");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem4);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -190,13 +203,41 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         cl.show(jPanel1, "testButton");
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        if(!conn.isAuthorized())
+        {
+            JDialog oauthDialog = new OauthDialog(this, false, conn.retrieveAuthorizationUrl());
+            oauthDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            oauthDialog.setVisible(true);
+         /**  String s = (String)JOptionPane.showInputDialog(
+                    this,
+                    "Please go to the following site:\n"
+                    + conn.retrieveAuthorizationUrl(),
+                    "Customized Dialog",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    null);
+            
+           // conn.retrieveAccessToken(s);**/
+
+        }
+        else
+        {
+           JOptionPane.showMessageDialog(this,
+                "This app is already authorized");
+        }
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public void main(String args[]) {
         
-        conn.connect();
-        userleauges = gameService.getUserLeagues();
+        if(conn.connect())
+        {
+            userleauges = gameService.getUserLeagues();
+        }
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -237,6 +278,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private static javax.swing.JPanel jPanel1;
     private javax.swing.JPanel playerGuiPanel;
@@ -247,12 +289,15 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
 
     public void init() {
         
-        conn.connect();
-        userleauges = gameService.getUserLeagues();
-        initComponents();
-        welcomePanel.init();
-        CardLayout cl = (CardLayout)(jPanel1.getLayout());
-        cl.show(jPanel1, "card3");
+        if(conn.connect())
+        {
+            userleauges = gameService.getUserLeagues();
+            
+        }
+            initComponents();
+            welcomePanel.init();
+            CardLayout cl = (CardLayout)(jPanel1.getLayout());
+            cl.show(jPanel1, "card3");
  
     }
 

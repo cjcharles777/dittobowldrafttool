@@ -4,11 +4,9 @@
  */
 package cdiddy.utils.system;
 
-import cdiddy.objects.OAuthToken;
 import cdiddy.dao.OAuthDAO;
-import cdiddy.dao.OAuthDAOImpl;
+import cdiddy.objects.OAuthToken;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.scribe.builder.ServiceBuilder;
@@ -34,7 +32,7 @@ public class OAuthConnection
     Verifier verifier;
     Token accessToken;
     String oauthSessionHandle;
-
+    boolean authorized = false;
  
     @Autowired
     private OAuthDAO oauthDAOImpl;
@@ -48,34 +46,38 @@ public class OAuthConnection
                            .apiSecret("9e1bb2700b79696770c9c931b182bf12260eb4e6")
                            .build();
     }
-    public void connect()
+    public boolean connect()
     {
            
         List<OAuthToken> prevList = oauthDAOImpl.getAllOAuth();
-        if(prevList == null || prevList.size() == 0)
+        if(prevList == null || prevList.isEmpty())
         {
-            System.out.println("=== Yahoo's OAuth Workflow ===");
-            System.out.println();
-            Scanner in = new Scanner(System.in);
-            // Obtain the Request Token
-            System.out.println("Fetching the Request Token...");
-            requestToken = service.getRequestToken();
-            System.out.println("Got the Request Token!");
-            System.out.println();
-            System.out.println(service.getAuthorizationUrl(requestToken));
-            System.out.println("And paste the verifier here");
-            System.out.print(">>");
-            retrieveAccessToken(in.nextLine());
+            return false;
+           
         }
         else
         {
             accessToken = new Token (prevList.get(0).getToken(),prevList.get(0).getSecret());
             verifier = new Verifier(prevList.get(0).getVerifier());
             oauthSessionHandle = prevList.get(0).getSessionHandle();
+            authorized = true;
+            return true;
             
         }
     }
-    
+    public String retrieveAuthorizationUrl()
+    {
+            System.out.println("=== Yahoo's OAuth Workflow ===");
+            System.out.println();
+            System.out.println("Fetching the Request Token...");
+            requestToken = service.getRequestToken();
+            System.out.println("Got the Request Token!");
+            System.out.println();
+            String authUrl = service.getAuthorizationUrl(requestToken);
+            System.out.println(authUrl);
+            return authUrl;
+           // retrieveAccessToken(in.nextLine());
+    }
     public void retrieveAccessToken(String token)
     {
         verifier = new Verifier(token);
@@ -99,6 +101,7 @@ public class OAuthConnection
         temp.setSecret(accessToken.getSecret());
         temp.setSessionHandle(oauthSessionHandle);
          oauthDAOImpl.savePlayer(temp);
+         authorized = true;
     }
     
     public String requestData(String url, Verb v)
@@ -160,6 +163,11 @@ public class OAuthConnection
     public void setOauthSessionHandle(String oauthSessionHandle) {
         this.oauthSessionHandle = oauthSessionHandle;
     }
+
+    public boolean isAuthorized() {
+        return authorized;
+    }
+    
     
     
 }
