@@ -206,7 +206,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         if(!conn.isAuthorized())
         {
-            JDialog oauthDialog = new OauthDialog(this, false, conn.retrieveAuthorizationUrl());
+            JDialog oauthDialog = new OauthDialog(this, false, conn);
             oauthDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             oauthDialog.setVisible(true);
          /**  String s = (String)JOptionPane.showInputDialog(
