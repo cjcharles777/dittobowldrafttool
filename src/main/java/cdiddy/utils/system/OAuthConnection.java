@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.YahooApi;
+import org.scribe.exceptions.OAuthException;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Token;
@@ -78,30 +79,38 @@ public class OAuthConnection
             return authUrl;
            // retrieveAccessToken(in.nextLine());
     }
-    public void retrieveAccessToken(String token)
+    public boolean retrieveAccessToken(String token)
     {
         verifier = new Verifier(token);
             // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-         accessToken = service.getAccessToken(requestToken, verifier);
-         String fullResponse = accessToken.getRawResponse();
-         System.out.println("[Raw Response] : " + fullResponse);
+         try
+         {
+            accessToken = service.getAccessToken(requestToken, verifier);
+            String fullResponse = accessToken.getRawResponse();
+            System.out.println("[Raw Response] : " + fullResponse);
 
 
-        // Gather the indices of the session handle
-        int startIndex = fullResponse.indexOf("&oauth_session_handle=");
-        int endIndex = fullResponse.indexOf("&oauth_authorization_expires_in", startIndex);
+            // Gather the indices of the session handle
+            int startIndex = fullResponse.indexOf("&oauth_session_handle=");
+            int endIndex = fullResponse.indexOf("&oauth_authorization_expires_in", startIndex);
 
-        oauthSessionHandle = fullResponse.substring(startIndex + 22, endIndex);
-        System.out.println("[Session handle] :" + oauthSessionHandle);
+            oauthSessionHandle = fullResponse.substring(startIndex + 22, endIndex);
+            System.out.println("[Session handle] :" + oauthSessionHandle);
         
-        OAuthToken temp = new OAuthToken();
-        temp.setVerifier(verifier.getValue());
-        temp.setToken(accessToken.getToken());
-        temp.setSecret(accessToken.getSecret());
-        temp.setSessionHandle(oauthSessionHandle);
-         oauthDAOImpl.savePlayer(temp);
-         authorized = true;
+            OAuthToken temp = new OAuthToken();
+            temp.setVerifier(verifier.getValue());
+            temp.setToken(accessToken.getToken());
+            temp.setSecret(accessToken.getSecret());
+            temp.setSessionHandle(oauthSessionHandle);
+            oauthDAOImpl.savePlayer(temp);
+            authorized = true;
+            return true;
+         }
+         catch(OAuthException E)
+         {
+             return false;
+         }
     }
     
     public String requestData(String url, Verb v)

@@ -289,13 +289,15 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
 
     public void init() {
         
+        initComponents();
+        welcomePanel.init();
+        
         if(conn.connect())
         {
             userleauges = gameService.getUserLeagues();
-            
+            welcomePanel.populateInnerPanels();            
         }
-            initComponents();
-            welcomePanel.init();
+
             CardLayout cl = (CardLayout)(jPanel1.getLayout());
             cl.show(jPanel1, "card3");
  

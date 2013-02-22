@@ -63,7 +63,12 @@ public class LeaugeTeamListPanel extends javax.swing.JPanel {
 
     public void init() 
     {
-            populateTeamTable();
+
+         initComponents();
+    }
+    public void populatePanel()
+    {
+        populateTeamTable();
          
         leaugeComboBox.removeAllItems();
         List<YahooLeague> userLeaguesList = gameService.getUserLeagues();
@@ -72,9 +77,7 @@ public class LeaugeTeamListPanel extends javax.swing.JPanel {
             leaugeComboBox.addItem(leauge);
         }
         leaugeComboBox.setSelectedIndex(0);
-         initComponents();
     }
-
     public class TeamCellEditorRenderer extends AbstractCellEditor implements TableCellRenderer, TableCellEditor 
     {
          private static final long serialVersionUID = 1L;

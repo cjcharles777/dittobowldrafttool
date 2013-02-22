@@ -11,6 +11,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.event.HyperlinkEvent;
 
 /**
@@ -128,8 +129,18 @@ public class OauthDialog extends javax.swing.JDialog {
         }    }//GEN-LAST:event_jEditorPane1HyperlinkUpdate
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        oauth.retrieveAccessToken(jTextField1.getText());
-        System.exit(0);
+        if (oauth.retrieveAccessToken(jTextField1.getText()))
+        {
+            dispose();
+        }
+        else
+        {
+            
+            Logger.getLogger(OauthDialog.class.getName()).log(Level.SEVERE, "Failed Auth");
+            JOptionPane.showMessageDialog(this,
+                "The token provided is invalid. Please try again.");
+        }
+        
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**

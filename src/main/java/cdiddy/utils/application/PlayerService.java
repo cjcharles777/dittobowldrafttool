@@ -64,7 +64,7 @@ public class PlayerService
     private YQLQueryUtil yqlUitl ;
     
     //Yahoo grabs
-    
+     
     public void loadPlayers()
     {
         ObjectMapper mapper = new ObjectMapper();
@@ -156,7 +156,29 @@ public class PlayerService
             }
         }
     }
-    
+    public void loadPlayer(String yahooKey)
+    {       
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String,Object> userData;
+        Map<String,Object> results;
+        Map<String,Object> query;            
+        String yql = "select * from fantasysports.players where player_key="+yahooKey;
+        String response = yqlUitl.queryYQL(yql);
+
+        try 
+        {
+            userData = mapper.readValue(response, Map.class);
+            query = (Map<String, Object>)userData.get("query"); // query details
+            results = (Map<String, Object>)query.get("results"); //result details
+            Map playerMap = (Map) results.get("player");
+            Player tempPlayer = mapper.readValue(JacksonPojoMapper.toJson(playerMap, false) , Player.class);
+        }
+        catch (Exception ex) 
+        {
+            Logger.getLogger(PlayerService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
     public String getPlayerStats(Player p)
     {
         
@@ -166,7 +188,7 @@ public class PlayerService
         return response;
     }
     
-        public String getStatsCategories()
+    public String getStatsCategories()
     {
         
        // String player_key = "nfl.p." + p.getYahooId();
@@ -344,7 +366,12 @@ public class PlayerService
     }
      public Player retrivePlayer(int playerid) 
     {
-         return playersDAOImpl.getPlayerbyYahooId(playerid);
+         Player result = playersDAOImpl.getPlayerbyYahooId(playerid);
+         if(result == null)
+         {
+             
+         }
+         return result;
     }
     public List<Player> retrivePlayers(int firstResult, int maxResults) 
     {

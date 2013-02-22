@@ -50,7 +50,14 @@ public class UserTeamListPanel extends javax.swing.JPanel {
         //populateTeamTable();
         
     }
+    public void populatePanel()
+    {
+        listTeam = teamService.loadUserTeams();
+        populateTeamTable();
+    }
+            
 
+    
     public class TeamCellEditorRenderer extends AbstractCellEditor implements TableCellRenderer, TableCellEditor 
     {
          private static final long serialVersionUID = 1L;

@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -25,14 +26,20 @@ import javax.swing.table.TableCellRenderer;
  */
 public class TeamRosterPanel extends javax.swing.JPanel {
 
-    private  List<Player> listRosterPlayers = new LinkedList<Player>();
-    private RosterPlayerTableModel rosterTableModel = new RosterPlayerTableModel();
+
+    @Autowired 
     private TeamService teamservice;
+   
+    @Autowired 
     private PlayersRESTService playersRESTService;
+    
+    @Autowired 
     private GameService gameService;
+    
     private YahooLeague yl;
     private int week;
-    
+    private  List<Player> listRosterPlayers = new LinkedList<Player>();
+    private RosterPlayerTableModel rosterTableModel = new RosterPlayerTableModel();
     
     /**
      * Creates new form TeamRosterPanel
@@ -40,6 +47,7 @@ public class TeamRosterPanel extends javax.swing.JPanel {
     public TeamRosterPanel() {
         initComponents();
     }
+    
     public TeamRosterPanel(TeamService teamservice, PlayersRESTService playersRESTService, GameService gameService, int week) 
     {
         initComponents();
