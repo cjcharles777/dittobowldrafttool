@@ -9,6 +9,7 @@ import cdiddy.objects.league.YahooLeague;
 import cdiddy.objects.util.DraftUtil;
 import cdiddy.services.rest.PlayersRESTService;
 import cdiddy.utils.application.GameService;
+import cdiddy.utils.application.PlayerService;
 import cdiddy.utils.application.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,6 +24,8 @@ public class WelcomePanel extends javax.swing.JPanel {
     private TeamService teamservice;
     @Autowired 
     private PlayersRESTService playersRESTService;
+    @Autowired 
+    private PlayerService playerService;
     @Autowired 
     private GameService gameService;
     @Autowired
@@ -50,7 +53,7 @@ private YahooLeague yl;
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = userTeamListPanel;
         jPanel2 = leaugeTeamListPanel;
-        rosterPanel = new TeamRosterPanel(teamservice, playersRESTService, gameService, week);
+        rosterPanel = new TeamRosterPanel(teamservice, playerService, gameService, week);
         jPanel3 = new DraftResultsPanel();
 
         jTabbedPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));

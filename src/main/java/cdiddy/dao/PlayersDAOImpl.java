@@ -73,7 +73,7 @@ public class PlayersDAOImpl implements PlayersDAO
         
         List<Player> tempList =  (List<Player>) hibernateTemplate.findByCriteria(
         DetachedCriteria.forClass(Player.class)
-        .add(Restrictions.eq("yahooId", yahooId)));
+        .add(Restrictions.eq("player_id", new Integer(yahooId).toString())));
         
         if (tempList != null && tempList.size() > 0)
         {

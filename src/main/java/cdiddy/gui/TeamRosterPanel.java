@@ -9,6 +9,7 @@ import cdiddy.objects.Roster;
 import cdiddy.objects.league.YahooLeague;
 import cdiddy.services.rest.PlayersRESTService;
 import cdiddy.utils.application.GameService;
+import cdiddy.utils.application.PlayerService;
 import cdiddy.utils.application.TeamService;
 import java.awt.Component;
 import java.util.LinkedList;
@@ -36,6 +37,9 @@ public class TeamRosterPanel extends javax.swing.JPanel {
     @Autowired 
     private GameService gameService;
     
+    @Autowired
+    private PlayerService playerService;
+    
     private YahooLeague yl;
     private int week;
     private  List<Player> listRosterPlayers = new LinkedList<Player>();
@@ -48,11 +52,11 @@ public class TeamRosterPanel extends javax.swing.JPanel {
         initComponents();
     }
     
-    public TeamRosterPanel(TeamService teamservice, PlayersRESTService playersRESTService, GameService gameService, int week) 
+    public TeamRosterPanel(TeamService teamservice, PlayerService playerService, GameService gameService, int week) 
     {
         initComponents();
         this.teamservice = teamservice;
-        this.playersRESTService = playersRESTService;
+        this.playerService = playerService;
         this.gameService = gameService;
         this.week = week;
          populateRosterTable();
@@ -86,7 +90,7 @@ public class TeamRosterPanel extends javax.swing.JPanel {
         List<Player> yahooListPlayers = roster.getPlayers().getPlayer();
         for(Player yahooPlayer : yahooListPlayers)
         {
-            Player temp = playersRESTService.retrivePlayer(Integer.parseInt(yahooPlayer.getPlayer_id()));
+            Player temp = playerService.retrivePlayer(Integer.parseInt(yahooPlayer.getPlayer_id()));
             listRosterPlayers.add(temp);
         }
         rosterTableModel = new RosterPlayerTableModel();

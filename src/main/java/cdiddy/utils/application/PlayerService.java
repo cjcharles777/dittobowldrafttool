@@ -156,13 +156,13 @@ public class PlayerService
             }
         }
     }
-    public void loadPlayer(String yahooKey)
+    public void retrievePlayerFromYahoo(String yahooKey)
     {       
         ObjectMapper mapper = new ObjectMapper();
         Map<String,Object> userData;
         Map<String,Object> results;
         Map<String,Object> query;            
-        String yql = "select * from fantasysports.players where player_key="+yahooKey;
+        String yql = "select * from fantasysports.players where player_key='"+yahooKey+"'";
         String response = yqlUitl.queryYQL(yql);
 
         try 
@@ -172,6 +172,53 @@ public class PlayerService
             results = (Map<String, Object>)query.get("results"); //result details
             Map playerMap = (Map) results.get("player");
             Player tempPlayer = mapper.readValue(JacksonPojoMapper.toJson(playerMap, false) , Player.class);
+            Map<String,Position> posMap = new HashMap<String,Position>();
+            Object elegiblePosObj = ((Map<String,Map<String,Object>>)playerMap).get("eligible_positions").get("position");
+            List<Position> tempPosList = new LinkedList<Position>();
+            if (elegiblePosObj instanceof String)
+            {
+                if(!posMap.containsKey((String) elegiblePosObj))
+                {
+                    Position tempPos = new Position();
+                    tempPos.setPosition((String) elegiblePosObj);
+                    tempPosList.add(tempPos);
+                    posMap.put((String)elegiblePosObj , tempPos);
+                }
+                else
+                {
+                    tempPosList.add(posMap.get((String)elegiblePosObj));
+                }
+
+
+            }
+            if(elegiblePosObj instanceof List)
+            {
+                for(Object o : (List)elegiblePosObj)
+                {
+                    if(!posMap.containsKey((String) o))
+                    {
+                        Position tempPos = new Position();
+                        tempPos.setPosition((String) o);
+                        tempPosList.add(tempPos);
+                        posMap.put((String)o , tempPos);
+                    }
+                    else
+                    {
+                        tempPosList.add(posMap.get((String)o));
+                    }
+                }
+
+            }
+            tempPlayer.setEligible_positions(tempPosList);
+            List<Player> playerObjList = new LinkedList<Player>();
+            playerObjList.add(tempPlayer);
+            Map<Integer, List<SeasonStat>> seasonStatmap = statsService.retrieveSeasonStats(playerObjList);
+            playerObjList = connectStatsToPlayer(seasonStatmap, playerObjList);       
+            Map<Integer, List<WeeklyStat>> statmap = statsService.retrieveWeeklyStats(playerObjList, 1);
+            playerObjList = connectWeeklyStatsToPlayer(statmap, playerObjList);
+            List<Player> playerSaveList = new LinkedList<Player>();
+            playerSaveList.addAll(playerObjList);
+            storePlayersToDatabase(playerSaveList); 
         }
         catch (Exception ex) 
         {
@@ -364,12 +411,13 @@ public class PlayerService
     {
          return playersDAOImpl.getAllPlayers();
     }
-     public Player retrivePlayer(int playerid) 
+    
+    public Player retrivePlayer(int yahooId) 
     {
-         Player result = playersDAOImpl.getPlayerbyYahooId(playerid);
+         Player result = playersDAOImpl.getPlayerbyYahooId(yahooId);
          if(result == null)
          {
-             
+             retrievePlayerFromYahoo("nfl.p."+yahooId);
          }
          return result;
     }

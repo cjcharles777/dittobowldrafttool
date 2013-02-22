@@ -192,8 +192,16 @@ public class StatsService
                 userData = mapper.readValue(response, Map.class);
                 params = (Map<String, Object>)userData.get("query");
                 Map <String,Object> testies = (Map <String,Object>)params.get("results");
-                List<Object> playerStatObj= (List<Object>) testies.get("player");
-               
+                List<Object> playerStatObj;
+                if(listP.size()>1)
+                {
+                    playerStatObj= (List<Object>) testies.get("player");
+                }
+                else
+                {
+                    playerStatObj = new LinkedList<Object>();
+                    playerStatObj.add(testies.get("player"));
+                }
                     
                 
                 for (Object obj : playerStatObj)
@@ -275,9 +283,18 @@ public class StatsService
                     
                 userData = mapper.readValue(response, Map.class);
                 params = (Map<String, Object>)userData.get("query");
-               Map <String,Object> testies = (Map <String,Object>)params.get("results");
-                List<Object> playerStatObj= (List<Object>) testies.get("player");
-               
+                Map <String,Object> testies = (Map <String,Object>)params.get("results");
+                List<Object> playerStatObj;
+                if(listP.size()>1)
+                {
+                    playerStatObj= (List<Object>) testies.get("player");
+                }
+                else
+                {
+                    playerStatObj = new LinkedList<Object>();
+                    playerStatObj.add(testies.get("player"));
+                }
+
                     
                 
                 for (Object obj : playerStatObj)
