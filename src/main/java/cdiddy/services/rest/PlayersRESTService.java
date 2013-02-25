@@ -49,7 +49,7 @@ public class PlayersRESTService
         try 
         {
             ObjectMapper mapper = new ObjectMapper();
-            String URL = BaseURL+"/retrievePlayer/playerkey/"+playerKey;
+            String URL = BaseURL+"retrievePlayer/playerkey/"+playerKey;
             String jsonResult = DataRequestCaller.requestData(URL, "GET");
             Player result = mapper.readValue(jsonResult, Player.class);
            return result;

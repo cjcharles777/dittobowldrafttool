@@ -45,7 +45,16 @@ public class DraftResultsTableModel  extends AbstractTableModel
             case 0: 
                 return pick.getPick();
             case 1:
-                return pick.getPlayer().getName().getFull();
+                String result;
+                if(pick.getPlayer().getName() != null)
+                {
+                    result = pick.getPlayer().getName().getFull();
+                }
+                else
+                {
+                    result = pick.getPlayer().getPlayer_key();
+                }
+                return result;
             case 2:
                 return pick.getTeam().getName();
             case 3:

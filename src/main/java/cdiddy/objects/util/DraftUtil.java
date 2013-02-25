@@ -11,21 +11,26 @@ import cdiddy.objects.draft.DraftResults;
 import cdiddy.objects.draft.EnhancedDraftPick;
 import cdiddy.objects.draft.EnhancedDraftResults;
 import cdiddy.services.rest.PlayersRESTService;
+import cdiddy.utils.application.PlayerService;
 import cdiddy.utils.application.TeamService;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author cedric
  */
+
+@Repository("draftUtil")
 public class DraftUtil
 {
     
     @Autowired
-    private PlayersRESTService playersRESTService;
+    private PlayerService playerService;
     @Autowired
     private TeamService teamservice;
     
@@ -44,7 +49,8 @@ public class DraftUtil
             EnhancedDraftPick tempEnhancedPick = new EnhancedDraftPick();
             tempEnhancedPick.setRound(Integer.parseInt(pick.getRound()));
             tempEnhancedPick.setPick(Integer.parseInt(pick.getPick()));
-            Player tempPlayer = playersRESTService.retrivePlayerWithYahooKey(pick.getPlayer_key());
+            String[] temp = StringUtils.split(pick.getPlayer_key(), ".");
+            Player tempPlayer = playerService.retrivePlayer(Integer.parseInt(temp[2]));
             tempEnhancedPick.setPlayer(tempPlayer);
             tempEnhancedPick.setTeam(mapTeam.get(pick.getTeam_key()));
             enhancedPicks.add(tempEnhancedPick);

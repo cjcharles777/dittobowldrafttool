@@ -88,7 +88,7 @@ public class TeamService
         int curr = 0; 
 
 
-        String response2 = conn.requestData("http://fantasysports.yahooapis.com/fantasy/v2/league/nfl.l." + leaugeid +"/teams/standings?format=json", Verb.GET);
+        String response2 = conn.requestData("http://fantasysports.yahooapis.com/fantasy/v2/league/" + leaugeid +"/teams/standings?format=json", Verb.GET);
         try 
         {
             

@@ -35,6 +35,7 @@ public class YQLQueryUtil
         { 
             if(conn.isAuthorized())
             {
+                Logger.getLogger(YQLQueryUtil.class.getName()).log(Level.SEVERE, query);
                 String authdata = conn.getAccessToken().getToken() + AUTHDATA_SEPARATOR+ conn. getAccessToken().getSecret() + AUTHDATA_SEPARATOR + conn.getOauthSessionHandle();
                 QueryResult qr = api.query(query, authdata);
                 return qr.getText();

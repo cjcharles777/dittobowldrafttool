@@ -66,7 +66,7 @@ List<EnhancedDraftPick> picksList;
         if (edResults != null)
         {    
            this.picksList = edResults.getPicks();
-           initComponents();
+           jTable1.setModel(new DraftResultsTableModel(picksList));
         }
 
     }

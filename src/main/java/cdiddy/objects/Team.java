@@ -31,7 +31,7 @@ public class Team
     public void setTeamKey(String teamKey) {
         this.teamKey = teamKey;
         String[] temp = StringUtils.split(teamKey, ".");
-        setLeaugeid(temp[2]);
+        setLeaugeid(temp[0]+"."+temp[1]+"."+temp[2]);
     }
 
     public String getTeamId() {

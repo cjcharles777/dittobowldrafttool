@@ -21,11 +21,12 @@
         </property>
     </bean>
 
-    <context:component-scan base-package="cdiddy.objects" />   
-     <context:component-scan base-package="cdiddy.services.rest" />
+    <context:component-scan base-package="cdiddy.objects" />     
+    <context:component-scan base-package="cdiddy.services.rest" />
     <context:component-scan base-package="cdiddy.dao" />
-     <context:component-scan base-package="cdiddy.utils.application" />
+    <context:component-scan base-package="cdiddy.utils.application" />
     <context:component-scan base-package="cdiddy.utils.system" />
     <context:component-scan base-package="cdiddy.gui" />
+    <context:component-scan base-package="cdiddy.objects.util" /> 
     <import resource="db-config.xml" />
 </beans>
