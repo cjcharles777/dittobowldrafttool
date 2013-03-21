@@ -8,13 +8,14 @@ package cdiddy.fantasyfootballapp.fantasyfootballconversion.objects;
  *
  * @author cedric
  */
-class ScoringSummary 
+public class ScoringSummary 
 {
     private String type;
     private String desc;
     private int qtr;
     private String team;
-
+    private Object players;
+    
     public String getType() {
         return type;
     }
@@ -45,6 +46,14 @@ class ScoringSummary
 
     public void setTeam(String team) {
         this.team = team;
+    }
+
+    public Object getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Object players) {
+        this.players = players;
     }
     
 }

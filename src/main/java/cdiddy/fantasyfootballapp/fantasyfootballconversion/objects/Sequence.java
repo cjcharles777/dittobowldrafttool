@@ -13,7 +13,7 @@ public class Sequence
     private int sequence;
     private String clubcode;
     private String playerName;
-    private int statid;
+    private int statId;
     private int yards;
 
     public int getSequence() {
@@ -40,13 +40,14 @@ public class Sequence
         this.playerName = playerName;
     }
 
-    public int getStatid() {
-        return statid;
+    public int getStatId() {
+        return statId;
     }
 
-    public void setStatid(int statid) {
-        this.statid = statid;
+    public void setStatId(int statId) {
+        this.statId = statId;
     }
+
 
     public int getYards() {
         return yards;

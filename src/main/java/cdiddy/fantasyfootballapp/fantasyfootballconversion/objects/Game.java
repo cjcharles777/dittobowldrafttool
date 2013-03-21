@@ -14,11 +14,12 @@ public class Game
 {
     private Team home;
     private Team away;
-    private Map<String, Drive> drives;
+    private Map<String, Object> drives;
     private Map<String, ScoringSummary> scrsummary;
     private String weather;
     private String media;
     private String yl;
+    private String qtr;
     private int down;
     private int togo;
     private boolean redzone;
@@ -42,11 +43,11 @@ public class Game
         this.away = away;
     }
 
-    public Map<String, Drive> getDrives() {
+    public Map<String, Object> getDrives() {
         return drives;
     }
 
-    public void setDrives(Map<String, Drive> drives) {
+    public void setDrives(Map<String, Object> drives) {
         this.drives = drives;
     }
 
@@ -82,6 +83,15 @@ public class Game
         this.yl = yl;
     }
 
+    public String getQtr() {
+        return qtr;
+    }
+
+    public void setQtr(String qtr) {
+        this.qtr = qtr;
+    }
+
+    
     public int getDown() {
         return down;
     }

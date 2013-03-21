@@ -23,7 +23,7 @@ public class Play
     private String posteam;
     private String desc;
     private String note;
-    private Map <String , List<Map<String,Sequence>>> players;
+    private Map <String , List<Sequence>> players;
 
     public int getSp() {
         return sp;
@@ -105,12 +105,14 @@ public class Play
         this.note = note;
     }
 
-    public Map<String, List<Map<String, Sequence>>> getPlayers() {
+    public Map<String, List<Sequence>> getPlayers() {
         return players;
     }
 
-    public void setPlayers(Map<String, List<Map<String, Sequence>>> players) {
+    public void setPlayers(Map<String, List<Sequence>> players) {
         this.players = players;
     }
+
+  
     
 }
