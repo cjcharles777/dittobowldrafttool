@@ -1,12 +1,20 @@
 package cdiddy.fantasyfootballapp.fantasyfootballconversion;
 
+import cdiddy.fantasyfootballapp.conversion.util.ResourceUtil;
 import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.Game;
 import cdiddy.utils.system.JacksonPojoMapper;
 import java.io.File;
 import java.io.InputStream;
+import java.net.URL;
+import java.security.CodeSource;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -19,18 +27,26 @@ public class App
     {
         try {
             System.out.println( "Hello World!" );
+            CodeSource src = App.class.getProtectionDomain().getCodeSource();
+            List<String> list = new ArrayList<String>();
+
+            String[] spam = ResourceUtil.getResourceListing(App.class, "nfldata/");
+             list = Arrays.asList(spam);
             ObjectMapper mapper = new ObjectMapper();
-            InputStream input = App.class.getResourceAsStream("/2009081350.json");
-           
-            String name = "2009081350.json";
-            int pos = name.lastIndexOf(".");
-            if (pos > 0) {
-                name = name.substring(0, pos);
+            for(String fileName : list)
+            {
+                InputStream input = App.class.getResourceAsStream("/nfldata/"+fileName);
+
+                String name = fileName;
+                int pos = name.lastIndexOf(".");
+                if (pos > 0) {
+                    name = name.substring(0, pos);
+                }
+                Map<String, Object> testme = mapper.readValue(input, Map.class);
+                Object gameObj = testme.get(name);
+                Game game = mapper.readValue(JacksonPojoMapper.toJson(testme.get(name), false) , Game.class);
+                System.out.println( "JSON converted into POJO" );
             }
-            Map<String, Object> testme = mapper.readValue(input, Map.class);
-            Object gameObj = testme.get(name);
-            Game game = mapper.readValue(JacksonPojoMapper.toJson(testme.get(name), false) , Game.class);
-            System.out.println( "JSON converted into POJO" );
         } 
         catch (Exception ex) 
         {

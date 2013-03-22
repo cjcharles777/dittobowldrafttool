@@ -26,6 +26,7 @@ public class Game
     private String clock;
     private String posteam;
     private String stadium;
+    private String note;
 
     public Team getHome() {
         return home;
@@ -138,6 +139,14 @@ public class Game
 
     public void setStadium(String stadium) {
         this.stadium = stadium;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
     
     

@@ -17,6 +17,7 @@ public class RushingStats
     private String lng;
     private String twopta;
     private String twoptm;
+    private String lngtd;
 
     public String getName() {
         return name;
@@ -72,6 +73,14 @@ public class RushingStats
 
     public void setTwoptm(String twoptm) {
         this.twoptm = twoptm;
+    }
+
+    public String getLngtd() {
+        return lngtd;
+    }
+
+    public void setLngtd(String lngtd) {
+        this.lngtd = lngtd;
     }
     
     

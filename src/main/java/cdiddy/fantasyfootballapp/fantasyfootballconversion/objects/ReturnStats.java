@@ -15,6 +15,7 @@ public class ReturnStats
     private String avg;
     private String tds;
     private String lng;
+    private String lngtd;
 
     public String getName() {
         return name;
@@ -55,6 +56,15 @@ public class ReturnStats
     public void setLng(String lng) {
         this.lng = lng;
     }
+
+    public String getLngtd() {
+        return lngtd;
+    }
+
+    public void setLngtd(String lngtd) {
+        this.lngtd = lngtd;
+    }
+    
     
     
 }
