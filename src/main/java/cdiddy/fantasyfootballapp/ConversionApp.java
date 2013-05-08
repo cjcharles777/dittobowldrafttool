@@ -7,6 +7,7 @@ package cdiddy.fantasyfootballapp;
 import cdiddy.dao.PlayersDAO;
 import cdiddy.dao.PlayersDAOImpl;
 import cdiddy.fantasyfootballapp.conversion.util.ResourceUtil;
+import cdiddy.fantasyfootballapp.fantasyfootballconversion.PlayerConversionCallable;
 import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.Game;
 import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.NFLPlayer;
 import cdiddy.objects.Name;
@@ -17,9 +18,16 @@ import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -33,12 +41,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class ConversionApp {
      private static final ApplicationContext applicationContext = new ClassPathXmlApplicationContext("app-config.xml");
      private static final PlayersDAO PLAYERS_DAO = applicationContext.getBean(PlayersDAO.class);
+     private static final int NTHREDS = 15;
         public static void main( String[] args )
     {
         try {
             System.out.println( "Hello World!" );
+
             CodeSource src = App.class.getProtectionDomain().getCodeSource();
-            List<String> list = new ArrayList<String>();
+           // List<String> list = new ArrayList<String>();
             ObjectMapper mapper = new ObjectMapper();
             
             InputStream input = App.class.getResourceAsStream("/players/players.json");
@@ -47,40 +57,45 @@ public class ConversionApp {
             Map<String, Object> testme = mapper.readValue(input, Map.class);
             Map<String, Player> playerMap = new HashMap<String, Player>();
             Map<String, NFLPlayer> retiredPlayerMap = new HashMap<String, NFLPlayer>();
+            List<Future<Player>> list = new LinkedList<Future<Player>>();
+            ExecutorService executor = Executors.newFixedThreadPool(NTHREDS);
             Iterator it = testme.entrySet().iterator();
             while (it.hasNext()) 
             {
                 Map.Entry pairs = (Map.Entry)it.next();
                 NFLPlayer player = mapper.readValue(JacksonPojoMapper.toJson(pairs.getValue(), false) , NFLPlayer.class);
-                Player tempPlayer = new Player();
-                Name tempPlayerName = new Name();
-                tempPlayerName.setFull(player.getName());
-                tempPlayer.setEditorial_team_abbr(player.getTeam());
-                tempPlayer.setName(tempPlayerName);
-                List<Player> result = PLAYERS_DAO.getPlayers(tempPlayer); 
-                System.out.println(player.getProfile_url());
-                System.out.println(result.size());
-                if(result.size() > 0)
-                {
-                    playerMap.put((String)pairs.getKey(), result.get(0));
-                }
-                else
-                {
-                    retiredPlayerMap.put((String)pairs.getKey(), player);
-                }
+                PlayerConversionCallable worker = new PlayerConversionCallable(player, PLAYERS_DAO);
+                Future<Player> submit = executor.submit(worker);
+                list.add(submit);
                 it.remove(); // avoids a ConcurrentModificationException
             }
             //
             //NFLPlayer me = playerMap.get("00-0026221");
+            executor.shutdown();
             
+            while (!executor.isTerminated()) {
+            }
+            Set<Player> set = new HashSet<Player>();
+            for (Future<Player> future : list) 
+            {
+              try {
+                set.add(future.get());
+              } catch (InterruptedException e) {
+                e.printStackTrace();
+              } catch (ExecutionException e) {
+                e.printStackTrace();
+              }
+            }
+
+
             
             System.out.println( "JSON converted into POJO" );
 
             String[] spam = ResourceUtil.getResourceListing(App.class, "nfldata/");
-             list = Arrays.asList(spam);
+             List<String> fileNameList = Arrays.asList(spam);
             
          
-            for(String fileName : list)
+            for(String fileName : fileNameList)
             {
                 input = App.class.getResourceAsStream("/nfldata/"+fileName);
 
