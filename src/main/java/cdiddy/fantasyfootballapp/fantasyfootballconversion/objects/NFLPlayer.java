@@ -8,7 +8,7 @@ package cdiddy.fantasyfootballapp.fantasyfootballconversion.objects;
  *
  * @author cedric
  */
-public class Player 
+public class NFLPlayer 
 {
         private String status; 
         private String weight;

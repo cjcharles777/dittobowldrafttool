@@ -17,6 +17,7 @@ public interface PlayersDAO
     public void savePlayers(List<Player> players);
     public List<Player> getAllPlayers();
     public List<Player> getPlayers(int firstResult, int maxResults);
+    public List<Player> getPlayers(Player p);
     public Player getPlayerById(int playerId);
     public Player getPlayerbyYahooId(int yahooId);
     public void deletePlayer(Player player);

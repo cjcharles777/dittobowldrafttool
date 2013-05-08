@@ -8,6 +8,7 @@ import cdiddy.objects.Player;
 import java.util.List;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,16 @@ public class PlayersDAOImpl implements PlayersDAO
 
 
 
+    }
+    
+    public List<Player> getPlayers(Player p)
+    {
+        return (List<Player>) hibernateTemplate.findByCriteria(
+        DetachedCriteria.forClass(Player.class)
+                .add(Example.create(p))
+                .createCriteria("name")
+                .add(Example.create(p.getName())));
+    
     }
 
     @SuppressWarnings("unchecked")

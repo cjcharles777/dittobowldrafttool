@@ -2,7 +2,7 @@ package cdiddy.fantasyfootballapp.fantasyfootballconversion;
 
 import cdiddy.fantasyfootballapp.conversion.util.ResourceUtil;
 import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.Game;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.Player;
+import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.NFLPlayer;
 import cdiddy.utils.system.JacksonPojoMapper;
 import java.io.InputStream;
 import java.security.CodeSource;
@@ -52,17 +52,17 @@ public class App
 
 
                 Map<String, Object> testme = mapper.readValue(input, Map.class);
-                Map<String, Player> playerMap = new HashMap<String, Player>();
+                Map<String, NFLPlayer> playerMap = new HashMap<String, NFLPlayer>();
                 Iterator it = testme.entrySet().iterator();
                 while (it.hasNext()) 
                 {
                     Map.Entry pairs = (Map.Entry)it.next();
-                    Player player = mapper.readValue(JacksonPojoMapper.toJson(pairs.getValue(), false) , Player.class);
+                    NFLPlayer player = mapper.readValue(JacksonPojoMapper.toJson(pairs.getValue(), false) , NFLPlayer.class);
                     playerMap.put((String)pairs.getKey(), player);
                     it.remove(); // avoids a ConcurrentModificationException
                 }
                 //
-                Player me = playerMap.get("00-0026221");
+                NFLPlayer me = playerMap.get("00-0026221");
                 System.out.println(me.getProfile_url());
                 System.out.println( "JSON converted into POJO" );
             
