@@ -7,7 +7,7 @@ package cdiddy.fantasyfootballapp;
 import cdiddy.dao.PlayersDAO;
 import cdiddy.dao.PlayersDAOImpl;
 import cdiddy.fantasyfootballapp.conversion.util.ResourceUtil;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.PlayerConversionCallable;
+import cdiddy.fantasyfootballapp.fantasyfootballconversion.concurrency.PlayerMatchingCallable;
 import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.Game;
 import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.NFLPlayer;
 import cdiddy.objects.Name;
@@ -24,10 +24,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -53,7 +54,8 @@ public class ConversionApp {
             
             InputStream input = App.class.getResourceAsStream("/players/players.json");
 
-
+            ExecutorService pool = Executors.newFixedThreadPool(15);
+            Set<Future<Player>> set = new HashSet<Future<Player>>();
             Map<String, Object> testme = mapper.readValue(input, Map.class);
             Map<String, Player> playerMap = new HashMap<String, Player>();
             Map<String, NFLPlayer> retiredPlayerMap = new HashMap<String, NFLPlayer>();
@@ -64,31 +66,17 @@ public class ConversionApp {
             {
                 Map.Entry pairs = (Map.Entry)it.next();
                 NFLPlayer player = mapper.readValue(JacksonPojoMapper.toJson(pairs.getValue(), false) , NFLPlayer.class);
-                PlayerConversionCallable worker = new PlayerConversionCallable(player, PLAYERS_DAO);
-                Future<Player> submit = executor.submit(worker);
-                list.add(submit);
+
+                Callable<Player> callable = new PlayerMatchingCallable(player, PLAYERS_DAO);
+                Future<Player> future = pool.submit(callable);
+                set.add(future);
                 it.remove(); // avoids a ConcurrentModificationException
             }
             //
             //NFLPlayer me = playerMap.get("00-0026221");
-            executor.shutdown();
-            
-            while (!executor.isTerminated()) {
-            }
-            Set<Player> set = new HashSet<Player>();
-            for (Future<Player> future : list) 
-            {
-              try {
-                set.add(future.get());
-              } catch (InterruptedException e) {
-                e.printStackTrace();
-              } catch (ExecutionException e) {
-                e.printStackTrace();
-              }
-            }
+            pool.shutdown();
+            while (!pool.isTerminated()) {}
 
-
-            
             System.out.println( "JSON converted into POJO" );
 
             String[] spam = ResourceUtil.getResourceListing(App.class, "nfldata/");
