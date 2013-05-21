@@ -51,7 +51,7 @@ public class ConversionApp {
             
             InputStream input = App.class.getResourceAsStream("/players/players.json");
 
-            ExecutorService pool = Executors.newFixedThreadPool(15);
+            ExecutorService pool = Executors.newFixedThreadPool(20);
             Set<Future<Player>> set = new HashSet<Future<Player>>();
             Map<String, Object> testme = mapper.readValue(input, Map.class);
             Map<String, Player> playerMap = new HashMap<String, Player>();
