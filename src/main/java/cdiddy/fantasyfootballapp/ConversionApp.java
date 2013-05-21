@@ -55,7 +55,7 @@ public class ConversionApp {
             InputStream input = App.class.getResourceAsStream("/players/players.json");
 
             ExecutorService pool = Executors.newFixedThreadPool(10);
-            Set<Future<Player>> set = new HashSet<Future<Player>>();
+            Map<String, Future<Player>> futureMap = new HashMap<String, Future<Player>>();
             Map<String, Object> testme = mapper.readValue(input, Map.class);
             Map<String, Player> playerMap = new HashMap<String, Player>();
             Map<String, NFLPlayer> retiredPlayerMap = new HashMap<String, NFLPlayer>();
@@ -69,14 +69,26 @@ public class ConversionApp {
 
                 Callable<Player> callable = new PlayerMatchingCallable(player, PLAYERS_DAO);
                 Future<Player> future = pool.submit(callable);
-                set.add(future);
+                futureMap.put(player.getGsisid() , future);
+               
                 it.remove(); // avoids a ConcurrentModificationException
             }
             //
             //NFLPlayer me = playerMap.get("00-0026221");
             pool.shutdown();
             while (!pool.isTerminated()) {}
-
+           
+           Iterator futureMapIter = futureMap.entrySet().iterator();
+           while (futureMapIter.hasNext()) 
+           {
+               Map.Entry pairs = (Map.Entry)futureMapIter.next();
+               String id = ((String)pairs.getKey());
+               Player tempPlayer = ((Future<Player>) pairs.getValue()).get();
+               playerMap.put( id , tempPlayer);
+               System.out.println(id + " = " + tempPlayer);
+               futureMapIter.remove(); // avoids a ConcurrentModificationException
+           }
+    
             System.out.println( "JSON converted into POJO" );
 
             String[] spam = ResourceUtil.getResourceListing(App.class, "nfldata/");
