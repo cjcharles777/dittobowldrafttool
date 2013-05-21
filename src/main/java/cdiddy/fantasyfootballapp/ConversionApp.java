@@ -5,30 +5,24 @@
 package cdiddy.fantasyfootballapp;
 
 import cdiddy.dao.PlayersDAO;
-import cdiddy.dao.PlayersDAOImpl;
 import cdiddy.fantasyfootballapp.conversion.util.ResourceUtil;
 import cdiddy.fantasyfootballapp.fantasyfootballconversion.concurrency.PlayerMatchingCallable;
 import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.Game;
 import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.NFLPlayer;
-import cdiddy.objects.Name;
 import cdiddy.objects.Player;
 import cdiddy.utils.system.JacksonPojoMapper;
 import java.io.InputStream;
 import java.security.CodeSource;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -85,7 +79,10 @@ public class ConversionApp {
                String id = ((String)pairs.getKey());
                Player tempPlayer = ((Future<Player>) pairs.getValue()).get();
                playerMap.put( id , tempPlayer);
-               System.out.println(id + " = " + tempPlayer);
+               if(tempPlayer != null)
+               {
+                System.out.println(id + " = " + tempPlayer.getPlayer_key()+ ":" + tempPlayer.getName().getFull());
+               }
                futureMapIter.remove(); // avoids a ConcurrentModificationException
            }
     
@@ -110,7 +107,7 @@ public class ConversionApp {
                 System.out.println( "JSON converted into POJO" );
             }
            
-
+            System.out.println( "Conversion done!!!!" );
             
         } 
         catch (Exception ex) 
