@@ -81,7 +81,7 @@ public class ConversionApp {
                playerMap.put( id , tempPlayer);
                if(tempPlayer != null)
                {
-                System.out.println(id + " = " + tempPlayer.getPlayer_key()+ ":" + tempPlayer.getName().getFull() + "...Check!");
+                System.out.println(id + " = " + tempPlayer.getPlayer_key()+ ":" + tempPlayer.getName().getFull());
                }
                futureMapIter.remove(); // avoids a ConcurrentModificationException
            }
