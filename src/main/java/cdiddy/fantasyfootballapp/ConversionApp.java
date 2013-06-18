@@ -48,13 +48,12 @@ public class ConversionApp {
             
             InputStream input = App.class.getResourceAsStream("/players/players.json");
 
-            ExecutorService pool = Executors.newFixedThreadPool(10);
+            ExecutorService pool = Executors.newFixedThreadPool(NTHREDS);
             Map<String, Future<Player>> futureMap = new HashMap<String, Future<Player>>();
             Map<String, Object> testme = mapper.readValue(input, Map.class);
             Map<String, Player> playerMap = new HashMap<String, Player>();
             Map<String, NFLPlayer> retiredPlayerMap = new HashMap<String, NFLPlayer>();
             List<Future<Player>> list = new LinkedList<Future<Player>>();
-            ExecutorService executor = Executors.newFixedThreadPool(NTHREDS);
             Iterator it = testme.entrySet().iterator();
             while (it.hasNext()) 
             {
@@ -87,7 +86,8 @@ public class ConversionApp {
            }
     
             System.out.println( "JSON converted into POJO" );
-
+            
+            pool = Executors.newFixedThreadPool(NTHREDS);
             String[] spam = ResourceUtil.getResourceListing(App.class, "nfldata/");
              List<String> fileNameList = Arrays.asList(spam);
             
