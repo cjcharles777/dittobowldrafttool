@@ -6,3 +6,5 @@
 *.ear
 /target/
 /db/
+!/simpleyql.jar
+!/lib/simpleyql.jar
