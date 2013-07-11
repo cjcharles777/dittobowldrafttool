@@ -275,7 +275,7 @@
         <artifactId>simpleyql</artifactId>
         <version>0.9.3</version>
         <scope>system</scope>
-        <systemPath>${basedir}/lib/simpleyql.jar</systemPath>
+        <systemPath>${basedir}/simpleyql.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>org.hsqldb</groupId>
