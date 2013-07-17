@@ -88,4 +88,16 @@ public static int YdsAllow_300_399 = 74;
 public static int YdsAllow_400_499 = 75;
 public static int YdsAllow_500 = 76;
 public static int ThreeOuts = 77;
+
+public static int TPA = 1001;
+public static int TPM = 1002;
+public static int QBInt = 1003;
+public static int RushLongTD = 1004;
+public static int RushLongYds = 1005;
+public static int TPARushing = 1006;
+public static int TPMRushing = 1007;
+public static int RecLongTD = 1008;
+public static int RecLongYds = 1009;
+public static int TPAReceiving = 1010;
+public static int TPMReceiving = 1011;
 }
