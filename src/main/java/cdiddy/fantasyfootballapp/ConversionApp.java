@@ -6,6 +6,7 @@ package cdiddy.fantasyfootballapp;
 
 import cdiddy.dao.PlayersDAO;
 import cdiddy.fantasyfootballapp.conversion.util.ResourceUtil;
+import cdiddy.fantasyfootballapp.fantasyfootballconversion.concurrency.GameProcessingWorker;
 import cdiddy.fantasyfootballapp.fantasyfootballconversion.concurrency.PlayerMatchingCallable;
 import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.Game;
 import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.NFLPlayer;
@@ -23,6 +24,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -87,7 +91,8 @@ public class ConversionApp {
     
             System.out.println( "JSON converted into POJO" );
             
-            pool = Executors.newFixedThreadPool(NTHREDS);
+            ThreadPoolExecutor executorPool;
+            executorPool = new ThreadPoolExecutor(5, NTHREDS, new Long(10).longValue(), TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
             String[] spam = ResourceUtil.getResourceListing(App.class, "nfldata/");
              List<String> fileNameList = Arrays.asList(spam);
             
@@ -105,10 +110,15 @@ public class ConversionApp {
                 Object gameObj = testme.get(name);
                 Game game = mapper.readValue(JacksonPojoMapper.toJson(testme.get(name), false) , Game.class);
                 System.out.println( "JSON converted into POJO" );
+                executorPool.execute(new GameProcessingWorker(game, PLAYERS_DAO, playerMap));
+                
             }
            
             System.out.println( "Conversion done!!!!" );
-            
+            Thread.sleep(30000);
+            //shut down the pool
+            executorPool.shutdown();
+
         } 
         catch (Exception ex) 
         {
