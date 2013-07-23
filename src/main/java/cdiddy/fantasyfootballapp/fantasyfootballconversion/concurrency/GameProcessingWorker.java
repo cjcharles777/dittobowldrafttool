@@ -55,11 +55,19 @@ public class GameProcessingWorker implements Runnable
            if(playerMap.containsKey(nflplayerid))
            {
               Player nflPlayer = playerMap.get(nflplayerid);
-              System.out.println("Player : " + nflPlayer.getName().getFull());
+              if(nflPlayer != null && nflPlayer.getName() != null)
+              {
+                System.out.println("Player : " + nflPlayer.getName().getFull());
+              }
+              else
+              {
+                  System.out.println("Player : " + nflplayerid +" does not have Name");
+              }
               for(Stat s : entry.getValue())
               {
-                System.out.println("Stat id : " + s.getStat_id()+" Stat value : "+ s.getValue());
+                  System.out.println("Stat id : " + s.getStat_id()+" Stat value : "+ s.getValue());
               }
+              
            }
            
        }
@@ -304,7 +312,14 @@ public class GameProcessingWorker implements Runnable
     {
         Stat temp = new Stat();
         temp.setStat_id(""+stat_id);
-        temp.setValue(Double.valueOf(value));
+        if(value != null)
+        {
+            temp.setValue(Double.valueOf(value));
+        }
+        else
+        {
+            temp.setValue(Double.valueOf("0"));
+        }
         return temp;
     }
     private  Map<String, List<Stat>> combineStats(Map<String, List<Stat>> base,  Map<String, List<Stat>> addon)
