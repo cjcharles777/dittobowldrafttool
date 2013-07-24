@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cdiddy.fantasyfootballapp.fantasyfootballconversion;
+package cdiddy.util.fantasyfootballconversion;
 
 import cdiddy.dao.PlayersDAO;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.NFLPlayer;
+import cdiddy.util.fantasyfootballconversion.objects.NFLPlayer;
 import cdiddy.objects.Name;
 import cdiddy.objects.Player;
 import java.util.List;

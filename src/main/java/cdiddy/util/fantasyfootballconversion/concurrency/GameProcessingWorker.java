@@ -2,20 +2,20 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cdiddy.fantasyfootballapp.fantasyfootballconversion.concurrency;
+package cdiddy.util.fantasyfootballconversion.concurrency;
 
 import cdiddy.dao.PlayersDAO;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.DefenseStats;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.FumblesStats;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.Game;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.KickingStats;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.PassingStats;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.PuntingStats;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.ReceivingStats;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.ReturnStats;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.RushingStats;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.Team;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.TeamStats;
+import cdiddy.util.fantasyfootballconversion.objects.DefenseStats;
+import cdiddy.util.fantasyfootballconversion.objects.FumblesStats;
+import cdiddy.util.fantasyfootballconversion.objects.Game;
+import cdiddy.util.fantasyfootballconversion.objects.KickingStats;
+import cdiddy.util.fantasyfootballconversion.objects.PassingStats;
+import cdiddy.util.fantasyfootballconversion.objects.PuntingStats;
+import cdiddy.util.fantasyfootballconversion.objects.ReceivingStats;
+import cdiddy.util.fantasyfootballconversion.objects.ReturnStats;
+import cdiddy.util.fantasyfootballconversion.objects.RushingStats;
+import cdiddy.util.fantasyfootballconversion.objects.Team;
+import cdiddy.util.fantasyfootballconversion.objects.TeamStats;
 import cdiddy.objects.Player;
 import cdiddy.objects.Stat;
 import cdiddy.objects.constants.YahooStatConstants;
@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -31,13 +32,13 @@ import java.util.Map;
 public class GameProcessingWorker implements Runnable
 {
     private Game game;
+    @Autowired
     private PlayersDAO playersDAO;
     private Map<String, Player> playerMap;
 
-    public GameProcessingWorker(Game game, PlayersDAO playersDAO, Map<String, Player> playerMap) 
+    public GameProcessingWorker(Game game, Map<String, Player> playerMap) 
     {
         this.game = game;
-        this.playersDAO = playersDAO;
         this.playerMap = playerMap;
     }
 

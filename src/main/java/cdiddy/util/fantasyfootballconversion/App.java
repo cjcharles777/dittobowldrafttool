@@ -1,8 +1,8 @@
-package cdiddy.fantasyfootballapp.fantasyfootballconversion;
+package cdiddy.util.fantasyfootballconversion;
 
 import cdiddy.fantasyfootballapp.conversion.util.ResourceUtil;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.Game;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.NFLPlayer;
+import cdiddy.util.fantasyfootballconversion.objects.Game;
+import cdiddy.util.fantasyfootballconversion.objects.NFLPlayer;
 import cdiddy.utils.system.JacksonPojoMapper;
 import java.io.InputStream;
 import java.security.CodeSource;

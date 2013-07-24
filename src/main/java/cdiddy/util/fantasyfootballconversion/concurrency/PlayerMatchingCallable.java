@@ -2,14 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cdiddy.fantasyfootballapp.fantasyfootballconversion.concurrency;
+package cdiddy.util.fantasyfootballconversion.concurrency;
 
 import cdiddy.dao.PlayersDAO;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.NFLPlayer;
+import cdiddy.util.fantasyfootballconversion.objects.NFLPlayer;
 import cdiddy.objects.Name;
 import cdiddy.objects.Player;
 import java.util.List;
 import java.util.concurrent.Callable;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -19,11 +20,12 @@ public class PlayerMatchingCallable implements Callable
 {
 
     private NFLPlayer player;
+    @Autowired
     private PlayersDAO playersDAO;
 
-    public PlayerMatchingCallable(NFLPlayer player, PlayersDAO playersDAO) {
+    public PlayerMatchingCallable(NFLPlayer player) {
         this.player = player;
-        this.playersDAO = playersDAO;
+        //.playersDAO = playersDAO;
     }
 
     
@@ -35,17 +37,9 @@ public class PlayerMatchingCallable implements Callable
     public void setPlayer(NFLPlayer player) {
         this.player = player;
     }
-
-    public PlayersDAO getPlayersDAO() {
-        return playersDAO;
-    }
-
-    public void setPlayersDAO(PlayersDAO playersDAO) {
-        this.playersDAO = playersDAO;
-    }
     
-    
-    public Player call() throws Exception {
+    public Player call() throws Exception 
+    {
         Player tempPlayer = new Player();
         Name tempPlayerName = new Name();
         tempPlayerName.setFull(player.getName());

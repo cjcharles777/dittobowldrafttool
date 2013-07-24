@@ -6,10 +6,10 @@ package cdiddy.fantasyfootballapp;
 
 import cdiddy.dao.PlayersDAO;
 import cdiddy.fantasyfootballapp.conversion.util.ResourceUtil;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.concurrency.GameProcessingWorker;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.concurrency.PlayerMatchingCallable;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.Game;
-import cdiddy.fantasyfootballapp.fantasyfootballconversion.objects.NFLPlayer;
+import cdiddy.util.fantasyfootballconversion.concurrency.GameProcessingWorker;
+import cdiddy.util.fantasyfootballconversion.concurrency.PlayerMatchingCallable;
+import cdiddy.util.fantasyfootballconversion.objects.Game;
+import cdiddy.util.fantasyfootballconversion.objects.NFLPlayer;
 import cdiddy.objects.Player;
 import cdiddy.utils.system.JacksonPojoMapper;
 import java.io.InputStream;
