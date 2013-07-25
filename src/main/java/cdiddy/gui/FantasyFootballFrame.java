@@ -7,14 +7,18 @@ package cdiddy.gui;
 import cdiddy.objects.Player;
 import cdiddy.objects.league.YahooLeague;
 import cdiddy.services.rest.PlayersRESTService;
+import cdiddy.utils.application.ConversionService;
 import cdiddy.utils.application.GameService;
 import cdiddy.utils.application.StatsService;
 import cdiddy.utils.application.TeamService;
 import cdiddy.utils.system.OAuthConnection;
 import java.awt.CardLayout;
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -62,6 +66,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        fileChooser = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
         welcomeGuiPanel = this.welcomePanel;
         playerGuiPanel = this.playerPanel;
@@ -75,9 +80,13 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        testMenu = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        testLoadData = new javax.swing.JMenuItem();
+
+        fileChooser.setDialogTitle("Choose File");
+        fileChooser.setFileFilter(new ZipCustomFilter());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -123,7 +132,12 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
-        jMenu4.setText("Test");
+        testMenu.setText("Test");
+        testMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testMenuActionPerformed(evt);
+            }
+        });
 
         jMenuItem3.setText("Test URI");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -131,7 +145,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
                 jMenuItem3ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem3);
+        testMenu.add(jMenuItem3);
 
         jMenuItem5.setText("Test Button Page");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -139,9 +153,12 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
                 jMenuItem5ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem5);
+        testMenu.add(jMenuItem5);
 
-        jMenuBar1.add(jMenu4);
+        testLoadData.setText("Load Data");
+        testMenu.add(testLoadData);
+
+        jMenuBar1.add(testMenu);
 
         setJMenuBar(jMenuBar1);
 
@@ -229,6 +246,22 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void testMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testMenuActionPerformed
+        int returnVal = fileChooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            try {
+              // What to do with the file, e.g. display it in a TextArea
+                ConversionService.convertFromFile(file);
+            } catch (Exception ex) {
+              System.out.println("problem accessing file"+file.getAbsolutePath());
+            }
+        } 
+        else {
+            System.out.println("File access cancelled by user.");
+        }
+    }//GEN-LAST:event_testMenuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -270,10 +303,10 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel apiTestPanel;
+    private javax.swing.JFileChooser fileChooser;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -284,6 +317,8 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private javax.swing.JPanel playerGuiPanel;
     private static javax.swing.JPanel playerInfoGuiPanel;
     private javax.swing.JPanel testButtonPanel;
+    private javax.swing.JMenuItem testLoadData;
+    private javax.swing.JMenu testMenu;
     private javax.swing.JPanel welcomeGuiPanel;
     // End of variables declaration//GEN-END:variables
 
@@ -303,7 +338,19 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
  
     }
 
-
+    public class ZipCustomFilter extends javax.swing.filechooser.FileFilter {
+        @Override
+        public boolean accept(File file) {
+            // Allow only directories, or files with ".txt" extension
+            return file.isDirectory() || file.getAbsolutePath().endsWith(".zip");
+        }
+        @Override
+        public String getDescription() {
+            // This description will be displayed in the dialog,
+            // hard-coded = ugly, should be done via I18N
+            return "Zip File (*.zip)";
+        }
+    } 
 
 
 
