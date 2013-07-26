@@ -24,11 +24,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author cedric
  */
+@Repository("gameProcessingWorker")
 public class GameProcessingWorker implements Runnable
 {
     private Game game;
@@ -36,10 +38,14 @@ public class GameProcessingWorker implements Runnable
     private PlayersDAO playersDAO;
     private Map<String, Player> playerMap;
 
-    public GameProcessingWorker(Game game, Map<String, Player> playerMap) 
+    public GameProcessingWorker() {
+    }
+
+    public GameProcessingWorker(Game game, Map<String, Player> playerMap, PlayersDAO playersDAO) 
     {
         this.game = game;
         this.playerMap = playerMap;
+        this.playersDAO = playersDAO;
     }
 
     

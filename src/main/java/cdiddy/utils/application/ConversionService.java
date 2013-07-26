@@ -30,15 +30,15 @@ import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Cedric
  */
+@Repository("conversionService")
 public class ConversionService 
 {
     
@@ -48,7 +48,7 @@ public class ConversionService
     private static final int NTHREDS = 15;
 
     
-    public static void convertFromFile(File file) throws Exception
+    public void convertFromFile(File file) throws Exception
     {
         System.out.println( "Hello World!" );
 
@@ -66,7 +66,7 @@ public class ConversionService
 
         ZipUtil.unzip(file, tmpDir);
 
-        InputStream input = new FileInputStream("/players/players.json");
+        InputStream input = new FileInputStream("tmp/players/players.json");
 
         ExecutorService pool = Executors.newFixedThreadPool(NTHREDS);
         Map<String, Future<Player>> futureMap = new HashMap<String, Future<Player>>();
@@ -80,7 +80,7 @@ public class ConversionService
             Map.Entry pairs = (Map.Entry)it.next();
             NFLPlayer player = mapper.readValue(JacksonPojoMapper.toJson(pairs.getValue(), false) , NFLPlayer.class);
 
-            Callable<Player> callable = new PlayerMatchingCallable(player);
+            Callable<Player> callable = new PlayerMatchingCallable(player, playersDAO);
             Future<Player> future = pool.submit(callable);
             futureMap.put(player.getGsisid() , future);
 
@@ -109,15 +109,17 @@ public class ConversionService
 
         ThreadPoolExecutor executorPool;
         executorPool = new ThreadPoolExecutor(5, NTHREDS, new Long(10).longValue(), TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
-        String[] spam = ResourceUtil.getResourceListing(App.class, "nfldata/");
-         List<String> fileNameList = Arrays.asList(spam);
+        File folder = new File("tmp/nfldata/");
+        File[] listOfFiles = folder.listFiles();
+       // String[] spam = ResourceUtil.getResourceListing(App.class, "tmp/nfldata/");
+         List<File> gameFileList = Arrays.asList(listOfFiles);
 
 
-        for(String fileName : fileNameList)
+        for(File gameFile : gameFileList)
         {
-            input = new FileInputStream("/nfldata/"+fileName);
+            input = new FileInputStream(gameFile);
 
-            String name = fileName;
+            String name = gameFile.getName();
             int pos = name.lastIndexOf(".");
             if (pos > 0) {
                 name = name.substring(0, pos);
@@ -126,7 +128,7 @@ public class ConversionService
             Object gameObj = testme.get(name);
             Game game = mapper.readValue(JacksonPojoMapper.toJson(testme.get(name), false) , Game.class);
             System.out.println( "JSON converted into POJO" );
-            executorPool.execute(new GameProcessingWorker(game, playerMap));
+            executorPool.execute(new GameProcessingWorker(game, playerMap, playersDAO));
 
         }
 

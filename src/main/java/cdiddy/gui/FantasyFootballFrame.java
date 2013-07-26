@@ -14,7 +14,6 @@ import cdiddy.utils.application.TeamService;
 import cdiddy.utils.system.OAuthConnection;
 import java.awt.CardLayout;
 import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JDialog;
@@ -44,6 +43,8 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
          private PlayerPanel playerPanel;
          @Autowired 
          private WelcomePanel welcomePanel;
+         @Autowired
+         private ConversionService conversionService;
          
          private List<YahooLeague> userleauges = new LinkedList<YahooLeague>();
         Player playerInContext = null;
@@ -156,6 +157,11 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         testMenu.add(jMenuItem5);
 
         testLoadData.setText("Load Data");
+        testLoadData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testLoadDataActionPerformed(evt);
+            }
+        });
         testMenu.add(testLoadData);
 
         jMenuBar1.add(testMenu);
@@ -252,7 +258,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
             File file = fileChooser.getSelectedFile();
             try {
               // What to do with the file, e.g. display it in a TextArea
-                ConversionService.convertFromFile(file);
+                conversionService.convertFromFile(file);
             } catch (Exception ex) {
               System.out.println("problem accessing file"+file.getAbsolutePath());
             }
@@ -261,6 +267,22 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
             System.out.println("File access cancelled by user.");
         }
     }//GEN-LAST:event_testMenuActionPerformed
+
+    private void testLoadDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testLoadDataActionPerformed
+      int returnVal = fileChooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            try {
+              // What to do with the file, e.g. display it in a TextArea
+                conversionService.convertFromFile(file);
+            } catch (Exception ex) {
+              System.out.println("problem accessing file"+file.getAbsolutePath());
+            }
+        } 
+        else {
+            System.out.println("File access cancelled by user.");
+        }   // TODO add your handling code here:
+    }//GEN-LAST:event_testLoadDataActionPerformed
 
     /**
      * @param args the command line arguments

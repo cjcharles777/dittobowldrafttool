@@ -27,6 +27,7 @@
     <context:component-scan base-package="cdiddy.utils.application" />
     <context:component-scan base-package="cdiddy.utils.system" />
     <context:component-scan base-package="cdiddy.gui" />
-    <context:component-scan base-package="cdiddy.objects.util" /> 
+    <context:component-scan base-package="cdiddy.objects.util" />
+    <context:component-scan base-package="cdiddy.util.fantasyfootballconversion.concurrency" />  
     <import resource="db-config.xml" />
 </beans>

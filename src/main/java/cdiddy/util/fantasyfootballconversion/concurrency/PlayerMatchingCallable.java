@@ -10,22 +10,24 @@ import cdiddy.objects.Name;
 import cdiddy.objects.Player;
 import java.util.List;
 import java.util.concurrent.Callable;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author DMDD
  */
+
 public class PlayerMatchingCallable implements Callable
 {
 
     private NFLPlayer player;
-    @Autowired
     private PlayersDAO playersDAO;
 
-    public PlayerMatchingCallable(NFLPlayer player) {
+    public PlayerMatchingCallable() {
+    }
+
+    public PlayerMatchingCallable(NFLPlayer player, PlayersDAO playersDAO) {
         this.player = player;
-        //.playersDAO = playersDAO;
+        this.playersDAO = playersDAO;
     }
 
     
