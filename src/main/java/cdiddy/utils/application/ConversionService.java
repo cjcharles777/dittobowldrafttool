@@ -4,9 +4,9 @@
  */
 package cdiddy.utils.application;
 
+import cdiddy.dao.GameWeekDAO;
 import cdiddy.dao.PlayersDAO;
-import cdiddy.fantasyfootballapp.App;
-import cdiddy.fantasyfootballapp.conversion.util.ResourceUtil;
+import cdiddy.objects.GameWeek;
 import cdiddy.util.fantasyfootballconversion.concurrency.GameProcessingWorker;
 import cdiddy.util.fantasyfootballconversion.concurrency.PlayerMatchingCallable;
 import cdiddy.util.fantasyfootballconversion.objects.Game;
@@ -44,9 +44,24 @@ public class ConversionService
     
     @Autowired
     private PlayersDAO playersDAO;
+    @Autowired
+    private GameWeekDAO gameWeekDAO;
+    @Autowired
+    private GameService gameService;
     
     private static final int NTHREDS = 15;
 
+    private List<GameWeek> primeAndRetrieveGameWeek()
+    {
+        List<GameWeek> result = gameService.retrieveHistoricalGameWeeks();
+        if(result != null && result.size() > 0)
+        { 
+            gameWeekDAO.clearGameWeek();
+            gameWeekDAO.saveGameWeek(result);
+        }
+        return result;
+    }
+    
     
     public void convertFromFile(File file) throws Exception
     {
@@ -114,7 +129,7 @@ public class ConversionService
        // String[] spam = ResourceUtil.getResourceListing(App.class, "tmp/nfldata/");
          List<File> gameFileList = Arrays.asList(listOfFiles);
 
-
+        List<GameWeek> gameWeekList = primeAndRetrieveGameWeek();
         for(File gameFile : gameFileList)
         {
             input = new FileInputStream(gameFile);

@@ -18,7 +18,7 @@ public interface ByeWeekDAO
     public void saveByeWeek(ByeWeek bw);
     public void saveByeWeeks(List<ByeWeek> listN);
     public List<ByeWeek> getByeWeeks();
-    public ByeWeek geByeWeekById(int byeWeekId);
+    public ByeWeek getByeWeekById(int byeWeekId);
     public void deleteByeWeek(ByeWeek bw);
     public void clearByeWeeks();
 }

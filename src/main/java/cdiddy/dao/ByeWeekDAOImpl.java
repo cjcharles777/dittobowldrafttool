@@ -49,7 +49,7 @@ public class ByeWeekDAOImpl implements ByeWeekDAO
     }
 
     @Override
-    public ByeWeek geByeWeekById(int byeWeekId) 
+    public ByeWeek getByeWeekById(int byeWeekId) 
     {
         return hibernateTemplate.get(ByeWeek.class, byeWeekId);
     }

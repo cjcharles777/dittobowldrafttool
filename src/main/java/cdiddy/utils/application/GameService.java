@@ -72,6 +72,57 @@ public class GameService
         return result;
      
     }
+    public List<GameWeek> retrieveHistoricalGameWeeks()
+    {
+        
+        List<GameWeek> result = new LinkedList<GameWeek>();
+        class SeasonKey
+        {
+            String year;
+            String key;
+
+            public SeasonKey(String year, String key) {
+                this.year = year;
+                this.key = key;
+            }
+            
+        }
+        LinkedList<SeasonKey> seasonKeyList = new LinkedList<SeasonKey>();
+        seasonKeyList.add(new SeasonKey("2009", "222"));
+        seasonKeyList.add(new SeasonKey("2010", "242"));
+        seasonKeyList.add(new SeasonKey("2011", "257"));
+        seasonKeyList.add(new SeasonKey("2012", "273"));
+        seasonKeyList.add(new SeasonKey("2013", "nfl"));
+        for(SeasonKey sk : seasonKeyList)
+        {
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String,Object> userData;
+            Map<String, List<Map<String, Object>>> params;
+            String response2 = conn.requestData("http://fantasysports.yahooapis.com/fantasy/v2/game/"+sk.key+"/game_weeks?format=json", Verb.GET);
+            try 
+            {
+                userData = mapper.readValue(response2, Map.class);
+                params = (Map<String, List<Map<String, Object>>>)userData.get("fantasy_content");
+                Object game_weeks = ((Map<String, List<Map<String, Object>>>)params).get("game").get(1).get("game_weeks");
+                int count = ((Integer)((Map<String, Object> )game_weeks).get("count"));
+                int pos = 0;
+                while (pos<count)
+                {
+                    Map gameweek = ((Map<String, Map<String, Map>>)game_weeks).get(new Integer(pos).toString());
+                    GameWeek tempweek = mapper.readValue(JacksonPojoMapper.toJson(gameweek.get("game_week"), false) , GameWeek.class);
+                    tempweek.setYear(sk.year);
+                    result.add(tempweek);
+                    pos++;
+                }
+            } 
+            catch (IOException ex) 
+            {
+                Logger.getLogger(GameService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return result;
+     
+    }
     
     public List<YahooLeague> getUserLeagues ()
     {
