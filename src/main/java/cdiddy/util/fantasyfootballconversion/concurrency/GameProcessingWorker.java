@@ -7,6 +7,10 @@ package cdiddy.util.fantasyfootballconversion.concurrency;
 import cdiddy.dao.GameWeekDAO;
 import cdiddy.dao.PlayersDAO;
 import cdiddy.objects.GameWeek;
+import cdiddy.objects.Player;
+import cdiddy.objects.Stat;
+import cdiddy.objects.WeeklyStat;
+import cdiddy.objects.constants.YahooStatConstants;
 import cdiddy.util.fantasyfootballconversion.objects.DefenseStats;
 import cdiddy.util.fantasyfootballconversion.objects.FumblesStats;
 import cdiddy.util.fantasyfootballconversion.objects.Game;
@@ -18,9 +22,6 @@ import cdiddy.util.fantasyfootballconversion.objects.ReturnStats;
 import cdiddy.util.fantasyfootballconversion.objects.RushingStats;
 import cdiddy.util.fantasyfootballconversion.objects.Team;
 import cdiddy.util.fantasyfootballconversion.objects.TeamStats;
-import cdiddy.objects.Player;
-import cdiddy.objects.Stat;
-import cdiddy.objects.constants.YahooStatConstants;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -55,12 +56,35 @@ public class GameProcessingWorker implements Runnable
     
     public void run() 
     {
-        Team awayTeam = game.getAway();
-        Team homeTeam = game.getHome();
-        Map<String, List<Stat>> awayResults = processTeam(awayTeam);
-        Map<String, List<Stat>> homeResults = processTeam(homeTeam);
-        Map<String, List<Stat>> combinedResults = combineStats(awayResults, homeResults);
         List<GameWeek> gwList = gameWeekDAO.retrieveContainingGameWeek(game.getGameDate());
+        
+        if(gwList.size()== 1)
+        {
+            GameWeek gw = gwList.get(0);
+            Team awayTeam = game.getAway();
+            Team homeTeam = game.getHome();
+            Map<String, List<Stat>> awayResults = processTeam(awayTeam);
+            Map<String, List<Stat>> homeResults = processTeam(homeTeam);
+            Map<String, List<Stat>> combinedResults = combineStats(awayResults, homeResults);
+            for(Map.Entry<String, List<Stat>> playerStats : combinedResults.entrySet())
+            {
+                String playerID = playerStats.getKey();
+               
+                if(playerMap.containsKey(playerID))
+                {
+                    Player tempPlayer = playerMap.get(playerID);
+                    WeeklyStat tempWeeklyStat = new WeeklyStat(gw.getWeek(), gw.getYear(), playerStats.getValue());
+                    tempPlayer.getWeeklyStats().add(tempWeeklyStat);
+                                        
+                }
+            }
+        }
+        else
+        {
+            System.out.println("Skipped Processing: Out of Scope");
+        }
+
+       
         
        /**
        for (Map.Entry<String, List<Stat>> entry : combinedResults.entrySet())

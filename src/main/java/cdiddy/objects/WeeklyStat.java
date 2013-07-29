@@ -68,5 +68,20 @@ public class WeeklyStat
     public void setStats(List<Stat> stats) {
         this.stats = stats;
     }
+
+    public WeeklyStat(String week, String season, List<Stat> stats) 
+    {
+        super();
+        this.week = week;
+        this.season = season;
+        this.stats = stats;
+    }
+
+    public WeeklyStat() 
+    {
+        super();
+    }
+    
+    
         
 }
