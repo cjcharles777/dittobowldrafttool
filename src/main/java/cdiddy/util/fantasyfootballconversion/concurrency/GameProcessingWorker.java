@@ -4,7 +4,9 @@
  */
 package cdiddy.util.fantasyfootballconversion.concurrency;
 
+import cdiddy.dao.GameWeekDAO;
 import cdiddy.dao.PlayersDAO;
+import cdiddy.objects.GameWeek;
 import cdiddy.util.fantasyfootballconversion.objects.DefenseStats;
 import cdiddy.util.fantasyfootballconversion.objects.FumblesStats;
 import cdiddy.util.fantasyfootballconversion.objects.Game;
@@ -36,16 +38,18 @@ public class GameProcessingWorker implements Runnable
     private Game game;
     @Autowired
     private PlayersDAO playersDAO;
+    private GameWeekDAO gameWeekDAO;
     private Map<String, Player> playerMap;
 
     public GameProcessingWorker() {
     }
 
-    public GameProcessingWorker(Game game, Map<String, Player> playerMap, PlayersDAO playersDAO) 
+    public GameProcessingWorker(Game game, Map<String, Player> playerMap, PlayersDAO playersDAO, GameWeekDAO gameWeekDAO) 
     {
         this.game = game;
         this.playerMap = playerMap;
         this.playersDAO = playersDAO;
+        this.gameWeekDAO = gameWeekDAO;
     }
 
     
@@ -56,9 +60,14 @@ public class GameProcessingWorker implements Runnable
         Map<String, List<Stat>> awayResults = processTeam(awayTeam);
         Map<String, List<Stat>> homeResults = processTeam(homeTeam);
         Map<String, List<Stat>> combinedResults = combineStats(awayResults, homeResults);
+        List<GameWeek> gwList = gameWeekDAO.retrieveContainingGameWeek(game.getGameDate());
+        
+       /**
        for (Map.Entry<String, List<Stat>> entry : combinedResults.entrySet())
        {
-           String nflplayerid = entry.getKey();
+          
+            String nflplayerid = entry.getKey();
+           
            if(playerMap.containsKey(nflplayerid))
            {
               Player nflPlayer = playerMap.get(nflplayerid);
@@ -78,7 +87,19 @@ public class GameProcessingWorker implements Runnable
            }
            
        }
-        
+        **/
+        if(gwList.size()>0)
+        {
+            System.out.println("Game Date : " + game.getGameDate().toString());
+            for(GameWeek gw : gwList)
+            {
+                System.out.println("Return Game Week id " + gw.getId());            
+            }
+        }
+        else
+        {
+            System.out.println("Error: Cant find gameweek");
+        }
     }
     
     private Map<String, List<Stat>> processTeam(Team t)

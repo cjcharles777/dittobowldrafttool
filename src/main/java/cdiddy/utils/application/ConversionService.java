@@ -17,11 +17,13 @@ import cdiddy.utils.system.ZipUtil;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -51,7 +53,7 @@ public class ConversionService
     
     private static final int NTHREDS = 15;
 
-    private List<GameWeek> primeAndRetrieveGameWeek()
+    private void primeAndRetrieveGameWeek()
     {
         List<GameWeek> result = gameService.retrieveHistoricalGameWeeks();
         if(result != null && result.size() > 0)
@@ -59,7 +61,7 @@ public class ConversionService
             gameWeekDAO.clearGameWeek();
             gameWeekDAO.saveGameWeek(result);
         }
-        return result;
+        
     }
     
     
@@ -70,6 +72,7 @@ public class ConversionService
         //CodeSource src = App.class.getProtectionDomain().getCodeSource();
        // List<String> list = new ArrayList<String>();
         ObjectMapper mapper = new ObjectMapper();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
         File tmpDir = new File("tmp");
         if (!tmpDir.exists()) {
                 if (tmpDir.mkdir()) {
@@ -129,7 +132,7 @@ public class ConversionService
        // String[] spam = ResourceUtil.getResourceListing(App.class, "tmp/nfldata/");
          List<File> gameFileList = Arrays.asList(listOfFiles);
 
-        List<GameWeek> gameWeekList = primeAndRetrieveGameWeek();
+        primeAndRetrieveGameWeek();
         for(File gameFile : gameFileList)
         {
             input = new FileInputStream(gameFile);
@@ -142,13 +145,15 @@ public class ConversionService
             testme = mapper.readValue(input, Map.class);
             Object gameObj = testme.get(name);
             Game game = mapper.readValue(JacksonPojoMapper.toJson(testme.get(name), false) , Game.class);
+            System.out.println(name.substring(0, 8));
+            game.setGameDate(sdf.parse(name.substring(0, 8)));
             System.out.println( "JSON converted into POJO" );
-            executorPool.execute(new GameProcessingWorker(game, playerMap, playersDAO));
+            executorPool.execute(new GameProcessingWorker(game, playerMap, playersDAO, gameWeekDAO));
 
         }
 
         System.out.println( "Conversion done!!!!" );
-        Thread.sleep(30000);
+        //Thread.sleep(30000);
         //shut down the pool
         executorPool.shutdown();
 

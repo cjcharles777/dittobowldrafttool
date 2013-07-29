@@ -5,8 +5,11 @@
 package cdiddy.dao;
 
 import cdiddy.objects.GameWeek;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
@@ -52,7 +55,16 @@ public class GameWeekDAOImpl implements GameWeekDAO
     {
         return hibernateTemplate.get(GameWeek.class, gwId);
     }
-
+    
+    @Override
+    public List<GameWeek> retrieveContainingGameWeek(Date d)
+    {
+         return (List<GameWeek>) hibernateTemplate.findByCriteria(
+        DetachedCriteria.forClass(GameWeek.class)
+                .add(Restrictions.le("startDate",d ))
+                 .add(Restrictions.ge("endDate",d )));
+    
+    }
     @Transactional(readOnly = false)
     @Override
     public void deleteGameWeek(GameWeek gw) 

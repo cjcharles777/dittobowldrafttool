@@ -4,6 +4,7 @@
  */
 package cdiddy.util.fantasyfootballconversion.objects;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -12,6 +13,7 @@ import java.util.Map;
  */
 public class Game 
 {
+    
     private Team home;
     private Team away;
     private Map<String, Object> drives;
@@ -27,6 +29,7 @@ public class Game
     private String posteam;
     private String stadium;
     private String note;
+    private Date gameDate;
 
     public Team getHome() {
         return home;
@@ -148,6 +151,15 @@ public class Game
     public void setNote(String note) {
         this.note = note;
     }
+
+    public Date getGameDate() {
+        return gameDate;
+    }
+
+    public void setGameDate(Date gameDate) {
+        this.gameDate = gameDate;
+    }
+    
     
     
 }

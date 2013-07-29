@@ -28,6 +28,7 @@ public class WeeklyStat
 {
    private int id;
     private String week;
+    private String season;
     List<Stat> stats;
 
     

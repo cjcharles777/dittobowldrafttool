@@ -30,8 +30,10 @@ public class GameWeek implements Serializable
 {
     private String year;
     private String week;
-    private Date start;
-    private Date end;
+    private String start;
+    private String end;
+    private Date startDate;
+    private Date endDate;
     private int id;
 
     @Column(name = "week", length=3, nullable=false)
@@ -47,27 +49,28 @@ public class GameWeek implements Serializable
 
     @Column(name = "startDate", nullable=false)
     @Temporal(javax.persistence.TemporalType.DATE)
-    public Date getStart() {
-        return start;
+    public Date getStartDate() {
+        return startDate;
     }
 
     public void setStart(String startStr) 
     {
         try 
         {
-            this.start = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH).parse(startStr);
+            this.startDate = new SimpleDateFormat("yyyy-MM-dd").parse(startStr);
         } 
         catch (ParseException ex) 
         {
-            this.start = null;
+            this.startDate = null;
             Logger.getLogger(GameWeek.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+  
 
-    @Column(name = "endDate", length=4, nullable=false)
+    @Column(name = "endDate",  nullable=false)
     @Temporal(javax.persistence.TemporalType.DATE)
-    public Date getEnd() {
-        return end;
+    public Date getEndDate() {
+        return endDate;
     }
 
     
@@ -75,21 +78,24 @@ public class GameWeek implements Serializable
     {
         try 
         {
-            this.end = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH).parse(endStr);
+            this.endDate = new SimpleDateFormat("yyyy-MM-dd").parse(endStr);
+            System.out.println(this.endDate.toString());
         } 
         catch (ParseException ex) 
         {
             Logger.getLogger(GameWeek.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+  
 
-
-   @Column(name = "year", length=4, nullable=false)
-    public String getYear() {
+   @Column(name = "season", length=4, nullable=false)
+    public String getYear() 
+   {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(String year) 
+    {
         this.year = year;
     }
 
@@ -97,12 +103,22 @@ public class GameWeek implements Serializable
     @GeneratedValue(generator = "generator")
     @GenericGenerator(name = "generator", strategy = "increment")
     @Column(name = "gameweekid", nullable=false)
-    public int getId() {
+    public int getId() 
+    {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(int id) 
+    {
         this.id = id;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
 

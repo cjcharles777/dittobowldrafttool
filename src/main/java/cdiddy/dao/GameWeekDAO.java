@@ -5,6 +5,7 @@
 package cdiddy.dao;
 
 import cdiddy.objects.GameWeek;
+import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -20,5 +21,6 @@ public interface GameWeekDAO
     public List<GameWeek> getAllGameWeek();
     public GameWeek getGameWeekById(int gwId);
     public void deleteGameWeek(GameWeek gw);
-    public void clearGameWeek();   
+    public void clearGameWeek();
+    public List<GameWeek> retrieveContainingGameWeek(Date d);
 }
