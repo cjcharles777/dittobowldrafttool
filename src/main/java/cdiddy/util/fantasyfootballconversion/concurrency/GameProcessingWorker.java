@@ -6,6 +6,9 @@ package cdiddy.util.fantasyfootballconversion.concurrency;
 
 import cdiddy.dao.GameWeekDAO;
 import cdiddy.dao.PlayersDAO;
+import cdiddy.dao.SeasonStatsDAO;
+import cdiddy.dao.StatDAO;
+import cdiddy.dao.WeeklyStatsDAO;
 import cdiddy.objects.GameWeek;
 import cdiddy.objects.Player;
 import cdiddy.objects.Stat;
@@ -40,6 +43,9 @@ public class GameProcessingWorker implements Runnable
     @Autowired
     private PlayersDAO playersDAO;
     private GameWeekDAO gameWeekDAO;
+    private StatDAO statDAO;
+    private WeeklyStatsDAO weeklyStatsDAO;
+    private SeasonStatsDAO seasonStatsDAO;
     private Map<String, Player> playerMap;
 
     public GameProcessingWorker() {
@@ -73,7 +79,9 @@ public class GameProcessingWorker implements Runnable
                 if(playerMap.containsKey(playerID))
                 {
                     Player tempPlayer = playerMap.get(playerID);
+                    statDAO.saveStats(playerStats.getValue());
                     WeeklyStat tempWeeklyStat = new WeeklyStat(gw.getWeek(), gw.getYear(), playerStats.getValue());
+                    weeklyStatsDAO.saveWeeklyStat(tempWeeklyStat);
                     tempPlayer.getWeeklyStats().add(tempWeeklyStat);
                                         
                 }

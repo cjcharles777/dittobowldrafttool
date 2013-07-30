@@ -6,6 +6,9 @@ package cdiddy.utils.application;
 
 import cdiddy.dao.GameWeekDAO;
 import cdiddy.dao.PlayersDAO;
+import cdiddy.dao.SeasonStatsDAO;
+import cdiddy.dao.StatDAO;
+import cdiddy.dao.WeeklyStatsDAO;
 import cdiddy.objects.GameWeek;
 import cdiddy.objects.Player;
 import cdiddy.util.fantasyfootballconversion.concurrency.GameProcessingWorker;
@@ -50,6 +53,12 @@ public class ConversionService
     private GameWeekDAO gameWeekDAO;
     @Autowired
     private GameService gameService;
+    @Autowired
+    private StatDAO statDAO;
+    @Autowired
+    private WeeklyStatsDAO weeklyStatsDAO;
+    @Autowired
+    private SeasonStatsDAO seasonStatsDAO;
     
     private static final int NTHREDS = 15;
 
@@ -60,6 +69,10 @@ public class ConversionService
         { 
             gameWeekDAO.clearGameWeek();
             gameWeekDAO.saveGameWeek(result);
+            statDAO.clearStats();
+            seasonStatsDAO.clearSeasonStat();
+            weeklyStatsDAO.clearWeeklyStat();
+            
         }
         
     }
@@ -156,6 +169,9 @@ public class ConversionService
         //Thread.sleep(30000);
         //shut down the pool
         executorPool.shutdown();
+        while (!executorPool.isTerminated()) {}
+        
+        playersDAO.savePlayers(new LinkedList<Player>(playerMap.values()));
 
         
     }
