@@ -192,7 +192,7 @@ public class Player implements Serializable
     }
     
     
-    @ManyToMany( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+    @ManyToMany( cascade = {CascadeType.ALL} )
     @JoinTable(
             name="PlayerToPosition",
             joinColumns = @JoinColumn( name="playerid"),
@@ -225,7 +225,7 @@ public class Player implements Serializable
         this.has_recent_player_notes = has_recent_player_notes;
     }
     
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+    @OneToMany(cascade = {CascadeType.ALL} )
     @JoinTable(
             name="PlayerToSeasonStats",
             joinColumns = @JoinColumn( name="playerid"),
@@ -241,7 +241,7 @@ public class Player implements Serializable
     {
         this.seasonStats = seasonStats;
     }
-        @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+        @OneToMany(cascade = {CascadeType.ALL} )
     @JoinTable(
             name="PlayerToWeeklyStats",
             joinColumns = @JoinColumn( name="playerid"),

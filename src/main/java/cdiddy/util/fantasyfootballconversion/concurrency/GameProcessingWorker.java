@@ -85,19 +85,19 @@ public class GameProcessingWorker implements Runnable
                 {
                     Player tempPlayer = playerMap.get(playerID);
                     statDAO.saveStats(playerStats.getValue());
-                    System.out.println(gw.getWeek());
-                    System.out.println(gw.getYear());
-                    String statStr = "";
-                    for(Stat s : playerStats.getValue())
-                    {
-                        statStr += ("Table StatId : " + s.getTable_stat_id());
-                        statStr += (" StatId : " + s.getStat_id());
-                        statStr += (" Stat value : " + s.getValue() + " ");
-                    }
-                    System.out.println(statStr);
                     WeeklyStat tempWeeklyStat = new WeeklyStat(gw.getWeek(), gw.getYear(), playerStats.getValue());
                     weeklyStatsDAO.saveWeeklyStat(tempWeeklyStat);
-                    tempPlayer.getWeeklyStats().add(tempWeeklyStat);
+                    if(tempPlayer.getWeeklyStats() != null)
+                    {
+                        tempPlayer.getWeeklyStats().add(tempWeeklyStat);
+                    }
+                    else
+                    {
+                        List<WeeklyStat> tempWeeklyStatsList = new LinkedList<WeeklyStat>();
+                        tempWeeklyStatsList.add(tempWeeklyStat);
+                        tempPlayer.setWeeklyStats(tempWeeklyStatsList);
+                    }
+                    
                                         
                 }
             }
@@ -108,33 +108,6 @@ public class GameProcessingWorker implements Runnable
         }
 
        
-        
-       /**
-       for (Map.Entry<String, List<Stat>> entry : combinedResults.entrySet())
-       {
-          
-            String nflplayerid = entry.getKey();
-           
-           if(playerMap.containsKey(nflplayerid))
-           {
-              Player nflPlayer = playerMap.get(nflplayerid);
-              if(nflPlayer != null && nflPlayer.getName() != null)
-              {
-                System.out.println("Player : " + nflPlayer.getName().getFull());
-              }
-              else
-              {
-                  System.out.println("Player : " + nflplayerid +" does not have Name");
-              }
-              for(Stat s : entry.getValue())
-              {
-                  System.out.println("Stat id : " + s.getStat_id()+" Stat value : "+ s.getValue());
-              }
-              
-           }
-           
-       }
-        **/
         if(gwList.size()>0)
         {
             System.out.println("Game Date : " + game.getGameDate().toString());

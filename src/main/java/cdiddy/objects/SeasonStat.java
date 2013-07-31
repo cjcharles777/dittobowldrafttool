@@ -45,7 +45,7 @@ public class SeasonStat
         this.season = season;
     }
 
-    @OneToMany( cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany( cascade = {CascadeType.ALL})
     @JoinTable(
             name="SeasonStatsToStats",
             joinColumns = @JoinColumn( name="season_stat_id"),

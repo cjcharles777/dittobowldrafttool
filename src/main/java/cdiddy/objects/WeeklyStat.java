@@ -54,7 +54,7 @@ public class WeeklyStat
         this.week = season;
     }
 
-    @OneToMany( cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany( cascade = {CascadeType.ALL})
     @JoinTable(
             name="WeeklyStatsToStats",
             joinColumns = @JoinColumn( name="weekly_stat_id"),

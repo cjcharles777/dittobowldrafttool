@@ -172,7 +172,7 @@ public class ConversionService
         //Thread.sleep(30000);
         //shut down the pool
         executorPool.shutdown();
-        while (!executorPool.isTerminated()) {}
+       // while (!executorPool.isTerminated()) {}
         
         playersDAO.savePlayers(new LinkedList<Player>(playerMap.values()));
 
