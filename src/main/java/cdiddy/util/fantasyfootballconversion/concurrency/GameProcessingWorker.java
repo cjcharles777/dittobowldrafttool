@@ -87,9 +87,14 @@ public class GameProcessingWorker implements Runnable
                     statDAO.saveStats(playerStats.getValue());
                     System.out.println(gw.getWeek());
                     System.out.println(gw.getYear());
-                    System.out.println(playerStats.getValue().get(0).getTable_stat_id());
-                    System.out.println(playerStats.getValue().get(0).getStat_id());
-                    System.out.println(playerStats.getValue().get(0).getValue());
+                    String statStr = "";
+                    for(Stat s : playerStats.getValue())
+                    {
+                        statStr += ("Table StatId : " + s.getTable_stat_id());
+                        statStr += (" StatId : " + s.getStat_id());
+                        statStr += (" Stat value : " + s.getValue() + " ");
+                    }
+                    System.out.println(statStr);
                     WeeklyStat tempWeeklyStat = new WeeklyStat(gw.getWeek(), gw.getYear(), playerStats.getValue());
                     weeklyStatsDAO.saveWeeklyStat(tempWeeklyStat);
                     tempPlayer.getWeeklyStats().add(tempWeeklyStat);
