@@ -11,6 +11,7 @@ import cdiddy.dao.StatDAO;
 import cdiddy.dao.WeeklyStatsDAO;
 import cdiddy.objects.GameWeek;
 import cdiddy.objects.Player;
+import cdiddy.objects.util.ConversionServiceUtil;
 import cdiddy.util.fantasyfootballconversion.concurrency.GameProcessingWorker;
 import cdiddy.util.fantasyfootballconversion.concurrency.PlayerMatchingCallable;
 import cdiddy.util.fantasyfootballconversion.objects.Game;
@@ -59,6 +60,8 @@ public class ConversionService
     private WeeklyStatsDAO weeklyStatsDAO;
     @Autowired
     private SeasonStatsDAO seasonStatsDAO;
+    @Autowired
+    private ConversionServiceUtil conversionServiceUtil;
     
     private static final int NTHREDS = 15;
 
@@ -161,7 +164,7 @@ public class ConversionService
             System.out.println(name.substring(0, 8));
             game.setGameDate(sdf.parse(name.substring(0, 8)));
             System.out.println( "JSON converted into POJO" );
-            executorPool.execute(new GameProcessingWorker(game, playerMap, playersDAO, gameWeekDAO));
+            executorPool.execute(new GameProcessingWorker(game, playerMap, conversionServiceUtil));
 
         }
 

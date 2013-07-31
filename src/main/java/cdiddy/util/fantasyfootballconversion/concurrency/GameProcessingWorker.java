@@ -14,6 +14,7 @@ import cdiddy.objects.Player;
 import cdiddy.objects.Stat;
 import cdiddy.objects.WeeklyStat;
 import cdiddy.objects.constants.YahooStatConstants;
+import cdiddy.objects.util.ConversionServiceUtil;
 import cdiddy.util.fantasyfootballconversion.objects.DefenseStats;
 import cdiddy.util.fantasyfootballconversion.objects.FumblesStats;
 import cdiddy.util.fantasyfootballconversion.objects.Game;
@@ -51,12 +52,16 @@ public class GameProcessingWorker implements Runnable
     public GameProcessingWorker() {
     }
 
-    public GameProcessingWorker(Game game, Map<String, Player> playerMap, PlayersDAO playersDAO, GameWeekDAO gameWeekDAO) 
+    public GameProcessingWorker(Game game, Map<String, Player> playerMap, 
+                ConversionServiceUtil csu) 
     {
         this.game = game;
         this.playerMap = playerMap;
-        this.playersDAO = playersDAO;
-        this.gameWeekDAO = gameWeekDAO;
+        this.playersDAO = csu.getPlayersDAO();
+        this.gameWeekDAO = csu.getGameWeekDAO();
+        this.weeklyStatsDAO = csu.getWeeklyStatsDAO();
+        this.seasonStatsDAO = csu.getSeasonStatsDAO();
+        this.statDAO = csu.getStatDAO();
     }
 
     
@@ -80,6 +85,11 @@ public class GameProcessingWorker implements Runnable
                 {
                     Player tempPlayer = playerMap.get(playerID);
                     statDAO.saveStats(playerStats.getValue());
+                    System.out.println(gw.getWeek());
+                    System.out.println(gw.getYear());
+                    System.out.println(playerStats.getValue().get(0).getTable_stat_id());
+                    System.out.println(playerStats.getValue().get(0).getStat_id());
+                    System.out.println(playerStats.getValue().get(0).getValue());
                     WeeklyStat tempWeeklyStat = new WeeklyStat(gw.getWeek(), gw.getYear(), playerStats.getValue());
                     weeklyStatsDAO.saveWeeklyStat(tempWeeklyStat);
                     tempPlayer.getWeeklyStats().add(tempWeeklyStat);
