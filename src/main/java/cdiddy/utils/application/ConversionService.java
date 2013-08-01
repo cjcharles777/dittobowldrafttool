@@ -36,6 +36,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -88,6 +90,7 @@ public class ConversionService
         //CodeSource src = App.class.getProtectionDomain().getCodeSource();
        // List<String> list = new ArrayList<String>();
         ObjectMapper mapper = new ObjectMapper();
+        JsonFactory jsonFactory = mapper.getJsonFactory();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
         File tmpDir = new File("tmp");
         if (!tmpDir.exists()) {
@@ -105,6 +108,9 @@ public class ConversionService
         ExecutorService pool = Executors.newFixedThreadPool(NTHREDS);
         Map<String, Future<Player>> futureMap = new HashMap<String, Future<Player>>();
         Map<String, Object> testme = mapper.readValue(input, Map.class);
+       // JsonParser parser = jsonFactory.createJsonParser(input);
+       // parser.nextToken();
+        //Map<String, Object> testme = parser.readValueAs(Map.class);
         Map<String, Player> playerMap = new HashMap<String, Player>();
         Map<String, NFLPlayer> retiredPlayerMap = new HashMap<String, NFLPlayer>();
         List<Future<Player>> list = new LinkedList<Future<Player>>();
@@ -124,16 +130,18 @@ public class ConversionService
         //NFLPlayer me = playerMap.get("00-0026221");
         pool.shutdown();
         while (!pool.isTerminated()) {}
-
+        //parser.close();
        Iterator futureMapIter = futureMap.entrySet().iterator();
        while (futureMapIter.hasNext()) 
        {
+           mapper = new ObjectMapper();
            Map.Entry pairs = (Map.Entry)futureMapIter.next();
            String id = ((String)pairs.getKey());
            Player tempPlayer = ((Future<Player>) pairs.getValue()).get();
-           playerMap.put( id , tempPlayer);
+           
            if(tempPlayer != null)
            {
+            playerMap.put( id , tempPlayer);
             System.out.println(id + " = " + tempPlayer.getPlayer_key()+ ":" + tempPlayer.getName().getFull());
            }
            futureMapIter.remove(); // avoids a ConcurrentModificationException
@@ -151,6 +159,7 @@ public class ConversionService
         primeAndRetrieveGameWeek();
         for(File gameFile : gameFileList)
         {
+            mapper = new ObjectMapper();
             input = new FileInputStream(gameFile);
 
             String name = gameFile.getName();
@@ -165,7 +174,8 @@ public class ConversionService
             game.setGameDate(sdf.parse(name.substring(0, 8)));
             System.out.println( "JSON converted into POJO" );
             executorPool.execute(new GameProcessingWorker(game, playerMap, conversionServiceUtil));
-
+            input.close();
+//            mapper.
         }
 
         System.out.println( "Conversion done!!!!" );

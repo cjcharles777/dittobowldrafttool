@@ -87,15 +87,19 @@ public class GameProcessingWorker implements Runnable
                     statDAO.saveStats(playerStats.getValue());
                     WeeklyStat tempWeeklyStat = new WeeklyStat(gw.getWeek(), gw.getYear(), playerStats.getValue());
                     weeklyStatsDAO.saveWeeklyStat(tempWeeklyStat);
-                    if(tempPlayer.getWeeklyStats() != null)
+                    if(tempPlayer != null && tempPlayer.getWeeklyStats() != null)
                     {
                         tempPlayer.getWeeklyStats().add(tempWeeklyStat);
                     }
-                    else
+                    else if(tempPlayer != null)
                     {
                         List<WeeklyStat> tempWeeklyStatsList = new LinkedList<WeeklyStat>();
                         tempWeeklyStatsList.add(tempWeeklyStat);
                         tempPlayer.setWeeklyStats(tempWeeklyStatsList);
+                    }
+                    else
+                    {
+                        System.out.println("Player "+ playerID + " is null in the player map. Get returns : " + playerMap.get(playerID));
                     }
                     
                                         
