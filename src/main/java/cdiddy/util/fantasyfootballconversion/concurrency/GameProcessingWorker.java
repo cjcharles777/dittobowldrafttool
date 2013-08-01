@@ -48,12 +48,13 @@ public class GameProcessingWorker implements Runnable
     private WeeklyStatsDAO weeklyStatsDAO;
     private SeasonStatsDAO seasonStatsDAO;
     private Map<String, Player> playerMap;
+    private GameWeek gw;
 
     public GameProcessingWorker() {
     }
 
     public GameProcessingWorker(Game game, Map<String, Player> playerMap, 
-                ConversionServiceUtil csu) 
+                ConversionServiceUtil csu, GameWeek gw) 
     {
         this.game = game;
         this.playerMap = playerMap;
@@ -62,16 +63,16 @@ public class GameProcessingWorker implements Runnable
         this.weeklyStatsDAO = csu.getWeeklyStatsDAO();
         this.seasonStatsDAO = csu.getSeasonStatsDAO();
         this.statDAO = csu.getStatDAO();
+        this.gw = gw;
     }
 
     
     public void run() 
     {
-        List<GameWeek> gwList = gameWeekDAO.retrieveContainingGameWeek(game.getGameDate());
+        //List<GameWeek> gwList = gameWeekDAO.retrieveContainingGameWeek(game.getGameDate());
         
-        if(gwList.size()== 1)
-        {
-            GameWeek gw = gwList.get(0);
+
+            
             Team awayTeam = game.getAway();
             Team homeTeam = game.getHome();
             Map<String, List<Stat>> awayResults = processTeam(awayTeam);
@@ -105,25 +106,6 @@ public class GameProcessingWorker implements Runnable
                                         
                 }
             }
-        }
-        else
-        {
-            System.out.println("Skipped Processing: Out of Scope");
-        }
-
-       
-        if(gwList.size()>0)
-        {
-            System.out.println("Game Date : " + game.getGameDate().toString());
-            for(GameWeek gw : gwList)
-            {
-                System.out.println("Return Game Week id " + gw.getId());            
-            }
-        }
-        else
-        {
-            System.out.println("Error: Cant find gameweek");
-        }
     }
     
     private Map<String, List<Stat>> processTeam(Team t)

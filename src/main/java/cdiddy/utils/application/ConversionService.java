@@ -37,7 +37,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -157,23 +156,52 @@ public class ConversionService
          List<File> gameFileList = Arrays.asList(listOfFiles);
 
         primeAndRetrieveGameWeek();
+        Map<String, GameWeek> gwInScopeMap = new HashMap<String, GameWeek>();
+        List<String> outOfScopeDates = new LinkedList<String>();
         for(File gameFile : gameFileList)
         {
             mapper = new ObjectMapper();
             input = new FileInputStream(gameFile);
-
+            boolean processFile = false;
             String name = gameFile.getName();
             int pos = name.lastIndexOf(".");
             if (pos > 0) {
                 name = name.substring(0, pos);
             }
-            testme = mapper.readValue(input, Map.class);
-            Object gameObj = testme.get(name);
-            Game game = mapper.readValue(JacksonPojoMapper.toJson(testme.get(name), false) , Game.class);
-            System.out.println(name.substring(0, 8));
-            game.setGameDate(sdf.parse(name.substring(0, 8)));
-            System.out.println( "JSON converted into POJO" );
-            executorPool.execute(new GameProcessingWorker(game, playerMap, conversionServiceUtil));
+            String gameDateStr = name.substring(0, 8);
+            if(!gwInScopeMap.containsKey(gameDateStr))
+            {
+                if(!outOfScopeDates.contains(gameDateStr))
+                {
+                    List<GameWeek> gwList = gameWeekDAO.retrieveContainingGameWeek(sdf.parse(gameDateStr));
+                    if(gwList.size()== 1)
+                    {
+                        GameWeek tempGW = gwList.get(0);
+                        gwInScopeMap.put(gameDateStr, tempGW);
+                        processFile = true;
+                    }
+                    else
+                    {
+                        outOfScopeDates.add(gameDateStr);
+                    }
+
+                }
+            }
+            else
+            {
+                processFile = true;
+            }
+            if(processFile)
+            {
+                testme = mapper.readValue(input, Map.class);
+                Game game = mapper.readValue(JacksonPojoMapper.toJson(testme.get(name), false) , Game.class);
+                //List<GameWeek> gwList = gameWeekDAO.retrieveContainingGameWeek(game.getGameDate());
+                GameWeek tempGW = gwInScopeMap.get(gameDateStr);
+                game.setGameDate(sdf.parse(gameDateStr));
+                executorPool.execute(new GameProcessingWorker(game, playerMap, conversionServiceUtil, tempGW));
+                System.out.println( "JSON converted into POJO" );
+            
+            }
             input.close();
 //            mapper.
         }
@@ -183,8 +211,9 @@ public class ConversionService
         //shut down the pool
         executorPool.shutdown();
        // while (!executorPool.isTerminated()) {}
-        
+        System.out.println( "Saving Players" );
         playersDAO.savePlayers(new LinkedList<Player>(playerMap.values()));
+        System.out.println( "Players Saved" );
 
         
     }
