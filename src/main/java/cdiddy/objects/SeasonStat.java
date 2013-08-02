@@ -24,8 +24,7 @@ public class SeasonStat
 
     
     @Id
-    @GeneratedValue(generator = "generator")
-    @GenericGenerator(name = "generator", strategy = "increment")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "season_stat_id", nullable=false)
     public int getId() {
         return id;
