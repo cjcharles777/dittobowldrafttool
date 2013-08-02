@@ -16,6 +16,8 @@ import java.awt.CardLayout;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -271,11 +273,25 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private void testLoadDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testLoadDataActionPerformed
       int returnVal = fileChooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
+            final File file = fileChooser.getSelectedFile();
             try {
-              // What to do with the file, e.g. display it in a TextArea
-                conversionService.convertFromFile(file);
-            } catch (Exception ex) {
+                // What to do with the file, e.g. display it in a TextArea
+                Thread thread = new Thread(new Runnable() 
+                                {
+
+                                    public void run() {
+                                        try {
+                                            conversionService.convertFromFile(file); //To change body of generated methods, choose Tools | Templates.
+                                        }
+                                        catch (Exception ex) {
+                                            Logger.getLogger(FantasyFootballFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
+                                }
+                                        );
+                thread.start();
+            } 
+            catch (Exception ex) {
               System.out.println("problem accessing file"+file.getAbsolutePath());
             }
         } 

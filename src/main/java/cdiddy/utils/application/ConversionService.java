@@ -14,7 +14,6 @@ import cdiddy.objects.Player;
 import cdiddy.objects.util.ConversionServiceUtil;
 import cdiddy.util.fantasyfootballconversion.concurrency.GameProcessingWorker;
 import cdiddy.util.fantasyfootballconversion.concurrency.PlayerMatchingCallable;
-import cdiddy.util.fantasyfootballconversion.objects.Game;
 import cdiddy.util.fantasyfootballconversion.objects.NFLPlayer;
 import cdiddy.utils.system.JacksonPojoMapper;
 import cdiddy.utils.system.ZipUtil;
@@ -23,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -133,7 +133,7 @@ public class ConversionService
        Iterator futureMapIter = futureMap.entrySet().iterator();
        while (futureMapIter.hasNext()) 
        {
-           mapper = new ObjectMapper();
+          
            Map.Entry pairs = (Map.Entry)futureMapIter.next();
            String id = ((String)pairs.getKey());
            Player tempPlayer = ((Future<Player>) pairs.getValue()).get();
@@ -158,9 +158,9 @@ public class ConversionService
         primeAndRetrieveGameWeek();
         Map<String, GameWeek> gwInScopeMap = new HashMap<String, GameWeek>();
         List<String> outOfScopeDates = new LinkedList<String>();
+        Collection<Future<?>> futures = new LinkedList<Future<?>>();
         for(File gameFile : gameFileList)
         {
-            mapper = new ObjectMapper();
             input = new FileInputStream(gameFile);
             boolean processFile = false;
             String name = gameFile.getName();
@@ -193,12 +193,10 @@ public class ConversionService
             }
             if(processFile)
             {
-                testme = mapper.readValue(input, Map.class);
-                Game game = mapper.readValue(JacksonPojoMapper.toJson(testme.get(name), false) , Game.class);
-                //List<GameWeek> gwList = gameWeekDAO.retrieveContainingGameWeek(game.getGameDate());
                 GameWeek tempGW = gwInScopeMap.get(gameDateStr);
-                game.setGameDate(sdf.parse(gameDateStr));
-                executorPool.execute(new GameProcessingWorker(game, playerMap, conversionServiceUtil, tempGW));
+                //executorPool.execute(new GameProcessingWorker(gameFile, playerMap, conversionServiceUtil, tempGW));
+                futures.add(executorPool.submit(new GameProcessingWorker(gameFile, playerMap, conversionServiceUtil, tempGW)));
+               
                 System.out.println( "JSON converted into POJO" );
             
             }
@@ -210,6 +208,10 @@ public class ConversionService
         //Thread.sleep(30000);
         //shut down the pool
         executorPool.shutdown();
+        for (Future<?> future:futures) 
+        {
+            future.get();
+        }
        // while (!executorPool.isTerminated()) {}
         System.out.println( "Saving Players" );
         playersDAO.savePlayers(new LinkedList<Player>(playerMap.values()));

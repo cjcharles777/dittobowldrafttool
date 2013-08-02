@@ -26,10 +26,17 @@ import cdiddy.util.fantasyfootballconversion.objects.ReturnStats;
 import cdiddy.util.fantasyfootballconversion.objects.RushingStats;
 import cdiddy.util.fantasyfootballconversion.objects.Team;
 import cdiddy.util.fantasyfootballconversion.objects.TeamStats;
+import cdiddy.utils.system.JacksonPojoMapper;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -41,6 +48,7 @@ import org.springframework.stereotype.Repository;
 public class GameProcessingWorker implements Runnable
 {
     private Game game;
+    private File file;
     @Autowired
     private PlayersDAO playersDAO;
     private GameWeekDAO gameWeekDAO;
@@ -49,14 +57,15 @@ public class GameProcessingWorker implements Runnable
     private SeasonStatsDAO seasonStatsDAO;
     private Map<String, Player> playerMap;
     private GameWeek gw;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
 
     public GameProcessingWorker() {
     }
 
-    public GameProcessingWorker(Game game, Map<String, Player> playerMap, 
+    public GameProcessingWorker(File file, Map<String, Player> playerMap, 
                 ConversionServiceUtil csu, GameWeek gw) 
     {
-        this.game = game;
+        this.file = file;
         this.playerMap = playerMap;
         this.playersDAO = csu.getPlayersDAO();
         this.gameWeekDAO = csu.getGameWeekDAO();
@@ -72,6 +81,19 @@ public class GameProcessingWorker implements Runnable
         //List<GameWeek> gwList = gameWeekDAO.retrieveContainingGameWeek(game.getGameDate());
         
 
+        try
+        {
+           ObjectMapper mapper = new ObjectMapper();
+           InputStream input = new FileInputStream(file);
+           String name = file.getName();
+           String gameDateStr = name.substring(0, 8);
+           String gameStr = name.substring(0, 10);
+           Map<String, Object> testme = mapper.readValue(input, Map.class);
+           Game game = mapper.readValue(JacksonPojoMapper.toJson(testme.get(gameStr), false) , Game.class);
+           //List<GameWeek> gwList = gameWeekDAO.retrieveContainingGameWeek(game.getGameDate());
+           //GameWeek tempGW = gwInScopeMap.get(gameDateStr);
+           
+           game.setGameDate(sdf.parse(gameDateStr));
             
             Team awayTeam = game.getAway();
             Team homeTeam = game.getHome();
@@ -100,12 +122,23 @@ public class GameProcessingWorker implements Runnable
                     }
                     else
                     {
-                        System.out.println("Player "+ playerID + " is null in the player map. Get returns : " + playerMap.get(playerID));
+                        System.out.println("Player "+ playerID + 
+                                " is null in the player map. Get returns : " 
+                                + playerMap.get(playerID));
                     }
                     
                                         
                 }
             }
+            System.out.println("Processed game"+game.getGameDate()+" - "
+                    + game.getHome().getAbbr()+" vs. "
+                    + game.getAway().getAbbr());
+        }
+        catch(Exception e)
+        {
+            System.err.println("Failed to process" + file.getName());
+            e.printStackTrace();
+        }
     }
     
     private Map<String, List<Stat>> processTeam(Team t)
