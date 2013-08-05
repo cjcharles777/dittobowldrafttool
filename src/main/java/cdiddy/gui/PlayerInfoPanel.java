@@ -8,6 +8,7 @@ import cdiddy.gui.table.model.PlayerSeasonInfoPanelTableModel;
 import cdiddy.gui.table.model.PlayerWeeklyInfoPanelTableModel;
 import cdiddy.objects.Player;
 import cdiddy.services.rest.PlayersRESTService;
+import cdiddy.utils.application.PlayerService;
 import cdiddy.utils.application.StatsService;
 import java.net.URL;
 import javax.swing.ImageIcon;
@@ -17,7 +18,7 @@ import javax.swing.ImageIcon;
  * @author cedric
  */
 public class PlayerInfoPanel extends javax.swing.JPanel {
-private PlayersRESTService playerUtil;
+private PlayerService playerUtil;
 private StatsService statsService;
 private Player tempPlayer;
     /**
@@ -25,19 +26,19 @@ private Player tempPlayer;
      */
     public PlayerInfoPanel() {
         initComponents();
-        this.playerUtil = new PlayersRESTService();
+        this.playerUtil = new PlayerService();
         this.statsService = new StatsService(); 
         this.tempPlayer = new Player();
         
     }
-    public PlayerInfoPanel(PlayersRESTService playerUtil, StatsService statsService, Player tempPlayer) 
+    public PlayerInfoPanel(PlayerService playerUtil, StatsService statsService, Player tempPlayer) 
     {
         this.playerUtil = playerUtil;
         this.statsService = statsService; 
         this.tempPlayer = tempPlayer;
         initComponents();
     }
-        public PlayerInfoPanel(PlayersRESTService playerUtil, StatsService statsService) 
+        public PlayerInfoPanel(PlayerService playerUtil, StatsService statsService) 
     {
         this.playerUtil = playerUtil;
         this.statsService = statsService; 

@@ -28,6 +28,9 @@ public class YahooLeagueSettings
       private String trade_reject_time;
       private String player_pool;
       private String can_trade_draft_picks;
+      private String max_teams;
+      private String draft_time;
+      
       private YahooLeagueRosterPositionList roster_positions;
       private YahooLeaugeStatCategories stat_categories;
       private YahooLeagueStatModifier stat_modifiers;
@@ -199,6 +202,23 @@ public class YahooLeagueSettings
     public void setStat_modifiers(YahooLeagueStatModifier stat_modifiers) {
         this.stat_modifiers = stat_modifiers;
     }
+
+    public String getMax_teams() {
+        return max_teams;
+    }
+
+    public void setMax_teams(String max_teams) {
+        this.max_teams = max_teams;
+    }
+
+    public String getDraft_time() {
+        return draft_time;
+    }
+
+    public void setDraft_time(String draft_time) {
+        this.draft_time = draft_time;
+    }
       
+    
       
 }

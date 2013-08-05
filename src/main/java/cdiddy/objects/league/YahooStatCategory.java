@@ -4,10 +4,13 @@
  */
 package cdiddy.objects.league;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 /**
  *
  * @author cedric
  */
+@JsonIgnoreProperties({"stat_position_types"})
 class YahooStatCategory 
 {
           private String  stat_id;
@@ -18,6 +21,7 @@ class YahooStatCategory
           private String  position_type;
           private String is_only_display_stat;
           private String is_excluded_from_display;
+          private Object stat_position_types;
 
     public String getStat_id() {
         return stat_id;

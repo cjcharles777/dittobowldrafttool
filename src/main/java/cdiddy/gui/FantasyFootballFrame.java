@@ -9,6 +9,7 @@ import cdiddy.objects.league.YahooLeague;
 import cdiddy.services.rest.PlayersRESTService;
 import cdiddy.utils.application.ConversionService;
 import cdiddy.utils.application.GameService;
+import cdiddy.utils.application.PlayerService;
 import cdiddy.utils.application.StatsService;
 import cdiddy.utils.application.TeamService;
 import cdiddy.utils.system.OAuthConnection;
@@ -34,7 +35,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
          @Autowired 
          private OAuthConnection conn;
          @Autowired 
-         private PlayersRESTService playersRESTService;
+         private PlayerService playerService;
          @Autowired 
          private StatsService statsService ;
          @Autowired 
@@ -73,7 +74,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         welcomeGuiPanel = this.welcomePanel;
         playerGuiPanel = this.playerPanel;
-        playerInfoGuiPanel = new PlayerInfoPanel(playersRESTService, statsService);
+        playerInfoGuiPanel = new PlayerInfoPanel(playerService, statsService);
         apiTestPanel = new APITestPanel(conn);
         testButtonPanel = new TestButtonPanel(gameService);
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -81,6 +82,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
+        retrievePlayersMenuItem = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         testMenu = new javax.swing.JMenu();
@@ -116,6 +118,14 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Players");
+
+        retrievePlayersMenuItem.setText("Retrieve All Players");
+        retrievePlayersMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                retrievePlayersMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(retrievePlayersMenuItem);
 
         jMenuItem1.setText("View All Players");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -300,6 +310,30 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         }   // TODO add your handling code here:
     }//GEN-LAST:event_testLoadDataActionPerformed
 
+    private void retrievePlayersMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retrievePlayersMenuItemActionPerformed
+            try {
+                // What to do with the file, e.g. display it in a TextArea
+                Thread thread = new Thread(new Runnable() 
+                                {
+
+                                    public void run() {
+                                        try {
+                                            playerService.loadPlayers(); //To change body of generated methods, choose Tools | Templates.
+                                        }
+                                        catch (Exception ex) {
+                                            Logger.getLogger(FantasyFootballFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
+                                }
+                                        );
+                thread.start();
+            } 
+            catch (Exception ex)
+            {
+              System.out.println("problem loading players from yahoo");
+            }
+    }//GEN-LAST:event_retrievePlayersMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -354,6 +388,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private static javax.swing.JPanel jPanel1;
     private javax.swing.JPanel playerGuiPanel;
     private static javax.swing.JPanel playerInfoGuiPanel;
+    private javax.swing.JMenuItem retrievePlayersMenuItem;
     private javax.swing.JPanel testButtonPanel;
     private javax.swing.JMenuItem testLoadData;
     private javax.swing.JMenu testMenu;

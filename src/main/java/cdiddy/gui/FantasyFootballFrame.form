@@ -37,6 +37,14 @@
             <Property name="text" type="java.lang.String" value="Players"/>
           </Properties>
           <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="retrievePlayersMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Retrieve All Players"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="retrievePlayersMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
               <Properties>
                 <Property name="text" type="java.lang.String" value="View All Players"/>
@@ -161,7 +169,7 @@
         </Container>
         <Container class="javax.swing.JPanel" name="playerInfoGuiPanel">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new PlayerInfoPanel(playersRESTService, statsService)"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new PlayerInfoPanel(playerService, statsService)"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
           </AuxValues>
           <Constraints>

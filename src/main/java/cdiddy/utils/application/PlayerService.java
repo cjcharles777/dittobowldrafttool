@@ -133,10 +133,10 @@ public class PlayerService
                     }
                     tempPlayer.setEligible_positions(tempPosList);
                 }
-                Map<Integer, List<SeasonStat>> seasonStatmap = statsService.retrieveSeasonStats(playerObjList);
-                playerObjList = connectStatsToPlayer(seasonStatmap, playerObjList);       
-                Map<Integer, List<WeeklyStat>> statmap = statsService.retrieveWeeklyStats(playerObjList, 1);
-                playerObjList = connectWeeklyStatsToPlayer(statmap, playerObjList);
+               // Map<Integer, List<SeasonStat>> seasonStatmap = statsService.retrieveSeasonStats(playerObjList);
+               // playerObjList = connectStatsToPlayer(seasonStatmap, playerObjList);       
+                //Map<Integer, List<WeeklyStat>> statmap = statsService.retrieveWeeklyStats(playerObjList, 1);
+               // playerObjList = connectWeeklyStatsToPlayer(statmap, playerObjList);
                 playerSaveList.addAll(playerObjList);
                 start+=count;
                 Logger.getLogger(PlayerService.class.getName()).log(Level.INFO, "Start Count : "+ start);
@@ -148,13 +148,15 @@ public class PlayerService
                     
                     storePlayersToDatabase(playerSaveList);
                     playerSaveList = new LinkedList<Player>(); 
-                    Thread.sleep(30000);
+                    Thread.sleep(500);
 
             } catch (Exception ex) 
             {
                 Logger.getLogger(PlayerService.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
         }
+         Logger.getLogger(PlayerService.class.getName()).log(Level.INFO, "Player Load Complete");
     }
     public void retrievePlayerFromYahoo(String yahooKey)
     {       
@@ -361,18 +363,18 @@ public class PlayerService
         }
         for(Player p : playerList)
         {
-            List<SeasonStat> tempSSList = p.getSeasonStats();
-            List<WeeklyStat> tempWSList = p.getWeeklyStats();
-            listSS.addAll(tempSSList);
-            for(SeasonStat ss : tempSSList)
-            {
-               listStat.addAll(ss.getStats());
-            }
-            listWS.addAll(tempWSList);
-            for(WeeklyStat ws : tempWSList)
-            {
-               listStat.addAll(ws.getStats());
-            }
+        //    List<SeasonStat> tempSSList = p.getSeasonStats();
+          //  List<WeeklyStat> tempWSList = p.getWeeklyStats();
+            //listSS.addAll(tempSSList);
+            //for(SeasonStat ss : tempSSList)
+            //{
+             //  listStat.addAll(ss.getStats());
+            //}
+            //listWS.addAll(tempWSList);
+            //for(WeeklyStat ws : tempWSList)
+            //{
+             //  listStat.addAll(ws.getStats());
+            //}
 
             List<Position> savePosList = new LinkedList<Position>();
             //positionDAOImpl.getPositions();
@@ -397,9 +399,9 @@ public class PlayerService
             //listAvailPositions.addAll(p.getEligible_positions());
             listPlayerPic.add(p.getHeadshot());
         }
-        statDAOImpl.saveStats(listStat);
-        seasonStatsDAOImpl.saveSeasonStats(listSS);
-        weeklyStatsDAOImpl.saveWeeklyStats(listWS);
+        //statDAOImpl.saveStats(listStat);
+        //seasonStatsDAOImpl.saveSeasonStats(listSS);
+        //weeklyStatsDAOImpl.saveWeeklyStats(listWS);
         positionDAOImpl.savePositions(new LinkedList<Position>(distinctPosions.values()));
         nameDAOImpl.saveNames(listNames);
         playerPicDAOImpl.savePlayerPics(listPlayerPic);

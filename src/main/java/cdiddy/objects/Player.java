@@ -192,7 +192,7 @@ public class Player implements Serializable
     }
     
     
-    @ManyToMany( cascade = {CascadeType.ALL} )
+    @ManyToMany( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
     @JoinTable(
             name="PlayerToPosition",
             joinColumns = @JoinColumn( name="playerid"),
