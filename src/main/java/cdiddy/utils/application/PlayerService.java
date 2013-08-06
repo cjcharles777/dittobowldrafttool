@@ -94,6 +94,7 @@ public class PlayerService
                 for(Map temp : playersList)
                 {
                     Player tempPlayer = mapper.readValue(JacksonPojoMapper.toJson(temp, false) , Player.class);
+                    tempPlayer.setEditorial_team_abbr(tempPlayer.getEditorial_team_abbr().toUpperCase());
                     playerObjList.add(tempPlayer);
                     Object elegiblePosObj = ((Map<String,Map<String,Object>>)temp).get("eligible_positions").get("position");
                      List<Position> tempPosList = new LinkedList<Position>();

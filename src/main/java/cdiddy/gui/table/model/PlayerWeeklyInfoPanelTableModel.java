@@ -39,7 +39,15 @@ public class PlayerWeeklyInfoPanelTableModel extends AbstractTableModel
     @Override
     public int getColumnCount() 
     {
-        return listSS.get(0).getStats().size()+1;
+        
+        if(listSS != null && listSS.size()>0)
+        {
+            return listSS.get(0).getStats().size()+1;
+        }
+        else
+        {   
+            return 0;
+        }
     }
 
     @Override
@@ -64,7 +72,14 @@ public class PlayerWeeklyInfoPanelTableModel extends AbstractTableModel
         {
          int statCatId = Integer.parseInt(listSS.get(0).getStats().get(columnIndex - 1).getStat_id());
          StatCategory sc = statsService.getStatCategory(statCatId);
-         return sc.getDisplay_name();
+         if(sc != null)
+         {
+            return sc.getDisplay_name();
+         }
+         else
+         {
+             return ""+statCatId;
+         }
         }
         else
         {

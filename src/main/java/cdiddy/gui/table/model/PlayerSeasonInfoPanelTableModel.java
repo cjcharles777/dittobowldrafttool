@@ -39,7 +39,14 @@ public class PlayerSeasonInfoPanelTableModel extends AbstractTableModel
     @Override
     public int getColumnCount() 
     {
-        return listSS.get(0).getStats().size()+1;
+        if(listSS != null && listSS.size()>0)
+        {
+            return listSS.get(0).getStats().size()+1;
+        }
+        else
+        {   
+            return 0;
+        }
     }
 
     @Override

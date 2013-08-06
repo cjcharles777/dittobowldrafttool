@@ -49,14 +49,16 @@ public class SeasonComparePanel extends javax.swing.JPanel {
     {
         this.listSS = listSS;
         jComboBox1.removeAllItems();
-        for(Stat stat : listSS.get(0).getStats())
+        if(listSS.size() > 0)
         {
-            StatCategory sc = statsService.getStatCategory(Integer.parseInt(stat.getStat_id()));
-            jComboBox1.addItem(sc);
+            for(Stat stat : listSS.get(0).getStats())
+            {
+                StatCategory sc = statsService.getStatCategory(Integer.parseInt(stat.getStat_id()));
+                jComboBox1.addItem(sc);
+            }
+            jComboBox1.setSelectedIndex(0);
+            createBarChart(listSS, ((StatCategory)jComboBox1.getSelectedItem()).getStat_id());
         }
-        jComboBox1.setSelectedIndex(0);
-        createBarChart(listSS, ((StatCategory)jComboBox1.getSelectedItem()).getStat_id());
-    
     }
     public void createBarChart(List<SeasonStat> listSS, int stat_id)
     {

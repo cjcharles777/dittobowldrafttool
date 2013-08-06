@@ -43,8 +43,6 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
          @Autowired 
          private GameService gameService ;
          @Autowired 
-         private PlayerPanel playerPanel;
-         @Autowired 
          private WelcomePanel welcomePanel;
          @Autowired
          private ConversionService conversionService;
@@ -73,7 +71,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         fileChooser = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
         welcomeGuiPanel = this.welcomePanel;
-        playerGuiPanel = this.playerPanel;
+        playerGuiPanel = new PlayerPanel(playerService);
         playerInfoGuiPanel = new PlayerInfoPanel(playerService, statsService);
         apiTestPanel = new APITestPanel(conn);
         testButtonPanel = new TestButtonPanel(gameService);
