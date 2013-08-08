@@ -214,7 +214,19 @@ public class ConversionService
         }
        // while (!executorPool.isTerminated()) {}
         System.out.println( "Saving Players" );
-        playersDAO.savePlayers(new LinkedList<Player>(playerMap.values()));
+        List<Player> savePlayerList = new LinkedList<Player>();
+        int i = 0;
+        for(Player p : new LinkedList<Player>(playerMap.values()))
+        {
+           savePlayerList.add(p);
+           i++;
+           if(i%100 == 0)
+           {
+                playersDAO.savePlayers(savePlayerList);
+                savePlayerList = new LinkedList<Player>();
+           }
+        }
+        playersDAO.savePlayers(savePlayerList);
         System.out.println( "Players Saved" );
 
         
