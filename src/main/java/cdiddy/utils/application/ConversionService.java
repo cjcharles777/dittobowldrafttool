@@ -216,7 +216,14 @@ public class ConversionService
         System.out.println( "Saving Players" );
         List<Player> savePlayerList = new LinkedList<Player>();
         int i = 0;
-        for(Player p : new LinkedList<Player>(playerMap.values()))
+        List<Player> playerList= new LinkedList<Player>(playerMap.values());
+        // Convert Season stats.
+        for(Player p : playerList)
+        {
+            
+        }
+        
+        for(Player p : playerList)
         {
            savePlayerList.add(p);
            i++;
