@@ -8,7 +8,7 @@ import cdiddy.objects.Player;
 import cdiddy.objects.Stat;
 import cdiddy.objects.WeeklyStat;
 import cdiddy.objects.league.YahooLeague;
-import cdiddy.objects.league.YahooLeagueStatModifier;
+import cdiddy.objects.league.YahooLeagueSettings;
 import cdiddy.objects.league.YahooLeagueStatModifierBonus;
 import cdiddy.objects.league.YahooLeagueStatModifierBonusList;
 import cdiddy.objects.league.YahooLeagueStatModifierObj;
@@ -24,12 +24,12 @@ import java.util.Map;
 public class StatsUtil 
 {
     
-    public static BigDecimal calculateFantasyPointsForWeek (Player p, YahooLeague yl, int week)
+    public static BigDecimal calculateFantasyPointsForWeek (Player p, YahooLeagueSettings yl, int week)
     {
         return calculateFantasyPoints (p, yl, false, week);
     }
     
-    public static BigDecimal calculateFantasyPoints (Player p, YahooLeague yl, boolean isSeason, int week)
+    public static BigDecimal calculateFantasyPoints (Player p, YahooLeagueSettings yl, boolean isSeason, int week)
     {
         BigDecimal result =  new BigDecimal(0);
          List<WeeklyStat> playerStats = p.getWeeklyStats();
@@ -43,7 +43,7 @@ public class StatsUtil
                 WeeklyStat playerWeekStat = statMap.get(Integer.toString(week));
                 if(playerWeekStat != null)
                 {
-                    List<YahooLeagueStatModifierObj> modifierList = yl.getSettings().getStat_modifiers().getStats().getStat();
+                    List<YahooLeagueStatModifierObj> modifierList = yl.getStat_modifiers().getStats().getStat();
                     Map<String, YahooLeagueStatModifierObj> modifierMap = new HashMap<String, YahooLeagueStatModifierObj>();
                     for (YahooLeagueStatModifierObj statModifier : modifierList)
                     {

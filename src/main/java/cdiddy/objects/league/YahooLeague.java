@@ -29,7 +29,7 @@ public class YahooLeague
      private String is_finished;
      private String start_date;
      private String end_date;
-     private YahooLeagueSettings settings;
+     
 
     public String getLeague_key() {
         return league_key;
@@ -159,13 +159,6 @@ public class YahooLeague
         this.end_week = end_week;
     }
 
-    public YahooLeagueSettings getSettings() {
-        return settings;
-    }
-
-    public void setSettings(YahooLeagueSettings settings) {
-        this.settings = settings;
-    }
 
     public String getIs_finished() {
         return is_finished;

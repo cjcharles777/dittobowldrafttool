@@ -7,6 +7,7 @@ package cdiddy.gui;
 import cdiddy.objects.Player;
 import cdiddy.objects.Roster;
 import cdiddy.objects.league.YahooLeague;
+import cdiddy.objects.league.YahooLeagueSettings;
 import cdiddy.services.rest.PlayersRESTService;
 import cdiddy.utils.application.GameService;
 import cdiddy.utils.application.PlayerService;
@@ -40,7 +41,7 @@ public class TeamRosterPanel extends javax.swing.JPanel {
     @Autowired
     private PlayerService playerService;
     
-    private YahooLeague yl;
+    private YahooLeagueSettings yl;
     private int week;
     private  List<Player> listRosterPlayers = new LinkedList<Player>();
     private RosterPlayerTableModel rosterTableModel = new RosterPlayerTableModel();
@@ -85,7 +86,7 @@ public class TeamRosterPanel extends javax.swing.JPanel {
     public void populateRoster(String teamId, String leagueid) 
     {
         Roster roster = teamservice.getRoster(teamId, 1);
-        yl = gameService.getLeague(leagueid);
+        yl = gameService.getLeagueSettings(leagueid);
         listRosterPlayers = new LinkedList<Player>();
         List<Player> yahooListPlayers = roster.getPlayers().getPlayer();
         for(Player yahooPlayer : yahooListPlayers)

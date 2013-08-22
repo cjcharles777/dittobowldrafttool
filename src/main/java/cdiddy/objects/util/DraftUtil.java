@@ -42,7 +42,7 @@ public class DraftUtil
         HashMap<String, Team> mapTeam = new HashMap<String, Team>();
         for (Team t : listTeam)
         {
-            mapTeam.put(t.getTeamKey(), t);
+            mapTeam.put(t.getTeam_key(), t);
         }
         for(DraftPick pick : picks)
         {

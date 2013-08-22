@@ -37,46 +37,50 @@ public class TeamService
     
     public List<Team> loadUserTeams()
     {
-        List<Team> result = null;
         ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> userData;
-        Map<String,Object> params;
-        Map<String,Object> league;
-        boolean morePlayers = true;
-        int curr = 0; 
-
-
-        String response2 = conn.requestData("http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams/standings?format=json", Verb.GET);
-        try 
-        {
+            Map<String,Object> userData;
+            Map<String,Object> results;
+            List<Map<String, Object>> teamList;
+            Map<String,Object> query;
+            List<Team>  teamListResults = new LinkedList<Team>();
            
-            
-            userData = mapper.readValue(response2, Map.class);
-            params = (Map<String, Object>)userData.get("fantasy_content");
-            league = ((Map<String, Map<String, List<Map<String,Map<String,Map<String,List<Map<String,Map<String,Object>>>>>>>>>)params.get("users")).get("0").get("user").get(1).get("games").get("0").get("game").get(1).get("teams");
-            int count;
-            count = (Integer)league.get("count");
-            while(curr < count)
+            List<String> yqlList = new LinkedList<String>();
+            String yql = "select * from fantasysports.teams where game_key = 'nfl' and use_login=1";
+            yqlList.add(yql);
+            yql = "select * from fantasysports.teams where game_key = '273' and use_login=1";
+            yqlList.add(yql);
+            yql = "select * from fantasysports.teams where game_key = '257' and use_login=1";
+            yqlList.add(yql);
+            yql = "select * from fantasysports.teams where game_key = '242' and use_login=1";
+            yqlList.add(yql);
+            yql = "select * from fantasysports.teams where game_key = '222' and use_login=1";
+            yqlList.add(yql);
+            yql = "select * from fantasysports.teams where game_key = '199' and use_login=1";
+            yqlList.add(yql);
+            for(String ql : yqlList)
             {
-                List<Object> lmpTeams = (List<Object>)(((Map<String,List<Object>>)league.get((new Integer(curr)).toString())).get("team").get(0));
-                Team tempTeam = convertToTeam(lmpTeams);
-                if(result == null)
+                String response = yqlUitl.queryYQL(ql);
+                try
                 {
-                    result = new LinkedList<Team>();
-                }
-               // tempTeam = loadTeamStandings(tempTeam);
-                Map<String, Map> ts = (Map<String, Map>)((Map<String,List<Object>>)league.get((new Integer(curr)).toString())).get("team").get(1);
-                 TeamStandings tempStand = mapper.readValue(JacksonPojoMapper.toJson(ts.get("team_standings"), false) , TeamStandings.class);
-                 tempTeam.setStandings(tempStand);
-                result.add(tempTeam);
-                curr++;
-            }
+                    userData = mapper.readValue(response, Map.class);
+                    query = (Map<String, Object>)userData.get("query"); // query details
+                    results = (Map<String, Object>)query.get("results"); //result details
+                    teamList = (List<Map<String, Object>>)results.get("team"); //result details
+                    for (Map map : teamList)
+                    {
+                        Team tempTeam = mapper.readValue(JacksonPojoMapper.toJson(map, false) , Team.class);
+                        teamListResults.add(tempTeam);
+                    }
 
-        } catch (IOException ex) 
-        {
-            Logger.getLogger(TeamService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return result;
+
+                }
+                catch(Exception e)
+                {
+                     Logger.getLogger(TeamService.class.getName()).log(Level.SEVERE, null, e);
+                }
+            }
+            return teamListResults;
+        //
     }
     public List<Team> loadLeaugeTeams(String leaugeid)
     {
@@ -126,7 +130,7 @@ public class TeamService
         ObjectMapper mapper = new ObjectMapper();
         try 
         {              
-            String response2 = conn.requestData("http://fantasysports.yahooapis.com/fantasy/v2/team/"+team.getTeamKey()+"/standings?format=json", Verb.GET);
+            String response2 = conn.requestData("http://fantasysports.yahooapis.com/fantasy/v2/team/"+team.getTeam_key()+"/standings?format=json", Verb.GET);
             userData = mapper.readValue(response2, Map.class);
             params = (Map<String,List<Map<String, Object>>>)userData.get("fantasy_content");
             
@@ -205,11 +209,11 @@ public class TeamService
                 Map temp = (Map) col;
                 if(temp.get("team_key")!= null)
                 {
-                result.setTeamKey((String)temp.get("team_key"));
+                result.setTeam_key((String)temp.get("team_key"));
                 }
                 else if(temp.get("team_id")!= null)
                 {
-                    result.setTeamId((String) temp.get("team_id"));
+                    result.setTeam_id((String) temp.get("team_id"));
                 }
                 else if(temp.get("name")!= null)
                 {
@@ -240,7 +244,7 @@ public class TeamService
                     {
                      numMovesInt = (Integer)numMoves;
                     }
-                    result.setNumberOfMoves(numMovesInt);
+                    result.setNumber_of_moves(Integer.toString(numMovesInt));
                 }
             }
          }

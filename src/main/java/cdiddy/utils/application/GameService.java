@@ -7,6 +7,7 @@ package cdiddy.utils.application;
 import cdiddy.objects.GameWeek;
 import cdiddy.objects.draft.DraftResults;
 import cdiddy.objects.league.YahooLeague;
+import cdiddy.objects.league.YahooLeagueSettings;
 import cdiddy.utils.system.JacksonPojoMapper;
 import cdiddy.utils.system.OAuthConnection;
 import java.io.IOException;
@@ -132,28 +133,43 @@ public class GameService
             List<Map<String, Object>> leaugeList;
             Map<String,Object> query;
             List<YahooLeague>  leagueListResults = new LinkedList<YahooLeague>();
-            String yql = "select * from fantasysports.leagues.settings where game_key = 'nfl' and use_login=1";
-            String response = yqlUitl.queryYQL(yql);
-            try
+           
+            List<String> yqlList = new LinkedList<String>();
+            String yql = "select * from fantasysports.leagues where game_key = 'nfl' and use_login=1";
+            yqlList.add(yql);
+            yql = "select * from fantasysports.leagues where game_key = '273' and use_login=1";
+            yqlList.add(yql);
+            yql = "select * from fantasysports.leagues where game_key = '257' and use_login=1";
+            yqlList.add(yql);
+            yql = "select * from fantasysports.leagues where game_key = '242' and use_login=1";
+            yqlList.add(yql);
+            yql = "select * from fantasysports.leagues where game_key = '222' and use_login=1";
+            yqlList.add(yql);
+            yql = "select * from fantasysports.leagues where game_key = '199' and use_login=1";
+            yqlList.add(yql);
+            for(String ql : yqlList)
             {
-                userData = mapper.readValue(response, Map.class);
-                query = (Map<String, Object>)userData.get("query"); // query details
-                results = (Map<String, Object>)query.get("results"); //result details
-                leaugeList = (List<Map<String, Object>>)results.get("league"); //result details
-                for (Map map : leaugeList)
+                String response = yqlUitl.queryYQL(ql);
+                try
                 {
-                    YahooLeague tempLeauge = mapper.readValue(JacksonPojoMapper.toJson(map, false) , YahooLeague.class);
-                    leagueListResults.add(tempLeauge);
+                    userData = mapper.readValue(response, Map.class);
+                    query = (Map<String, Object>)userData.get("query"); // query details
+                    results = (Map<String, Object>)query.get("results"); //result details
+                    leaugeList = (List<Map<String, Object>>)results.get("league"); //result details
+                    for (Map map : leaugeList)
+                    {
+                        YahooLeague tempLeauge = mapper.readValue(JacksonPojoMapper.toJson(map, false) , YahooLeague.class);
+                        leagueListResults.add(tempLeauge);
+                    }
+
+
                 }
-                
-               
+                catch(Exception e)
+                {
+                     Logger.getLogger(TeamService.class.getName()).log(Level.SEVERE, null, e);
+                }
             }
-            catch(Exception e)
-            {
-                 Logger.getLogger(TeamService.class.getName()).log(Level.SEVERE, null, e);
-            }
-             
-             return leagueListResults;
+            return leagueListResults;
     }
     
      public YahooLeague getLeague (String leagueid)
@@ -164,7 +180,7 @@ public class GameService
             List<Map<String, Object>> leaugeList;
             Map<String,Object> query;
             YahooLeague  leagueListResults = new YahooLeague();
-            String yql = "select * from fantasysports.leagues.settings where league_key='"+leagueid+"'";
+            String yql = "select * from fantasysports.leagues where league_key='"+leagueid+"'";
             String response = yqlUitl.queryYQL(yql);
             try
             {
@@ -173,6 +189,36 @@ public class GameService
                 results = (Map<String, Object>)query.get("results"); //result details
                 Map map = (Map<String, Object>)results.get("league"); //result details
                 YahooLeague tempLeauge = mapper.readValue(JacksonPojoMapper.toJson(map, false) , YahooLeague.class);
+                leagueListResults = tempLeauge;
+
+                
+               
+            }
+            catch(Exception e)
+            {
+                 Logger.getLogger(TeamService.class.getName()).log(Level.SEVERE, null, e);
+            }
+             
+             return leagueListResults;
+    }
+          public YahooLeagueSettings getLeagueSettings (String leagueid)
+    {
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String,Object> userData;
+            Map<String,Object> results;
+            List<Map<String, Object>> leaugeList;
+            Map<String,Object> query;
+            YahooLeagueSettings  leagueListResults = new YahooLeagueSettings();
+            String yql = "select * from fantasysports.leagues.settings where league_key='"+leagueid+"'";
+            String response = yqlUitl.queryYQL(yql);
+            try
+            {
+                userData = mapper.readValue(response, Map.class);
+                query = (Map<String, Object>)userData.get("query"); // query details
+                results = (Map<String, Object>)query.get("results"); //result details
+                Map leaugeMap = (Map<String, Object>)results.get("league"); //result details
+                Map resultMap = (Map<String, Object>)leaugeMap.get("settings"); //result details
+                YahooLeagueSettings tempLeauge = mapper.readValue(JacksonPojoMapper.toJson(resultMap, false) , YahooLeagueSettings.class);
                 leagueListResults = tempLeauge;
 
                 

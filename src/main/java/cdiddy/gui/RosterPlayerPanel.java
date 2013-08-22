@@ -8,6 +8,7 @@ import cdiddy.objects.Player;
 import cdiddy.objects.SeasonStat;
 import cdiddy.objects.Stat;
 import cdiddy.objects.league.YahooLeague;
+import cdiddy.objects.league.YahooLeagueSettings;
 import cdiddy.objects.util.StatsUtil;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
         initComponents();
     }
 
-    public void setPlayer(Player player, YahooLeague yl, int week) 
+    public void setPlayer(Player player, YahooLeagueSettings yl, int week) 
     {
         this.player = player;
       
