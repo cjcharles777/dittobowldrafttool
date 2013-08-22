@@ -39,6 +39,7 @@ public class UserTeamListPanel extends javax.swing.JPanel {
     {
         for(Team team : listTeam)
         {
+            team = teamService.loadTeamStandings(team);
             teamModel.addRow(team);
         }
         

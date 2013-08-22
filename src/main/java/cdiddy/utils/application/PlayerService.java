@@ -26,6 +26,7 @@ import cdiddy.utils.system.OAuthConnection;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.scribe.model.Verb;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,7 +160,7 @@ public class PlayerService
         }
          Logger.getLogger(PlayerService.class.getName()).log(Level.INFO, "Player Load Complete");
     }
-    public void retrievePlayerFromYahoo(String yahooKey)
+    public Player retrievePlayerFromYahoo(String yahooKey)
     {       
         ObjectMapper mapper = new ObjectMapper();
         Map<String,Object> userData;
@@ -167,14 +168,14 @@ public class PlayerService
         Map<String,Object> query;            
         String yql = "select * from fantasysports.players where player_key='"+yahooKey+"'";
         String response = yqlUitl.queryYQL(yql);
-
+        Player tempPlayer = null;
         try 
         {
             userData = mapper.readValue(response, Map.class);
             query = (Map<String, Object>)userData.get("query"); // query details
             results = (Map<String, Object>)query.get("results"); //result details
             Map playerMap = (Map) results.get("player");
-            Player tempPlayer = mapper.readValue(JacksonPojoMapper.toJson(playerMap, false) , Player.class);
+            tempPlayer = mapper.readValue(JacksonPojoMapper.toJson(playerMap, false) , Player.class);
             Map<String,Position> posMap = new HashMap<String,Position>();
             Object elegiblePosObj = ((Map<String,Map<String,Object>>)playerMap).get("eligible_positions").get("position");
             List<Position> tempPosList = new LinkedList<Position>();
@@ -215,18 +216,20 @@ public class PlayerService
             tempPlayer.setEligible_positions(tempPosList);
             List<Player> playerObjList = new LinkedList<Player>();
             playerObjList.add(tempPlayer);
-            Map<Integer, List<SeasonStat>> seasonStatmap = statsService.retrieveSeasonStats(playerObjList);
+/**            Map<Integer, List<SeasonStat>> seasonStatmap = statsService.retrieveSeasonStats(playerObjList);
             playerObjList = connectStatsToPlayer(seasonStatmap, playerObjList);       
             Map<Integer, List<WeeklyStat>> statmap = statsService.retrieveWeeklyStats(playerObjList, 1);
-            playerObjList = connectWeeklyStatsToPlayer(statmap, playerObjList);
+            playerObjList = connectWeeklyStatsToPlayer(statmap, playerObjList);**/
             List<Player> playerSaveList = new LinkedList<Player>();
             playerSaveList.addAll(playerObjList);
             storePlayersToDatabase(playerSaveList); 
+            
         }
         catch (Exception ex) 
         {
             Logger.getLogger(PlayerService.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return tempPlayer;
         
     }
     public String getPlayerStats(Player p)
@@ -417,10 +420,21 @@ public class PlayerService
     
     public Player retrivePlayer(int yahooId) 
     {
+        
          Player result = playersDAOImpl.getPlayerbyYahooId(yahooId);
          if(result == null)
          {
              retrievePlayerFromYahoo("nfl.p."+yahooId);
+         }
+         return result;
+    }
+        public Player retrivePlayer(String yahooId) 
+    {
+         String[] temp = StringUtils.split(yahooId, ".");
+         Player result = playersDAOImpl.getPlayerbyYahooId(Integer.parseInt(temp[2]));
+         if(result == null)
+         {
+             retrievePlayerFromYahoo(yahooId);
          }
          return result;
     }

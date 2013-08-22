@@ -49,8 +49,8 @@ public class DraftUtil
             EnhancedDraftPick tempEnhancedPick = new EnhancedDraftPick();
             tempEnhancedPick.setRound(Integer.parseInt(pick.getRound()));
             tempEnhancedPick.setPick(Integer.parseInt(pick.getPick()));
-            String[] temp = StringUtils.split(pick.getPlayer_key(), ".");
-            Player tempPlayer = playerService.retrivePlayer(Integer.parseInt(temp[2]));
+            //String[] temp = StringUtils.split(pick.getPlayer_key(), ".");
+            Player tempPlayer = playerService.retrivePlayer(pick.getPlayer_key());
             tempEnhancedPick.setPlayer(tempPlayer);
             tempEnhancedPick.setTeam(mapTeam.get(pick.getTeam_key()));
             enhancedPicks.add(tempEnhancedPick);
