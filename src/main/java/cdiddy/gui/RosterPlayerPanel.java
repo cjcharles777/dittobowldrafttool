@@ -12,6 +12,7 @@ import cdiddy.objects.league.YahooLeagueSettings;
 import cdiddy.objects.util.StatsUtil;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -48,8 +49,12 @@ public class RosterPlayerPanel extends javax.swing.JPanel {
         } 
         
         SeasonStat currSeason = seasonStatMap.get("2012");
-        
-        List<Stat> statList = currSeason.getStats();        
+        List<Stat> statList =  new LinkedList<Stat>();
+        if(currSeason != null)
+        {    
+           statList = currSeason.getStats();
+        }
+       
         Map<String,Stat> statMap = new HashMap<String,Stat>();
         for (Stat i : statList)
         {
