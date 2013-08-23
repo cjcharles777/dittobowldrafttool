@@ -9,17 +9,10 @@ import cdiddy.objects.Player;
 import cdiddy.objects.draft.DraftPick;
 import cdiddy.objects.league.YahooLeague;
 import cdiddy.objects.league.YahooLeagueSettings;
-import cdiddy.objects.league.YahooLeaugeStatCategories;
 import cdiddy.utils.application.GameService;
 import cdiddy.utils.application.PlayerService;
 import java.util.LinkedList;
 import java.util.List;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 /**
  *
@@ -57,12 +50,12 @@ public class DraftSimulatorPanel extends javax.swing.JPanel {
         initComponents();
     }
 
-    public DraftSimulatorPanel(PlayerService playerService, GameService gameService, YahooLeagueSettings yls, YahooLeague yl) 
+    public DraftSimulatorPanel(PlayerService playerService, GameService gameService, YahooLeague yl) 
     {
         this.playerService = playerService;
         this.gameService = gameService;
         this.yl = yl;
-        yls = gameService.getLeagueSettings(yl.getLeague_id());
+        this.yls = this.gameService.getLeagueSettings(yl.getLeague_key());
         this.availablePlayersList = playerService.retrivePlayers();
         this.draftedPlayersList = new LinkedList<Player>();
         this.dpList = new LinkedList<DraftPick>();

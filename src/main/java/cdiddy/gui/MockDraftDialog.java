@@ -23,9 +23,11 @@ public class MockDraftDialog extends javax.swing.JDialog {
     public MockDraftDialog(java.awt.Frame parent, boolean modal, GameService gameService, PlayerService playerService) 
     {
         super(parent, modal);
-        initComponents();
         
+        this.gameService = gameService;
+        this.playerService = playerService;
         this.yl= gameService.getLeague("314.l.75215");
+        initComponents();
     }
 
     /**
@@ -37,20 +39,9 @@ public class MockDraftDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new DraftSimulatorPanel(yl);
+        jPanel1 = new DraftSimulatorPanel(playerService, gameService, yl) ;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 753, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 511, Short.MAX_VALUE)
-        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
