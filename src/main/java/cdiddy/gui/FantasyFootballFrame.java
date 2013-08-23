@@ -83,6 +83,8 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         retrievePlayersMenuItem = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        draftMenu = new javax.swing.JMenu();
+        mockDraftMenuItem = new javax.swing.JMenuItem();
         testMenu = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -142,6 +144,18 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         jMenu3.add(jMenuItem2);
 
         jMenuBar1.add(jMenu3);
+
+        draftMenu.setText("Draft");
+
+        mockDraftMenuItem.setText("Mock Draft");
+        mockDraftMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mockDraftMenuItemActionPerformed(evt);
+            }
+        });
+        draftMenu.add(mockDraftMenuItem);
+
+        jMenuBar1.add(draftMenu);
 
         testMenu.setText("Test");
         testMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -332,6 +346,12 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_retrievePlayersMenuItemActionPerformed
 
+    private void mockDraftMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mockDraftMenuItemActionPerformed
+            JDialog draftSimDialog = new MockDraftDialog(this, false, gameService, playerService);
+            draftSimDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            draftSimDialog.setVisible(true);
+    }//GEN-LAST:event_mockDraftMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -373,6 +393,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel apiTestPanel;
+    private javax.swing.JMenu draftMenu;
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -384,6 +405,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private static javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem mockDraftMenuItem;
     private javax.swing.JPanel playerGuiPanel;
     private static javax.swing.JPanel playerInfoGuiPanel;
     private javax.swing.JMenuItem retrievePlayersMenuItem;
