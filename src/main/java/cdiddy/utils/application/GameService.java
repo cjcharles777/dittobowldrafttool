@@ -4,6 +4,7 @@
  */
 package cdiddy.utils.application;
 
+import cdiddy.dao.SavedYahooLeagueDAO;
 import cdiddy.objects.GameWeek;
 import cdiddy.objects.draft.DraftResults;
 import cdiddy.objects.league.YahooLeague;
@@ -34,6 +35,8 @@ public class GameService
     private OAuthConnection conn;
     @Autowired
     private YQLQueryUtil yqlUitl ;
+    @Autowired
+    private SavedYahooLeagueDAO savedYahooLeagueDAOImpl;
     
     
     public List<GameWeek> retrieveGameWeeks()
@@ -297,8 +300,12 @@ public class GameService
     
     public List<YahooLeague> getUserSavedLeagues()
     {
-      
+       return savedYahooLeagueDAOImpl.getAllSavedYahooLeagues();
     }
      
+    public void saveUserSavedLeagues(List<YahooLeague> ylList)
+    {
+        savedYahooLeagueDAOImpl.saveSavedYahooLeague(ylList);
+    }
     
 }

@@ -422,7 +422,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         
         if(conn.connect())
         {
-            userleauges = gameService.getUserLeagues();
+            userleauges = gameService.getUserSavedLeagues();
             welcomePanel.populateInnerPanels();            
         }
 
