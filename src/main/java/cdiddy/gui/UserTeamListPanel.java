@@ -5,6 +5,7 @@
 package cdiddy.gui;
 
 import cdiddy.objects.Team;
+import cdiddy.utils.application.GameService;
 import cdiddy.utils.application.TeamService;
 import java.awt.Component;
 import java.util.List;
@@ -24,6 +25,8 @@ import org.springframework.stereotype.Repository;
 public class UserTeamListPanel extends javax.swing.JPanel {
     @Autowired
     private TeamService teamService;
+    @Autowired
+    private GameService gameService;
     private  List<Team> listTeam;
     private TeamTableModel teamModel = new TeamTableModel();
     /**
@@ -53,7 +56,10 @@ public class UserTeamListPanel extends javax.swing.JPanel {
     }
     public void populatePanel()
     {
-        listTeam = teamService.loadUserTeams();
+        if(listTeam == null || listTeam.size() == 0)
+        {
+            listTeam = teamService.loadUserTeams(gameService.getUserSavedLeagues());
+        }
         populateTeamTable();
     }
             

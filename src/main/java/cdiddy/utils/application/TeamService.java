@@ -7,6 +7,7 @@ package cdiddy.utils.application;
 import cdiddy.objects.Roster;
 import cdiddy.objects.Team;
 import cdiddy.objects.TeamStandings;
+import cdiddy.objects.league.YahooLeague;
 import cdiddy.utils.system.JacksonPojoMapper;
 import cdiddy.utils.system.OAuthConnection;
 import java.io.IOException;
@@ -82,6 +83,41 @@ public class TeamService
             return teamListResults;
         //
     }
+    public List<Team> loadUserTeams(List<YahooLeague> ylList)
+    {
+        
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String,Object> userData;
+            Map<String,Object> results;
+            List<Map<String, Object>> teamList;
+            Map<String,Object> query;
+            List<Team>  teamListResults = new LinkedList<Team>();
+            for(YahooLeague yl : ylList)
+            {
+                String yql = "select * from fantasysports.teams where league_key = '"+yl.getLeague_key()+"'";
+                String response = yqlUitl.queryYQL(yql);
+                try
+                {
+                    userData = mapper.readValue(response, Map.class);
+                    query = (Map<String, Object>)userData.get("query"); // query details
+                    results = (Map<String, Object>)query.get("results"); //result details
+                    teamList = (List<Map<String, Object>>)results.get("team"); //result details
+                    for (Map map : teamList)
+                    {
+                        Team tempTeam = mapper.readValue(JacksonPojoMapper.toJson(map, false) , Team.class);
+                        teamListResults.add(tempTeam);
+                    }
+
+
+                }
+                catch(Exception e)
+                {
+                     Logger.getLogger(TeamService.class.getName()).log(Level.SEVERE, null, e);
+                }
+            }
+            return teamListResults;
+    }
+    
     public List<Team> loadLeaugeTeams(String leaugeid)
     {
         List<Team> result = null;
