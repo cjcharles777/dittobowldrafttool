@@ -4,12 +4,23 @@
  */
 package cdiddy.objects.league;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.hibernate.annotations.GenericGenerator;
+
 /**
  *
  * @author cedric
  */
+@Entity
+@Table(name = "SavedYahooLeague")
 public class YahooLeague 
 {
+     private int id;
      private String league_key;
      private String league_id;
      private String name;
@@ -31,14 +42,27 @@ public class YahooLeague
      private String end_date;
      
 
+    @Id
+    @GeneratedValue(generator = "generator")
+    @GenericGenerator(name = "generator", strategy = "increment")
+    @Column(name = "leauge_table_id", nullable=false)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Column(name = "league_key", length=20, nullable=false)
     public String getLeague_key() {
         return league_key;
     }
-
     public void setLeague_key(String league_key) {
         this.league_key = league_key;
     }
 
+    @Column(name = "league_id", length=20, nullable=false)
     public String getLeague_id() {
         return league_id;
     }
@@ -47,6 +71,7 @@ public class YahooLeague
         this.league_id = league_id;
     }
 
+     @Column(name = "name", length=1000, nullable=false)
     public String getName() {
         return name;
     }
@@ -55,6 +80,7 @@ public class YahooLeague
         this.name = name;
     }
 
+     @Column(name = "url", length=1000, nullable=false)
     public String getUrl() {
         return url;
     }
@@ -63,6 +89,7 @@ public class YahooLeague
         this.url = url;
     }
 
+     @Column(name = "draft_status", length=20, nullable=false)
     public String getDraft_status() {
         return draft_status;
     }
@@ -71,6 +98,7 @@ public class YahooLeague
         this.draft_status = draft_status;
     }
 
+     @Column(name = "num_teams", length=20, nullable=false)
     public String getNum_teams() {
         return num_teams;
     }
@@ -79,6 +107,7 @@ public class YahooLeague
         this.num_teams = num_teams;
     }
 
+     @Column(name = "edit_key", length=200, nullable=false)
     public String getEdit_key() {
         return edit_key;
     }
@@ -87,6 +116,7 @@ public class YahooLeague
         this.edit_key = edit_key;
     }
 
+     @Column(name = "weekly_deadline", length=200, nullable=false)
     public String getWeekly_deadline() {
         return weekly_deadline;
     }
@@ -95,6 +125,7 @@ public class YahooLeague
         this.weekly_deadline = weekly_deadline;
     }
 
+     @Column(name = "league_update_timestamp", length=200, nullable=false)
     public String getLeague_update_timestamp() {
         return league_update_timestamp;
     }
@@ -103,6 +134,7 @@ public class YahooLeague
         this.league_update_timestamp = league_update_timestamp;
     }
 
+     @Column(name = "scoring_type", length=20, nullable=false)
     public String getScoring_type() {
         return scoring_type;
     }
@@ -111,6 +143,7 @@ public class YahooLeague
         this.scoring_type = scoring_type;
     }
 
+     @Column(name = "league_type", length=20, nullable=false)
     public String getLeague_type() {
         return league_type;
     }
@@ -119,6 +152,7 @@ public class YahooLeague
         this.league_type = league_type;
     }
 
+    @Column(name = "is_pro_league", length=20, nullable=false)
     public String getIs_pro_league() {
         return is_pro_league;
     }
@@ -127,6 +161,7 @@ public class YahooLeague
         this.is_pro_league = is_pro_league;
     }
 
+     @Column(name = "current_week", length=200, nullable=false)
     public String getCurrent_week() {
         return current_week;
     }
@@ -135,6 +170,7 @@ public class YahooLeague
         this.current_week = current_week;
     }
 
+     @Column(name = "start_week", length=200, nullable=false)
     public String getStart_week() {
         return start_week;
     }
@@ -143,6 +179,7 @@ public class YahooLeague
         this.start_week = start_week;
     }
 
+     @Column(name = "start_week_start_date", length=200, nullable=false)
     public String getStart_week_start_date() {
         return start_week_start_date;
     }
@@ -151,6 +188,7 @@ public class YahooLeague
         this.start_week_start_date = start_week_start_date;
     }
 
+     @Column(name = "end_week", length=20, nullable=false)
     public String getEnd_week() {
         return end_week;
     }
@@ -160,6 +198,7 @@ public class YahooLeague
     }
 
 
+     @Column(name = "is_finished", length=20, nullable=false)
     public String getIs_finished() {
         return is_finished;
     }
@@ -168,6 +207,7 @@ public class YahooLeague
         this.is_finished = is_finished;
     }
 
+     @Column(name = "start_date", length=20, nullable=false)
     public String getStart_date() {
         return start_date;
     }
@@ -176,6 +216,7 @@ public class YahooLeague
         this.start_date = start_date;
     }
 
+     @Column(name = "end_date", length=20, nullable=false)
     public String getEnd_date() {
         return end_date;
     }

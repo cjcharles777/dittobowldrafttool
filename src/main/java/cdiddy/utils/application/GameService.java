@@ -125,7 +125,39 @@ public class GameService
      
     }
     
-    public List<YahooLeague> getUserLeagues ()
+    public List<YahooLeague> getUserLeagues(String gameKey)
+    {
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String,Object> userData;
+            Map<String,Object> results;
+            List<Map<String, Object>> leaugeList;
+            Map<String,Object> query;
+            List<YahooLeague>  leagueListResults = new LinkedList<YahooLeague>();
+            String ql = "select * from fantasysports.leagues where game_key = '"+ gameKey+"' and use_login=1";
+            String response = yqlUitl.queryYQL(ql);
+               try
+               {
+                   userData = mapper.readValue(response, Map.class);
+                   query = (Map<String, Object>)userData.get("query"); // query details
+                   results = (Map<String, Object>)query.get("results"); //result details
+                   leaugeList = (List<Map<String, Object>>)results.get("league"); //result details
+                   for (Map map : leaugeList)
+                   {
+                       YahooLeague tempLeauge = mapper.readValue(JacksonPojoMapper.toJson(map, false) , YahooLeague.class);
+                       leagueListResults.add(tempLeauge);
+                   }
+
+
+               }
+               catch(Exception e)
+               {
+                    Logger.getLogger(TeamService.class.getName()).log(Level.SEVERE, null, e);
+               }
+               return leagueListResults;
+            
+    }
+    
+    public List<YahooLeague> getUserLeagues()
     {
             ObjectMapper mapper = new ObjectMapper();
             Map<String,Object> userData;
@@ -201,7 +233,7 @@ public class GameService
              
              return leagueListResults;
     }
-          public YahooLeagueSettings getLeagueSettings (String leagueid)
+    public YahooLeagueSettings getLeagueSettings (String leagueid)
     {
             ObjectMapper mapper = new ObjectMapper();
             Map<String,Object> userData;
@@ -231,7 +263,8 @@ public class GameService
              
              return leagueListResults;
     }
-       public DraftResults getDraftResults (String leagueid)
+    
+    public DraftResults getDraftResults (String leagueid)
     {
             ObjectMapper mapper = new ObjectMapper();
             Map<String,Object> userData;
@@ -260,6 +293,11 @@ public class GameService
             }
              
              return leagueListResults;
+    }
+    
+    public List<YahooLeague> getUserSavedLeagues()
+    {
+      
     }
      
     
