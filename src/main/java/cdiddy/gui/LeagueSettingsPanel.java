@@ -6,38 +6,53 @@ package cdiddy.gui;
 
 import cdiddy.objects.league.YahooLeague;
 import cdiddy.utils.application.GameService;
+import cdiddy.utils.system.ArrayConversionUtil;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.DefaultListModel;
 
 /**
  *
  * @author cedric
  */
-public class SettingsPanel extends javax.swing.JPanel {
+public class LeagueSettingsPanel extends javax.swing.JPanel {
 
     /**
-     * Creates new form SettingsPanel
+     * Creates new form LeagueSettingsPanel
      */
     List<YahooLeague> watchedLeague;
     List<YahooLeague> unwatchedLeague;
     List<YahooLeague> databaseLeagues;
+    DefaultListModel watchLeagueListModel ;
+    DefaultListModel unWatchLeagueListModel;
     GameService gService;
     
     
-    public SettingsPanel(GameService gService) 
+    public LeagueSettingsPanel(GameService gService) 
     {
         this.gService = gService;
         unwatchedLeague = gService.getUserLeagues();
         watchedLeague = gService.getUserSavedLeagues();
         databaseLeagues = gService.getUserSavedLeagues();
+        watchLeagueListModel = new DefaultListModel();
+        unWatchLeagueListModel = new DefaultListModel();
         for(YahooLeague yl : unwatchedLeague)
         {
             if(watchedLeague.contains(yl))
             {
                 unwatchedLeague.remove(yl);
             }
+            else
+            {
+                unWatchLeagueListModel.addElement(yl);
+            }
                
+        }
+        for(YahooLeague yl : watchedLeague)
+        {
+            watchLeagueListModel.addElement(yl);
         }
         initComponents();
     }
@@ -85,16 +100,10 @@ public class SettingsPanel extends javax.swing.JPanel {
         removeWatchedTeamButton = new javax.swing.JButton();
         saveWatchedTeamButton = new javax.swing.JButton();
 
-        watchedList.setModel(new javax.swing.AbstractListModel() {
-            public int getSize() { return watchedLeague.size(); }
-            public Object getElementAt(int i) { return watchedLeague.get(i); }
-        });
+        watchedList.setModel(watchLeagueListModel);
         jScrollPane1.setViewportView(watchedList);
 
-        unWatchedList.setModel(new javax.swing.AbstractListModel() {
-            public int getSize() { return unwatchedLeague.size(); }
-            public Object getElementAt(int i) { return unwatchedLeague.get(i); }
-        });
+        unWatchedList.setModel(unWatchLeagueListModel);
         jScrollPane2.setViewportView(unWatchedList);
 
         jLabel1.setText("Teams");
@@ -181,14 +190,19 @@ public class SettingsPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addWatchedTeamButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addWatchedTeamButtonActionPerformed
-       YahooLeague[] selected = (YahooLeague [])unWatchedList.getSelectedValues();
-        transfer( new LinkedList<YahooLeague>(Arrays.asList(selected)), true);
+    
+        List<YahooLeague> transferList = new LinkedList<YahooLeague>();
+        ArrayConversionUtil.fromArrayToCollection(unWatchedList.getSelectedValues(), transferList);
+        
+        transfer( transferList, true);
        
     }//GEN-LAST:event_addWatchedTeamButtonActionPerformed
 
     private void removeWatchedTeamButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeWatchedTeamButtonActionPerformed
-        YahooLeague[] selected = (YahooLeague [])watchedList.getSelectedValues();
-        transfer( new LinkedList<YahooLeague>(Arrays.asList(selected)), false);
+     
+        List<YahooLeague> transferList = new LinkedList<YahooLeague>();
+        ArrayConversionUtil.fromArrayToCollection(watchedList.getSelectedValues(), transferList);
+        transfer( transferList, false);
     }//GEN-LAST:event_removeWatchedTeamButtonActionPerformed
 
     private void saveWatchedTeamButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveWatchedTeamButtonActionPerformed

@@ -77,6 +77,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         testButtonPanel = new TestButtonPanel(gameService);
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        selectedLeaugesMenuItem = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
@@ -103,6 +104,14 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
         jPanel1.add(testButtonPanel, "testButton");
 
         jMenu1.setText("File");
+
+        selectedLeaugesMenuItem.setText("Selected Leauges");
+        selectedLeaugesMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectedLeaugesMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(selectedLeaugesMenuItem);
 
         jMenuItem4.setText("Settings");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
@@ -352,6 +361,12 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
             draftSimDialog.setVisible(true);
     }//GEN-LAST:event_mockDraftMenuItemActionPerformed
 
+    private void selectedLeaugesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectedLeaugesMenuItemActionPerformed
+            JDialog leagueSettingsDialog = new LeagueSettingsDialog(this, false, gameService);
+            leagueSettingsDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            leagueSettingsDialog.setVisible(true);
+    }//GEN-LAST:event_selectedLeaugesMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -409,6 +424,7 @@ public class FantasyFootballFrame extends javax.swing.JFrame {
     private javax.swing.JPanel playerGuiPanel;
     private static javax.swing.JPanel playerInfoGuiPanel;
     private javax.swing.JMenuItem retrievePlayersMenuItem;
+    private javax.swing.JMenuItem selectedLeaugesMenuItem;
     private javax.swing.JPanel testButtonPanel;
     private javax.swing.JMenuItem testLoadData;
     private javax.swing.JMenu testMenu;
