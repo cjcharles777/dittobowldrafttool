@@ -307,5 +307,9 @@ public class GameService
     {
         savedYahooLeagueDAOImpl.saveSavedYahooLeague(ylList);
     }
+    public void removeUserSavedLeagues()
+    {
+        savedYahooLeagueDAOImpl.clearSavedYahooLeagueTable();
+    }
     
 }

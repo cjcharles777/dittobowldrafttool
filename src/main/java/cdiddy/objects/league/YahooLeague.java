@@ -224,6 +224,32 @@ public class YahooLeague
     public void setEnd_date(String end_date) {
         this.end_date = end_date;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 61 * hash + ( this.league_key != null ? this.league_key.hashCode() : 0 );
+        hash = 61 * hash + ( this.league_id != null ? this.league_id.hashCode() : 0 );
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final YahooLeague other = (YahooLeague) obj;
+        if (( this.league_key == null ) ? ( other.league_key != null ) : !this.league_key.equals(other.league_key)) {
+            return false;
+        }
+        if (( this.league_id == null ) ? ( other.league_id != null ) : !this.league_id.equals(other.league_id)) {
+            return false;
+        }
+        return true;
+    }
     
     
      
